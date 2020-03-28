@@ -1,0 +1,27 @@
+.transfer-container {
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
+	.transfer {
+		background-color: slategrey;
+		display: flex;
+		flex-flow: wrap;
+		justify-content: center;
+		margin-bottom: 1rem;
+		& > span {
+			margin: 1rem;
+			width: 100px;
+			height: 100px;
+			background-color: black;
+			border: blanchedalmond 3px solid;
+		}
+	}
+	& > button {
+		font-weight: bold;
+		font-size: 3rem;
+		border: 3px gold dotted;
+		border-radius: 16px;
+		padding: 1rem;
+		color: black;
+	}
+}

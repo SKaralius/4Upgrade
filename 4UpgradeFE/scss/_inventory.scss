@@ -1,0 +1,17 @@
+.inventory {
+	background-color: slategrey;
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
+	& > span {
+		margin: 0.5rem;
+		width: 80px;
+		height: 80px;
+		background-color: saddlebrown;
+		border: black 3px solid;
+		& > a > img {
+			width: 80px;
+			height: 80px;
+		}
+	}
+}

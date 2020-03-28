@@ -1,0 +1,37 @@
+//Item
+
+.item-container {
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
+	& > .item-img > img {
+		width: 20rem;
+	}
+	& > .item-text {
+		background-color: darken($color: slategray, $amount: 20);
+		text-align: center;
+		& > h1 {
+			min-width: 5rem;
+			padding: 0 1rem;
+			margin: 0;
+			background-color: yellow;
+			border: 5px darken($color: yellow, $amount: 10) inset;
+		}
+		& > ul {
+			margin: 0;
+			padding: 1rem;
+			list-style-type: none;
+			text-align: left;
+		}
+	}
+}
+
+.red {
+	color: rgb(250, 71, 0);
+}
+.cyan {
+	color: rgb(95, 183, 241);
+}
+.green {
+	color: rgb(58, 219, 26);
+}
