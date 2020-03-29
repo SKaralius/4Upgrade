@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const informationController = require("../controllers/information");
-
-router.get("/", informationController.getInformation);
-
-router.post("/post", informationController.sendInformation);
+const informationController = require("../controllers/weapons");
 
 router.post("/sendWeapon", informationController.sendWeapon);
 

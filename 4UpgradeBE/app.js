@@ -1,8 +1,9 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const informationRoutes = require("./routes/information");
+const { dbConnect } = require("./util/dbConnect");
+const weaponRoutes = require("./routes/weapons");
 
 app.use(bodyParser.json());
 // Added headers to allow cross origin
@@ -19,21 +20,15 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use("/information", informationRoutes);
+app.use("/weapons", weaponRoutes);
+
+dbConnect();
 
 const port = 8080;
-let db;
+
 try {
-	connect();
 	app.listen(port);
 	console.log(`listening on port ${port}`);
 } catch (err) {
 	console.log(err);
-}
-
-async function connect() {
-	db = await mongoose.connect("", {
-		useNewUrlParser: true,
-		useUnifiedTopology: true
-	});
 }

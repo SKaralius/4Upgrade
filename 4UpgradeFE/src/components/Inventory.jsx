@@ -7,10 +7,10 @@ function formInventory(inventory) {
 	inventory.forEach(item => {
 		for (let i = 0; i < item.qty; i++) {
 			rows.push(
-				<span>
-					<a href="">
+				<span key={Math.random()}>
+					<span>
 						<img src={getItem(item.id).url} alt="" />
-					</a>
+					</span>
 				</span>
 			);
 		}
