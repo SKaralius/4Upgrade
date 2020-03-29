@@ -2,22 +2,22 @@ const items = [
 	{
 		id: 1,
 		name: "Weapon Elixir",
-		url: "./img/weapone.png"
+		url: "http://localhost:8080/img/weapone.png"
 	},
 	{
 		id: 2,
 		name: "Lucky Powder",
-		url: "./img/luckyp.png"
+		url: "http://localhost:8080/img/luckyp.png"
 	},
 	{
 		id: 3,
 		name: "Lucky Stone",
-		url: "./img/luckys.png"
+		url: "http://localhost:8080/img/luckys.png"
 	},
 	{
 		id: 4,
 		name: "Astral Stone",
-		url: "./img/astals.png"
+		url: "http://localhost:8080/img/astals.png"
 	}
 ];
 

@@ -5,16 +5,16 @@ const Navbar = () => {
 		<nav>
 			<ul>
 				<li>
-					<a href="">Home</a>
+					<button href="">Home</button>
 				</li>
 				<li>
-					<a href="">Items</a>
+					<button href="">Items</button>
 				</li>
 				<li>
-					<a href="">Register</a>
+					<button href="">Register</button>
 				</li>
 				<li>
-					<a href="">Login</a>
+					<button href="">Login</button>
 				</li>
 			</ul>
 		</nav>

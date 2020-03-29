@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const informationController = require("../controllers/weapons");
+const weaponController = require("../controllers/weapons");
 
-router.post("/sendWeapon", informationController.sendWeapon);
+router.post("/sendWeapon", weaponController.sendWeapon);
 
-router.get("/getWeapons", informationController.getWeapons);
+router.get("/getWeapons", weaponController.getWeapons);
 
 module.exports = router;

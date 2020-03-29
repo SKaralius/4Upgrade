@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getItem } from "../services/fakeItemService";
-import { getInventory } from "../services/fakeUserService";
+import axios from "axios";
 
 function formInventory(inventory) {
 	let rows = [];
@@ -9,7 +9,7 @@ function formInventory(inventory) {
 			rows.push(
 				<span key={Math.random()}>
 					<span>
-						<img src={getItem(item.id).url} alt="" />
+						<img src={getItem(item._id).url} alt="" />
 					</span>
 				</span>
 			);
@@ -19,10 +19,19 @@ function formInventory(inventory) {
 }
 
 function Inventory() {
-	const [inventory, setinventory] = useState([]);
+	const [inventory, setInventory] = useState([]);
 	const [rows, setRows] = useState([]);
 	useEffect(() => {
-		setinventory(getInventory());
+		async function fetchData() {
+			const data = await axios.get(
+				"http://localhost:8080/resources/getresources"
+			);
+			setInventory(data.data.resources);
+		}
+		fetchData();
+	}, []);
+
+	useEffect(() => {
 		setRows(formInventory(inventory));
 	}, [inventory]);
 	return <div className="inventory">{rows}</div>;

@@ -2,7 +2,7 @@ const Weapon = require("../models/weapon");
 
 exports.sendWeapon = (req, res, next) => {
 	const name = req.body.name;
-	const imgUrl = "../img/placeholder.png";
+	const imgUrl = "http://localhost:8080/img/placeholder.png";
 	function rollPower() {
 		return Math.ceil(Math.random() * 10);
 	}
