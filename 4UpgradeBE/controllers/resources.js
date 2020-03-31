@@ -1,6 +1,17 @@
-const Resource = require("../models/resource");
+const db = require("../util/dbConnect");
 
-exports.getResources = async (req, res, next) => {
-	const resources = await Resource.find();
-	res.status(200).json({ resources });
+exports.getResources = (req, res, next) => {
+	db.query(
+		"SELECT * FROM person WHERE first_name = $1",
+		["Omar"],
+		(err, result) => {
+			if (err) {
+				return next(err);
+			}
+			res.status(200).send(result.rows[0]);
+		}
+	);
+
+	// const resources = await Resource.find();
+	// res.status(200).json({ resources });
 };

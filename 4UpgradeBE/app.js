@@ -3,8 +3,6 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
-const { dbConnect } = require("./util/dbConnect");
-const weaponRoutes = require("./routes/weapons");
 const resourceRoutes = require("./routes/resources");
 
 app.use(bodyParser.json());
@@ -24,9 +22,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/resources", resourceRoutes);
-app.use("/weapons", weaponRoutes);
-
-dbConnect();
+// app.use("/weapons", weaponRoutes);
 
 const port = 8080;
 
