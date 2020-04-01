@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-app.use("/resources", resourceRoutes);
+// app.use("/resources", resourceRoutes);
 app.use("/weapons", weaponRoutes);
 
 const port = 8080;
