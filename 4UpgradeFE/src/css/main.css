@@ -31,14 +31,17 @@ nav > ul {
       list-style-type: none;
       text-align: left; }
 
-.red {
+.Fire {
   color: #fa4700; }
 
-.cyan {
+.Wind {
   color: #5fb7f1; }
 
-.green {
-  color: #3adb1a; }
+.Earth {
+  color: #36b11d; }
+
+.Lightning {
+  color: yellow; }
 
 .inventory {
   background-color: slategrey;

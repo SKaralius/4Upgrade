@@ -23,9 +23,7 @@ function Inventory() {
 	const [rows, setRows] = useState([]);
 	useEffect(() => {
 		async function fetchData() {
-			const data = await axios.get(
-				"http://localhost:8080/resources/getresources"
-			);
+			const data = await axios.get("");
 			setInventory(data.data.resources);
 		}
 		fetchData();

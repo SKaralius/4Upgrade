@@ -12,7 +12,6 @@ function App() {
 			<Item />
 			<Transfer />
 			<hr />
-			<Inventory />
 		</div>
 	);
 }

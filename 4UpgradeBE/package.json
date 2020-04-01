@@ -13,7 +13,9 @@
 		"body-parser": "^1.19.0",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
-		"pg": "^8.0.0"
+		"pg": "^8.0.0",
+		"uuid": "^7.0.3",
+		"weighted": "^0.3.0"
 	},
 	"devDependencies": {
 		"nodemon": "^2.0.2"

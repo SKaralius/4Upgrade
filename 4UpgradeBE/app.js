@@ -4,6 +4,7 @@ const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
 const resourceRoutes = require("./routes/resources");
+const weaponRoutes = require("./routes/weapons");
 
 app.use(bodyParser.json());
 app.use("/img", express.static(path.join(__dirname, "img")));
@@ -22,7 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/resources", resourceRoutes);
-// app.use("/weapons", weaponRoutes);
+app.use("/weapons", weaponRoutes);
 
 const port = 8080;
 
