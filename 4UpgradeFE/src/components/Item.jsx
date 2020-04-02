@@ -38,7 +38,7 @@ const Item = () => {
 					<img className="weapon" src={weapon.imgurl} alt="" />
 				</div>
 				<div className="item-text">
-					<h1>{weapon.name}</h1>
+					<h1>{`${weapon.name} +${weapon.weapon_level}`}</h1>
 					<ul>
 						{weaponStats.map(stat => (
 							<li className={stat.type} key={stat.stat_uid}>

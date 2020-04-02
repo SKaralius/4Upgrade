@@ -1,18 +1,28 @@
 import React from "react";
-import Inventory from "./components/Inventory";
+import { Switch, Route } from "react-router-dom";
+
 import Navbar from "./common/Navbar";
-import Item from "./components/Item";
-import Transfer from "./components/Transfer";
+import Items from "./page/Items";
+import Register from "./page/Register";
+import Login from "./page/Login";
 
 function App() {
 	return (
-		<div>
+		<React.Fragment>
 			<Navbar />
 			<hr />
-			<Item />
-			<Transfer />
-			<hr />
-		</div>
+			<Switch>
+				<Route path="/items">
+					<Items />
+				</Route>
+				<Route path="/register">
+					<Register />
+				</Route>
+				<Route path="/login">
+					<Login />
+				</Route>
+			</Switch>
+		</React.Fragment>
 	);
 }
 
