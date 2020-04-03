@@ -5,6 +5,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const resourceRoutes = require("./routes/resources");
 const weaponRoutes = require("./routes/weapons");
+const userRoutes = require("./routes/users");
 
 app.use(bodyParser.json());
 app.use("/img", express.static(path.join(__dirname, "img")));
@@ -24,6 +25,14 @@ app.use((req, res, next) => {
 
 // app.use("/resources", resourceRoutes);
 app.use("/weapons", weaponRoutes);
+app.use("/users", userRoutes);
+
+app.use((error, req, res, next) => {
+	const status = error.statusCode || 500;
+	const message = error.message;
+	const data = error.data;
+	res.status(status).json({ message });
+});
 
 const port = 8080;
 

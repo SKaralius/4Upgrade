@@ -1,14 +1,25 @@
 import React, { useState } from "react";
 import { handleChange } from "../util/handleChange";
+import http from "../services/httpService";
 
 const Register = () => {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const handleSubmit = event => {
-		// Send data to back end with axios
-		alert(`${username} ${email} ${password}`);
+	const handleSubmit = async event => {
 		event.preventDefault();
+		try {
+			await http.post("http://localhost:8080/users/adduser", {
+				username,
+				email,
+				password
+			});
+			alert("User Created");
+		} catch (err) {
+			if (err.response && err.response.status === 403) {
+				alert(err.response.data.message);
+			}
+		}
 	};
 	return (
 		<React.Fragment>
@@ -34,7 +45,7 @@ const Register = () => {
 				<br />
 				<label htmlFor="password">Password: </label>
 				<input
-					type="text"
+					type="password"
 					value={password}
 					onChange={event => handleChange(event, setPassword)}
 					id="password"

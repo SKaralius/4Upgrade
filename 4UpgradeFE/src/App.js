@@ -4,7 +4,7 @@ import { Switch, Route } from "react-router-dom";
 import Navbar from "./common/Navbar";
 import Items from "./page/Items";
 import Register from "./page/Register";
-import Login from "./page/Login";
+import LogIn from "./page/LogIn";
 
 function App() {
 	return (
@@ -19,7 +19,7 @@ function App() {
 					<Register />
 				</Route>
 				<Route path="/login">
-					<Login />
+					<LogIn />
 				</Route>
 			</Switch>
 		</React.Fragment>
