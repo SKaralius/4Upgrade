@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 
 import Navbar from "./common/Navbar";
 import Items from "./page/Items";
@@ -9,19 +9,15 @@ import LogIn from "./page/LogIn";
 function App() {
 	return (
 		<React.Fragment>
-			<Navbar />
-			<hr />
-			<Switch>
-				<Route path="/items">
-					<Items />
-				</Route>
-				<Route path="/register">
-					<Register />
-				</Route>
-				<Route path="/login">
-					<LogIn />
-				</Route>
-			</Switch>
+			<BrowserRouter>
+				<Navbar />
+				<hr />
+				<Switch>
+					<Route path="/items" component={Items}></Route>
+					<Route path="/register" component={Register}></Route>
+					<Route path="/login" component={LogIn}></Route>
+				</Switch>
+			</BrowserRouter>
 		</React.Fragment>
 	);
 }

@@ -9,14 +9,28 @@ const Item = () => {
 		async function fetchWeaponData() {
 			const { data } = await axios.get(
 				"http://localhost:8080/weapons/getWeapon/" +
-					"9604ec51-29f5-4b32-95a7-d9b8a84b6c97"
+					"9604ec51-29f5-4b32-95a7-d9b8a84b6c97",
+				{
+					headers: {
+						Authorization:
+							"Bearer " +
+							"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpeGFpbnRuaW5lIiwiaWF0IjoxNTg1OTI4NzY5LCJleHAiOjE1ODU5MzIzNjl9.FfgUsNGNntQn_2U0YYRrDNQWoUXQsjsSvuIpH7Pbb8M" //the token is a variable which holds the token
+					}
+				}
 			);
 			return data[0];
 		}
 		async function fetchWeaponStats() {
 			const { data } = await axios.get(
 				"http://localhost:8080/weapons/getWeaponStats/" +
-					"9604ec51-29f5-4b32-95a7-d9b8a84b6c97"
+					"9604ec51-29f5-4b32-95a7-d9b8a84b6c97",
+				{
+					headers: {
+						Authorization:
+							"Bearer " +
+							"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpeGFpbnRuaW5lIiwiaWF0IjoxNTg1OTI4NzY5LCJleHAiOjE1ODU5MzIzNjl9.FfgUsNGNntQn_2U0YYRrDNQWoUXQsjsSvuIpH7Pbb8M" //the token is a variable which holds the token
+					}
+				}
 			);
 			return data;
 		}

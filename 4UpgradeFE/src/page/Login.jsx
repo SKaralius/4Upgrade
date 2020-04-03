@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { handleChange } from "../util/handleChange";
 import http from "../services/httpService";
 
-const LogIn = () => {
+const LogIn = props => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [isAuth, setIsAuth] = useState(false);
+	const [token, setToken] = useState(null);
+	useEffect(() => {
+		console.log(props);
+	}, []);
+	useEffect(() => {
+		localStorage.setItem("token", token);
+		localStorage.setItem("username", username);
+	}, [token]);
 	const handleSubmit = async event => {
 		event.preventDefault();
 		try {
-			await http.post("http://localhost:8080/users/login", {
-				username,
-				password
-			});
-			alert("you are loged in");
+			const { data } = await http.post(
+				"http://localhost:8080/users/login",
+				{
+					username,
+					password
+				}
+			);
+			setIsAuth(true);
+			setToken(data.token);
+			setUsername(data.username);
+			props.history.push("/items");
 		} catch (err) {
 			if (err.response && err.response.status === 401) {
 				alert(err.response.data.message);

@@ -71,7 +71,7 @@ exports.logIn = async (req, res, next) => {
 			throwError(401, "Wrong password or username.");
 		}
 		const token = jwt.sign({ username }, process.env.JWT_SECRET, {
-			expiresIn: "1h"
+			expiresIn: "1h",
 		});
 		res.status(200).json({ token, username });
 	} catch (err) {

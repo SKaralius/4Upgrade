@@ -3,7 +3,7 @@ const express = require("express");
 const path = require("path");
 const app = express();
 const bodyParser = require("body-parser");
-const resourceRoutes = require("./routes/resources");
+const inventoryRoutes = require("./routes/inventory");
 const weaponRoutes = require("./routes/weapons");
 const userRoutes = require("./routes/users");
 
@@ -26,6 +26,7 @@ app.use((req, res, next) => {
 // app.use("/resources", resourceRoutes);
 app.use("/weapons", weaponRoutes);
 app.use("/users", userRoutes);
+app.use("/inventory", inventoryRoutes);
 
 app.use((error, req, res, next) => {
 	const status = error.statusCode || 500;

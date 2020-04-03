@@ -1,7 +1,9 @@
 const db = require("../util/dbConnect");
 const { v4: uuidv4 } = require("uuid");
 const weighted = require("weighted");
+const { throwError } = require("../util/errors");
 
+// TODO: Is this route necessary?
 exports.getWeapon = async (req, res, next) => {
 	const values = [req.params.id];
 	const query = "SELECT * FROM weapons WHERE weapon_uid = $1";
@@ -13,8 +15,21 @@ exports.getWeaponStats = async (req, res, next) => {
 	const values = [req.params.id];
 	const query =
 		"select weapon_stats.weapon_stat_uid, weapon_stats.weapon_uid, weapon_stats.stat_uid, stats.tier, stats.type from weapon_stats inner join stats on weapon_stats.stat_uid = stats.stat_uid WHERE weapon_stats.weapon_uid = $1;";
-	const result = await db.query(query, values);
-	res.status(200).send(result.rows);
+	const weaponQuery = "SELECT * FROM weapon_inventory WHERE weapon_uid = $1";
+	try {
+		const { rows } = await db.query(weaponQuery, values);
+		if (rows.length > 0) {
+			if (rows[0].username !== req.username) {
+				throwError(401, "Not Authorized");
+			}
+			const result = await db.query(query, values);
+			res.status(200).send(result.rows);
+		} else {
+			throwError(400, "No record found.");
+		}
+	} catch (err) {
+		next(err);
+	}
 };
 
 exports.addWeaponStat = async (req, res, next) => {
@@ -43,7 +58,7 @@ function tierRoll() {
 		"6": 0.11,
 		"7": 0.15,
 		"8": 0.21,
-		"9": 0.3
+		"9": 0.3,
 	};
 	return weighted.select(options);
 }
@@ -53,7 +68,7 @@ function typeRoll() {
 		Earth: 0.25,
 		Fire: 0.25,
 		Wind: 0.25,
-		Lightning: 0.25
+		Lightning: 0.25,
 	};
 	return weighted.select(options);
 }
