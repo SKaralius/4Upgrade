@@ -3,6 +3,7 @@ const { throwError } = require("./errors");
 
 module.exports = (req, res, next) => {
 	const authHeader = req.get("Authorization");
+	console.log("Authorization", authHeader);
 	if (!authHeader) {
 		throwError(401, "Not Authenticated.");
 	}

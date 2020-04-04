@@ -1,8 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import handleChange from "../util/handleChange";
+import http from "../services/httpService";
 
 const Transfer = (props) => {
+	const token = localStorage.getItem("token");
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		const { data } = await http.post(
+			"http://localhost:8080/weapons/addWeaponStat/",
+			{
+				id: props.weaponInventory[0].weapon_uid,
+			},
+			{
+				headers: {
+					Authorization: "Bearer " + token, //the token is a variable which holds the token
+				},
+			}
+		);
+		props.setWeaponStats(
+			await props.fetchWeaponStats(props.weaponInventory[0].weapon_uid)
+		);
 	};
 	return (
 		<div className="transfer-container">
@@ -12,7 +29,6 @@ const Transfer = (props) => {
 				<span></span>
 			</div>
 			<form onSubmit={handleSubmit}>
-				<input type="hidden" value={5} />
 				<button type="submit">UPGRADE!</button>
 			</form>
 		</div>

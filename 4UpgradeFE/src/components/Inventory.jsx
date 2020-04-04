@@ -32,7 +32,7 @@ const Inventory = () => {
 					},
 				}
 			);
-			let unresolvedPromises = await resourceInventory.data.map(
+			const unresolvedPromises = await resourceInventory.data.map(
 				(inventoryItem) => {
 					return addToInventory(
 						inventoryItem.item_uid,
@@ -44,6 +44,7 @@ const Inventory = () => {
 			setInventory(resolvedPromises);
 			setHasLoaded(true);
 		};
+		console.log("ran");
 		fetchData();
 	}, []);
 	if (hasLoaded && inventory.length !== 0) {

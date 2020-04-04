@@ -1,8 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = (props) => {
-	return (
+const Navbar = ({ isAuth, setIsAuth }) => {
+	const LogOut = (e) => {
+		setIsAuth(false);
+	};
+	return isAuth ? (
 		<nav>
 			<ul>
 				<li>
@@ -11,6 +14,16 @@ const Navbar = (props) => {
 				<li>
 					<Link to="/items">Items</Link>
 				</li>
+				<li>
+					<Link to="/login" onClick={(e) => LogOut(e)}>
+						Log Out
+					</Link>
+				</li>
+			</ul>
+		</nav>
+	) : (
+		<nav>
+			<ul>
 				<li>
 					<Link to="/register">Register</Link>
 				</li>

@@ -48,7 +48,7 @@ exports.getWeaponStats = async (req, res, next) => {
 // TODO: Add limitations, validation
 exports.addWeaponStat = async (req, res, next) => {
 	const weapon_stat_uid = uuidv4();
-	const weapon_id = req.params.id;
+	const weapon_id = req.body.id;
 	const statRetrieveQuery =
 		"SELECT * FROM stats WHERE tier = $1 AND type = $2";
 	const statRetrieveQueryValues = [tierRoll(), typeRoll()];
@@ -57,9 +57,8 @@ exports.addWeaponStat = async (req, res, next) => {
 	const weaponStatInsertQuery =
 		"INSERT INTO weapon_stats(weapon_stat_uid, weapon_uid, stat_uid) VALUES($1,$2,$3)";
 	const weaponStatInsertQueryValues = [weapon_stat_uid, weapon_id, stat_uid];
-	console.log(stat_uid); //this executes before the stat query
 	db.query(weaponStatInsertQuery, weaponStatInsertQueryValues);
-	res.status(200).send("Stat added");
+	res.status(200).send(result.rows[0]);
 };
 
 function tierRoll() {

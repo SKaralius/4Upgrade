@@ -2,21 +2,21 @@ import React, { useState, useEffect } from "react";
 import { handleChange } from "../util/handleChange";
 import http from "../services/httpService";
 
-const LogIn = props => {
+const LogIn = (props) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	useEffect(() => {
 		localStorage.setItem("token", props.token);
 		localStorage.setItem("username", username);
 	}, [props, props.token, username]);
-	const handleSubmit = async event => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
 			const { data } = await http.post(
 				"http://localhost:8080/users/login",
 				{
 					username,
-					password
+					password,
 				}
 			);
 			props.setIsAuth(true);
@@ -37,18 +37,20 @@ const LogIn = props => {
 				<input
 					type="text"
 					value={username}
-					onChange={event => handleChange(event, setUsername)}
+					onChange={(event) => handleChange(event, setUsername)}
 					id="username"
 					name="username"
+					autoComplete="username"
 				/>
 				<br />
 				<label htmlFor="password">Password: </label>
 				<input
 					type="password"
 					value={password}
-					onChange={event => handleChange(event, setPassword)}
+					onChange={(event) => handleChange(event, setPassword)}
 					id="password"
 					name="password"
+					autoComplete="current-password"
 				/>
 				<br />
 				<input type="submit" value="Submit"></input>

@@ -6,13 +6,13 @@ const Register = () => {
 	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-	const handleSubmit = async event => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
 			await http.post("http://localhost:8080/users/adduser", {
 				username,
 				email,
-				password
+				password,
 			});
 			alert("User Created");
 		} catch (err) {
@@ -29,16 +29,17 @@ const Register = () => {
 				<input
 					type="text"
 					value={username}
-					onChange={event => handleChange(event, setUsername)}
+					onChange={(event) => handleChange(event, setUsername)}
 					id="username"
 					name="username"
+					autoComplete="username"
 				/>
 				<br />
 				<label htmlFor="email">Email: </label>
 				<input
 					type="text"
 					value={email}
-					onChange={event => handleChange(event, setEmail)}
+					onChange={(event) => handleChange(event, setEmail)}
 					id="email"
 					name="email"
 				/>
@@ -47,9 +48,10 @@ const Register = () => {
 				<input
 					type="password"
 					value={password}
-					onChange={event => handleChange(event, setPassword)}
+					onChange={(event) => handleChange(event, setPassword)}
 					id="password"
 					name="password"
+					autoComplete="current-password"
 				/>
 				<br />
 				<button type="submit">Submit</button>
