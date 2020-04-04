@@ -7,6 +7,6 @@ router.get("/getWeapon/:id", isAuth, weaponController.getWeapon);
 
 router.get("/getweaponstats/:id", isAuth, weaponController.getWeaponStats);
 
-router.post("/addweaponstat/:id", isAuth, weaponController.addWeaponStat);
+router.post("/addweaponstat", isAuth, weaponController.addWeaponStat);
 
 module.exports = router;

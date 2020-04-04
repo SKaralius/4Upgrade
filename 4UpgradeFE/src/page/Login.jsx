@@ -5,15 +5,10 @@ import http from "../services/httpService";
 const LogIn = props => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const [isAuth, setIsAuth] = useState(false);
-	const [token, setToken] = useState(null);
 	useEffect(() => {
-		console.log(props);
-	}, []);
-	useEffect(() => {
-		localStorage.setItem("token", token);
+		localStorage.setItem("token", props.token);
 		localStorage.setItem("username", username);
-	}, [token]);
+	}, [props, props.token, username]);
 	const handleSubmit = async event => {
 		event.preventDefault();
 		try {
@@ -24,8 +19,8 @@ const LogIn = props => {
 					password
 				}
 			);
-			setIsAuth(true);
-			setToken(data.token);
+			props.setIsAuth(true);
+			props.setToken(data.token);
 			setUsername(data.username);
 			props.history.push("/items");
 		} catch (err) {

@@ -10,7 +10,7 @@ const Items = () => {
 			<Item />
 			<Transfer />
 			<hr />
-			{/* <Inventory /> */}
+			<Inventory />
 		</React.Fragment>
 	);
 };

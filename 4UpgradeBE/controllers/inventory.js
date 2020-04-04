@@ -1,31 +1,46 @@
 const db = require("../util/dbConnect");
 const { throwError } = require("../util/errors");
 
-exports.getResourceInventory = async (req, res, next) => {
-	const username = req.params.username;
-	const query = "SELECT * FROM resource_inventory WHERE username = $1";
-	const values = [username];
+exports.getResource = async (req, res, next) => {
+	const allResourcesValues = [req.username, req.params.item_uid];
+	const allResourcesQuery =
+		"SELECT * FROM resource_inventory WHERE username = $1 AND item_uid = $2";
 	try {
-		if (username !== req.username) {
-			throwError(401, "Not Authorized");
+		const allResources = await db.query(
+			allResourcesQuery,
+			allResourcesValues
+		);
+		if (allResources.rows.length > 0) {
+			//Send back resource
+			const values = [req.params.item_uid];
+			const query = "SELECT * from items where item_uid = $1;";
+			result = await db.query(query, values);
+			res.status(200).send(result.rows[0]);
+		} else {
+			throwError(400, "Item doesn't belong to the user.");
 		}
+	} catch (err) {
+		next(err);
+	}
+};
+
+exports.getResourceInventory = async (req, res, next) => {
+	const values = [req.username];
+	const query = "SELECT * FROM resource_inventory WHERE username = $1";
+	try {
 		const result = await db.query(query, values);
-		res.status(200).send({ resources: result.rows });
+		res.status(200).send(result.rows);
 	} catch (err) {
 		next(err);
 	}
 };
 
 exports.getWeaponInventory = async (req, res, next) => {
-	const username = req.params.username;
+	const values = [req.username];
 	const query = "SELECT * FROM weapon_inventory WHERE username = $1";
-	const values = [username];
 	try {
-		if (username !== req.username) {
-			throwError(401, "Not Authorized");
-		}
 		const result = await db.query(query, values);
-		res.status(200).send({ resources: result.rows });
+		res.status(200).send(result.rows);
 	} catch (err) {
 		next(err);
 	}

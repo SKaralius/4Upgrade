@@ -1,6 +1,9 @@
 import React from "react";
 
-const Transfer = () => {
+const Transfer = (props) => {
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+	};
 	return (
 		<div className="transfer-container">
 			<div className="transfer">
@@ -8,7 +11,10 @@ const Transfer = () => {
 				<span></span>
 				<span></span>
 			</div>
-			<button>UPGRADE!</button>
+			<form onSubmit={handleSubmit}>
+				<input type="hidden" value={5} />
+				<button type="submit">UPGRADE!</button>
+			</form>
 		</div>
 	);
 };

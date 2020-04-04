@@ -77,5 +77,4 @@ exports.logIn = async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
-	// Generate web token
 };

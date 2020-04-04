@@ -3,12 +3,26 @@ const { v4: uuidv4 } = require("uuid");
 const weighted = require("weighted");
 const { throwError } = require("../util/errors");
 
-// TODO: Is this route necessary?
 exports.getWeapon = async (req, res, next) => {
-	const values = [req.params.id];
-	const query = "SELECT * FROM weapons WHERE weapon_uid = $1";
-	const result = await db.query(query, values);
-	res.status(200).send(result.rows);
+	const username = req.username;
+	const authorizationValues = [req.params.id, username];
+	try {
+		const authorizationQuery =
+			"SELECT * FROM weapon_inventory WHERE weapon_uid = $1 AND username = $2";
+		const authorizationQueryResult = await db.query(
+			authorizationQuery,
+			authorizationValues
+		);
+		if (authorizationQueryResult.rows.length < 1) {
+			throwError(401, "Not Authorized");
+		}
+		const values = [authorizationQueryResult.rows[0].weapon_uid];
+		const query = "SELECT * FROM weapons WHERE weapon_uid = $1";
+		const result = await db.query(query, values);
+		res.status(200).send(result.rows);
+	} catch (err) {
+		next(err);
+	}
 };
 
 exports.getWeaponStats = async (req, res, next) => {
@@ -31,7 +45,7 @@ exports.getWeaponStats = async (req, res, next) => {
 		next(err);
 	}
 };
-
+// TODO: Add limitations, validation
 exports.addWeaponStat = async (req, res, next) => {
 	const weapon_stat_uid = uuidv4();
 	const weapon_id = req.params.id;

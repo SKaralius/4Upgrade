@@ -1,45 +1,55 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import http from "../services/httpService";
 
 const Item = () => {
 	const [weapon, setWeapon] = useState([]);
 	const [weaponStats, setWeaponStats] = useState([]);
 	const [hasLoaded, setHasLoaded] = useState(false);
+	const token = localStorage.getItem("token");
+	const fetchWeaponStats = async (weapon_uid) => {
+		const { data } = await http.get(
+			"http://localhost:8080/weapons/getWeaponStats/" + weapon_uid,
+			{
+				headers: {
+					Authorization: "Bearer " + token, //the token is a variable which holds the token
+				},
+			}
+		);
+		return data;
+	};
+	const fetchWeaponInventory = async () => {
+		const { data } = await http.get(
+			"http://localhost:8080/inventory/getweaponInventory/",
+			{
+				headers: {
+					Authorization: "Bearer " + token, //the token is a variable which holds the token
+				},
+			}
+		);
+		return data;
+	};
+
+	const fetchWeapon = async (weapon_uid) => {
+		const { data } = await http.get(
+			"http://localhost:8080/weapons/getWeapon/" + weapon_uid,
+			{
+				headers: {
+					Authorization: "Bearer " + token, //the token is a variable which holds the token
+				},
+			}
+		);
+		return data[0];
+	};
+
 	useEffect(() => {
-		async function fetchWeaponData() {
-			const { data } = await axios.get(
-				"http://localhost:8080/weapons/getWeapon/" +
-					"9604ec51-29f5-4b32-95a7-d9b8a84b6c97",
-				{
-					headers: {
-						Authorization:
-							"Bearer " +
-							"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpeGFpbnRuaW5lIiwiaWF0IjoxNTg1OTI4NzY5LCJleHAiOjE1ODU5MzIzNjl9.FfgUsNGNntQn_2U0YYRrDNQWoUXQsjsSvuIpH7Pbb8M" //the token is a variable which holds the token
-					}
-				}
-			);
-			return data[0];
-		}
-		async function fetchWeaponStats() {
-			const { data } = await axios.get(
-				"http://localhost:8080/weapons/getWeaponStats/" +
-					"9604ec51-29f5-4b32-95a7-d9b8a84b6c97",
-				{
-					headers: {
-						Authorization:
-							"Bearer " +
-							"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNpeGFpbnRuaW5lIiwiaWF0IjoxNTg1OTI4NzY5LCJleHAiOjE1ODU5MzIzNjl9.FfgUsNGNntQn_2U0YYRrDNQWoUXQsjsSvuIpH7Pbb8M" //the token is a variable which holds the token
-					}
-				}
-			);
-			return data;
-		}
 		async function fetchData() {
-			const weaponData = await fetchWeaponData();
-			const weaponStats = await fetchWeaponStats();
+			const weaponInventory = await fetchWeaponInventory();
+			const weaponData = await fetchWeapon(weaponInventory[0].weapon_uid);
+			const weaponStats = await fetchWeaponStats(
+				weaponInventory[0].weapon_uid
+			);
 			setWeapon(weaponData);
 			setWeaponStats(weaponStats);
-			console.log(weaponStats);
 		}
 		fetchData().then(() => {
 			setHasLoaded(true);
@@ -54,8 +64,11 @@ const Item = () => {
 				<div className="item-text">
 					<h1>{`${weapon.name} +${weapon.weapon_level}`}</h1>
 					<ul>
-						{weaponStats.map(stat => (
-							<li className={stat.type} key={stat.stat_uid}>
+						{weaponStats.map((stat) => (
+							<li
+								className={stat.type}
+								key={stat.weapon_stat_uid}
+							>
 								{`Adds ${stat.tier} ${stat.type} damage`}
 							</li>
 						))}

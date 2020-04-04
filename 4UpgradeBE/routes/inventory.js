@@ -4,13 +4,14 @@ const inventoryController = require("../controllers/inventory");
 const isAuth = require("../util/isAuth");
 
 router.get(
-	"/getresourceinventory/:username",
+	"/getresourceinventory",
 	isAuth,
 	inventoryController.getResourceInventory
 );
+router.get("/getresource/:item_uid", isAuth, inventoryController.getResource);
 
 router.get(
-	"/getweaponinventory/:username",
+	"/getweaponinventory",
 	isAuth,
 	inventoryController.getWeaponInventory
 );
