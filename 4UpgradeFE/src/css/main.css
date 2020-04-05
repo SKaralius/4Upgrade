@@ -54,9 +54,18 @@ nav > ul {
     height: 80px;
     background-color: saddlebrown;
     border: black 3px solid; }
-    .inventory > span > span > img {
+    .inventory > span:hover {
+      border: yellow 3px solid; }
+    .inventory > span > span > button {
+      border: none;
+      padding: 0;
       width: 80px;
       height: 80px; }
+    .inventory > span > span > button > img {
+      width: 80px;
+      height: 80px; }
+      .inventory > span > span > button > img:hover {
+        opacity: 50%; }
 
 .transfer-container {
   display: flex;
@@ -70,8 +79,8 @@ nav > ul {
     margin-bottom: 1rem; }
     .transfer-container .transfer > span {
       margin: 1rem;
-      width: 100px;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       background-color: black;
       border: blanchedalmond 3px solid; }
   .transfer-container > button {

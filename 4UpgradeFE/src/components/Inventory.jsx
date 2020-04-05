@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import http from "../services/httpService";
-import InventoryItem from "./InventoryItem";
+import InventoryItems from "./InventoryItem";
 
-const Inventory = () => {
+const Inventory = (props) => {
 	const token = localStorage.getItem("token");
 	const [inventory, setInventory] = useState([]);
 
@@ -47,7 +47,15 @@ const Inventory = () => {
 		fetchData();
 	}, []);
 	if (hasLoaded && inventory.length !== 0) {
-		return <InventoryItem inventory={inventory} />;
+		return (
+			<InventoryItems
+				_setTransferItems={props._setTransferItems}
+				transferItems={props.transferItems}
+				inventory={inventory}
+				setInventory={setInventory}
+				inventorySize={24}
+			/>
+		);
 	} else if (inventory.length < 1) {
 		return <h1>No items in inventory</h1>;
 	} else {

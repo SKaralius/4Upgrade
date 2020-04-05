@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
-import http from "../services/httpService";
+import React from "react";
 
 const Item = (props) => {
-	const [hasLoaded, setHasLoaded] = useState(false);
 	if (props.hasLoaded) {
 		return (
 			<div className="item-container">

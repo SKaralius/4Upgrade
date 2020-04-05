@@ -1,5 +1,6 @@
 import React from "react";
 import http from "../services/httpService";
+import InventoryItems from "./InventoryItem";
 
 const Transfer = (props) => {
 	const token = localStorage.getItem("token");
@@ -20,18 +21,31 @@ const Transfer = (props) => {
 			await props.fetchWeaponStats(props.weaponInventory[0].weapon_uid)
 		);
 	};
-	return (
-		<div className="transfer-container">
-			<div className="transfer">
-				<span></span>
-				<span></span>
-				<span></span>
+	if (props.transferItems.length === 0) {
+		return (
+			<div className="transfer-container">
+				<div className="transfer">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
 			</div>
-			<form onSubmit={handleSubmit}>
-				<button type="submit">UPGRADE!</button>
-			</form>
-		</div>
-	);
+		);
+	} else {
+		return (
+			<div className="transfer-container">
+				<div className="transfer">
+					<InventoryItems
+						inventory={props.transferItems}
+						inventorySize={3}
+					/>
+				</div>
+				<form onSubmit={handleSubmit}>
+					<button type="submit">UPGRADE!</button>
+				</form>
+			</div>
+		);
+	}
 };
 
 export default Transfer;

@@ -10,6 +10,7 @@ const Items = () => {
 	const [weaponInventory, setWeaponInventory] = useState([]);
 	const [weaponStats, setWeaponStats] = useState([]);
 	const [hasLoaded, setHasLoaded] = useState(false);
+	const [transferItems, _setTransferItems] = useState([]);
 	const token = localStorage.getItem("token");
 	const fetchWeaponInventory = async () => {
 		const { data } = await http.get(
@@ -77,6 +78,7 @@ const Items = () => {
 							hasLoaded={hasLoaded}
 						/>
 						<Transfer
+							transferItems={transferItems}
 							weaponInventory={weaponInventory}
 							weaponStats={weaponStats}
 							setWeaponStats={setWeaponStats}
@@ -91,7 +93,10 @@ const Items = () => {
 			)}
 
 			<hr />
-			<Inventory />
+			<Inventory
+				_setTransferItems={_setTransferItems}
+				transferItems={transferItems}
+			/>
 		</React.Fragment>
 	);
 };

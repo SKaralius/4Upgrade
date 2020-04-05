@@ -9,9 +9,22 @@
 		height: 80px;
 		background-color: saddlebrown;
 		border: black 3px solid;
-		& > span > img {
+		&:hover {
+			border: yellow 3px solid;
+		}
+		& > span > button {
+			border: none;
+			padding: 0;
 			width: 80px;
 			height: 80px;
+		}
+		& > span > button > img {
+			width: 80px;
+			height: 80px;
+
+			&:hover {
+				opacity: 50%;
+			}
 		}
 	}
 }
