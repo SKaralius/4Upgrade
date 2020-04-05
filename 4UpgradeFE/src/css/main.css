@@ -75,21 +75,37 @@ nav > ul {
     background-color: slategrey;
     display: flex;
     flex-flow: wrap;
-    justify-content: center;
-    margin-bottom: 1rem; }
+    justify-content: center; }
     .transfer-container .transfer > span {
-      margin: 1rem;
-      width: 80px;
-      height: 80px;
-      background-color: black;
-      border: blanchedalmond 3px solid; }
-  .transfer-container > button {
+      margin: 0.5rem;
+      width: 100px;
+      height: 100px;
+      background-color: #363535;
+      border: black 3px solid; }
+      .transfer-container .transfer > span:hover {
+        border: yellow 3px solid; }
+      .transfer-container .transfer > span > span > button {
+        border: none;
+        padding: 0;
+        width: 100px;
+        height: 100px; }
+      .transfer-container .transfer > span > span > button > img {
+        width: 100px;
+        height: 100px; }
+        .transfer-container .transfer > span > span > button > img:hover {
+          opacity: 50%; }
+  .transfer-container > form > button {
     font-weight: bold;
     font-size: 3rem;
     border: 3px gold dotted;
     border-radius: 16px;
     padding: 1rem;
     color: black; }
+
+.disabled {
+  text-decoration: line-through;
+  background-color: grey;
+  opacity: 50%; }
 
 body {
   box-sizing: border-box;

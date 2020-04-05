@@ -12,6 +12,14 @@ const Items = () => {
 	const [hasLoaded, setHasLoaded] = useState(false);
 	const [transferItems, _setTransferItems] = useState([]);
 	const token = localStorage.getItem("token");
+	const updateTransferItems = (value) => {
+		if (transferItems.length > 2) {
+			return false;
+		} else {
+			_setTransferItems(value);
+			return true;
+		}
+	};
 	const fetchWeaponInventory = async () => {
 		const { data } = await http.get(
 			"http://192.168.1.141:8080/inventory/getweaponInventory/",
@@ -94,7 +102,7 @@ const Items = () => {
 
 			<hr />
 			<Inventory
-				_setTransferItems={_setTransferItems}
+				setTransferItems={updateTransferItems}
 				transferItems={transferItems}
 			/>
 		</React.Fragment>

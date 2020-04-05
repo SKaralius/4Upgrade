@@ -11,11 +11,19 @@ const InventoryItems = (props) => {
 		let itemObject = items.filter(
 			(item) => item.item_uid === event.target.id
 		);
-		itemObject[0].quantity -= 1;
+
 		props.setInventory([...items]);
 		const modifiedItemObject = { ...itemObject[0] };
 		modifiedItemObject.quantity = 1;
-		props._setTransferItems([...props.transferItems, modifiedItemObject]);
+		const isUpdated = props.setTransferItems([
+			...props.transferItems,
+			modifiedItemObject,
+		]);
+		if (isUpdated) {
+			itemObject[0].quantity -= 1;
+		} else {
+			console.log("Cannot move item");
+		}
 	};
 	props.inventory.map((item) => {
 		for (let i = 0; i < item.quantity; i++) {

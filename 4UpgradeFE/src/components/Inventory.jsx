@@ -49,7 +49,7 @@ const Inventory = (props) => {
 	if (hasLoaded && inventory.length !== 0) {
 		return (
 			<InventoryItems
-				_setTransferItems={props._setTransferItems}
+				setTransferItems={props.setTransferItems}
 				transferItems={props.transferItems}
 				inventory={inventory}
 				setInventory={setInventory}

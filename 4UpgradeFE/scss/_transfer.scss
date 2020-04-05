@@ -7,16 +7,32 @@
 		display: flex;
 		flex-flow: wrap;
 		justify-content: center;
-		margin-bottom: 1rem;
 		& > span {
-			margin: 1rem;
-			width: 80px;
-			height: 80px;
-			background-color: black;
-			border: blanchedalmond 3px solid;
+			margin: 0.5rem;
+			width: 100px;
+			height: 100px;
+			background-color: rgb(54, 53, 53);
+			border: black 3px solid;
+			&:hover {
+				border: yellow 3px solid;
+			}
+			& > span > button {
+				border: none;
+				padding: 0;
+				width: 100px;
+				height: 100px;
+			}
+			& > span > button > img {
+				width: 100px;
+				height: 100px;
+
+				&:hover {
+					opacity: 50%;
+				}
+			}
 		}
 	}
-	& > button {
+	& > form > button {
 		font-weight: bold;
 		font-size: 3rem;
 		border: 3px gold dotted;
@@ -24,4 +40,10 @@
 		padding: 1rem;
 		color: black;
 	}
+}
+
+.disabled {
+	text-decoration: line-through;
+	background-color: grey;
+	opacity: 50%;
 }
