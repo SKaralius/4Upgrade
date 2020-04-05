@@ -9,7 +9,7 @@ const Register = () => {
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
-			await http.post("http://localhost:8080/users/adduser", {
+			await http.post("http://192.168.1.141:8080/users/adduser", {
 				username,
 				email,
 				password,

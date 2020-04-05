@@ -7,7 +7,7 @@ import Register from "./page/Register";
 import LogIn from "./page/LogIn";
 
 function App() {
-	const [isAuth, setIsAuth] = useState(true);
+	const [isAuth, setIsAuth] = useState(false);
 	const [token, setToken] = useState(null);
 	useEffect(() => {});
 	return (

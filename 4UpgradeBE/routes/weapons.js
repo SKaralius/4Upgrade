@@ -9,4 +9,6 @@ router.get("/getweaponstats/:id", isAuth, weaponController.getWeaponStats);
 
 router.post("/addweaponstat", isAuth, weaponController.addWeaponStat);
 
+router.delete("/removeweaponstat", isAuth, weaponController.removeWeaponStat);
+
 module.exports = router;

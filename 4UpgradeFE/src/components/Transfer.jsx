@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import handleChange from "../util/handleChange";
+import React from "react";
 import http from "../services/httpService";
 
 const Transfer = (props) => {
 	const token = localStorage.getItem("token");
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const { data } = await http.post(
-			"http://localhost:8080/weapons/addWeaponStat/",
+		await http.post(
+			"http://192.168.1.141:8080/weapons/addWeaponStat/",
 			{
 				id: props.weaponInventory[0].weapon_uid,
 			},

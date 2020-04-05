@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 const { throwError } = require("../util/errors");
 
 exports.addUser = async (req, res, next) => {
-	const username = req.body.username;
-	const email = req.body.email;
+	const username = req.body.username.toLowerCase();
+	const email = req.body.email.toLowerCase();
 	const password = req.body.password;
 	const hashedPassword = await bcrypt.hash(password, 12);
 	console.log(hashedPassword);
@@ -52,11 +52,11 @@ exports.addUser = async (req, res, next) => {
 };
 
 exports.logIn = async (req, res, next) => {
-	const username = req.body.username;
+	const username = req.body.username.toLowerCase();
 	const password = req.body.password;
 	const query = "SELECT * FROM users WHERE username = $1";
 	const values = [username];
-	const result = await db.query(query, values); // Check if suername exist? Check if undefined. Error means server fault
+	const result = await db.query(query, values);
 	try {
 		if (result.rowCount === 0) {
 			throwError(401, "Wrong password or username.");

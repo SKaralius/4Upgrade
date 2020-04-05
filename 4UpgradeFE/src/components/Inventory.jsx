@@ -9,7 +9,7 @@ const Inventory = () => {
 	const [hasLoaded, setHasLoaded] = useState(false);
 	const getItemData = async (item_uid) => {
 		const { data } = await http.get(
-			"http://localhost:8080/inventory/getresource/" + item_uid,
+			"http://192.168.1.141:8080/inventory/getresource/" + item_uid,
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -25,7 +25,7 @@ const Inventory = () => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const resourceInventory = await http.get(
-				"http://localhost:8080/inventory/getresourceinventory",
+				"http://192.168.1.141:8080/inventory/getresourceinventory",
 				{
 					headers: {
 						Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -44,7 +44,6 @@ const Inventory = () => {
 			setInventory(resolvedPromises);
 			setHasLoaded(true);
 		};
-		console.log("ran");
 		fetchData();
 	}, []);
 	if (hasLoaded && inventory.length !== 0) {

@@ -13,7 +13,7 @@ const LogIn = (props) => {
 		event.preventDefault();
 		try {
 			const { data } = await http.post(
-				"http://localhost:8080/users/login",
+				"http://192.168.1.141:8080/users/login",
 				{
 					username,
 					password,

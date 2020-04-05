@@ -13,7 +13,7 @@ const Items = () => {
 	const token = localStorage.getItem("token");
 	const fetchWeaponInventory = async () => {
 		const { data } = await http.get(
-			"http://localhost:8080/inventory/getweaponInventory/",
+			"http://192.168.1.141:8080/inventory/getweaponInventory/",
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -24,7 +24,7 @@ const Items = () => {
 	};
 	const fetchWeaponStats = async (weapon_uid) => {
 		const { data } = await http.get(
-			"http://localhost:8080/weapons/getWeaponStats/" + weapon_uid,
+			"http://192.168.1.141:8080/weapons/getWeaponStats/" + weapon_uid,
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -35,7 +35,7 @@ const Items = () => {
 	};
 	const fetchWeapon = async (weapon_uid) => {
 		const { data } = await http.get(
-			"http://localhost:8080/weapons/getWeapon/" + weapon_uid,
+			"http://192.168.1.141:8080/weapons/getWeapon/" + weapon_uid,
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -49,6 +49,11 @@ const Items = () => {
 		async function fetchData() {
 			const unresolvedPromise = await fetchWeaponInventory();
 			const resolvedPromise = await Promise.all(unresolvedPromise);
+			if (resolvedPromise.length === 0) {
+				setWeaponInventory(resolvedPromise);
+				setHasLoaded(true);
+				return;
+			}
 			const weaponData = await fetchWeapon(resolvedPromise[0].weapon_uid);
 			const weaponStatsResult = await fetchWeaponStats(
 				resolvedPromise[0].weapon_uid

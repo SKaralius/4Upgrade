@@ -61,6 +61,28 @@ exports.addWeaponStat = async (req, res, next) => {
 	res.status(200).send(result.rows[0]);
 };
 
+exports.removeWeaponStat = async (req, res, next) => {
+	const statRetrieveQueryValues = [req.body.id];
+	const statRetrieveQuery =
+		"SELECT * FROM weapon_stats WHERE weapon_uid = $1;";
+	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
+	if (result.rows.length === 0) {
+		res.status(200).send("No stats to delete");
+	}
+	const randomNumber = Math.ceil(Math.random() * result.rows.length);
+	const statToDelete = [result.rows[randomNumber - 1].weapon_stat_uid];
+
+	const statDeleteQuery =
+		"DELETE FROM weapon_stats WHERE weapon_stat_uid = $1;";
+	const deletedStat = await db.query(statDeleteQuery, statToDelete);
+	res.status(200).send({
+		length: result.rows.length,
+		randomNumber,
+		statToDelete,
+		deletedStat,
+	});
+};
+
 function tierRoll() {
 	const options = {
 		"1": 0.01,
