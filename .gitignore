@@ -12,7 +12,7 @@
 
 # production
 /build
-
+/4UpgradeFE/src/css
 # misc
 /4upgradeBE/.env
 .DS_Store
