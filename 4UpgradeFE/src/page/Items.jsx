@@ -11,6 +11,7 @@ const Items = () => {
 	const [weaponStats, setWeaponStats] = useState([]);
 	const [hasLoaded, setHasLoaded] = useState(false);
 	const [transferItems, _setTransferItems] = useState([]);
+	const [inventoryRows, setInventoryRows] = useState([]);
 	const token = localStorage.getItem("token");
 	const updateTransferItems = (value) => {
 		if (value.length > 3) {
@@ -86,6 +87,8 @@ const Items = () => {
 							hasLoaded={hasLoaded}
 						/>
 						<Transfer
+							setInventoryRows={setInventoryRows}
+							inventoryRows={inventoryRows}
 							transferItems={transferItems}
 							setTransferItems={updateTransferItems}
 							weaponInventory={weaponInventory}
@@ -103,6 +106,8 @@ const Items = () => {
 
 			<hr />
 			<Inventory
+				setInventoryRows={setInventoryRows}
+				inventoryRows={inventoryRows}
 				setTransferItems={updateTransferItems}
 				transferItems={transferItems}
 			/>

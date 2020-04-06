@@ -33,13 +33,22 @@ const Transfer = (props) => {
 		return rows;
 	};
 	const handleClick = (item) => {
-		let transferItemCopy = [...props.transferItems];
-		let notTheItem = transferItemCopy.filter((row) => row.id !== item.id);
+		const inventoryRowCopy = [...props.inventoryRows];
+		inventoryRowCopy[item.id] = item;
+		const transferItemCopy = [...props.transferItems];
+		const notTheItem = transferItemCopy.filter((row) => row.id !== item.id);
 		props.setTransferItems(notTheItem);
+		props.setInventoryRows(inventoryRowCopy);
 	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+
+		const upgradeItems = [];
+		props.transferItems.map((item) => {
+			upgradeItems.push(item.item_uid.substring(0, 36));
+		});
+		console.log(upgradeItems);
 		await http.post(
 			"http://192.168.1.141:8080/weapons/addWeaponStat/",
 			{

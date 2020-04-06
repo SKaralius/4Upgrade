@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 const InventoryItems = (props) => {
-	const [rows, setRows] = useState([]);
 	const handleClick = (item_uid) => {
-		let rowCopy = [...rows];
+		let rowCopy = [...props.inventoryRows];
 		rowCopy[item_uid].id = item_uid;
 		const wasUpdated = props.setTransferItems([
 			...props.transferItems,
@@ -11,7 +10,7 @@ const InventoryItems = (props) => {
 		]);
 		if (wasUpdated) {
 			rowCopy[item_uid] = {};
-			setRows(rowCopy);
+			props.setInventoryRows(rowCopy);
 		}
 	};
 	const computeRows = () => {
@@ -36,7 +35,7 @@ const InventoryItems = (props) => {
 				imgurl: null,
 			});
 		}
-		setRows(placeholder);
+		props.setInventoryRows(placeholder);
 	};
 	useEffect(() => {
 		computeRows();
@@ -44,7 +43,7 @@ const InventoryItems = (props) => {
 	return (
 		<div className="inventory">
 			<ul>
-				{rows.map((row, index) => {
+				{props.inventoryRows.map((row, index) => {
 					if (!row.name) {
 						return (
 							<li key={index}>
