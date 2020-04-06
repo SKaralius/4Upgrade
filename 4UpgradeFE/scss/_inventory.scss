@@ -1,12 +1,16 @@
 .inventory {
-	background-color: slategrey;
-	display: flex;
-	flex-flow: wrap;
-	justify-content: center;
-	& > span {
-		margin: 0.5rem;
+	& > ul {
+		background-color: slategrey;
+		display: flex;
+		flex-flow: wrap;
+		justify-content: center;
+		padding: 0;
+	}
+	& > ul > li {
 		width: 80px;
 		height: 80px;
+		list-style-type: none;
+		margin: 0.5rem;
 		background-color: saddlebrown;
 		border: black 3px solid;
 		&:hover {
@@ -17,13 +21,13 @@
 			padding: 0;
 			width: 80px;
 			height: 80px;
-		}
-		& > span > button > img {
-			width: 80px;
-			height: 80px;
+			& > img {
+				width: 80px;
+				height: 80px;
 
-			&:hover {
-				opacity: 50%;
+				&:hover {
+					opacity: 50%;
+				}
 			}
 		}
 	}

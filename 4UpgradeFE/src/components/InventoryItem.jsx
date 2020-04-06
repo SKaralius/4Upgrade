@@ -1,56 +1,74 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const InventoryItems = (props) => {
-	const rows = [];
-	let key = 0;
-	const getKey = () => {
-		return key++;
-	};
-	const handleClick = (event) => {
-		const items = props.inventory;
-		let itemObject = items.filter(
-			(item) => item.item_uid === event.target.id
-		);
-
-		props.setInventory([...items]);
-		const modifiedItemObject = { ...itemObject[0] };
-		modifiedItemObject.quantity = 1;
-		const isUpdated = props.setTransferItems([
+	const [rows, setRows] = useState([]);
+	const handleClick = (item_uid) => {
+		let rowCopy = [...rows];
+		rowCopy[item_uid].id = item_uid;
+		const wasUpdated = props.setTransferItems([
 			...props.transferItems,
-			modifiedItemObject,
+			rowCopy[item_uid],
 		]);
-		if (isUpdated) {
-			itemObject[0].quantity -= 1;
-		} else {
-			console.log("Cannot move item");
+		if (wasUpdated) {
+			rowCopy[item_uid] = {};
+			setRows(rowCopy);
 		}
 	};
-	props.inventory.map((item) => {
-		for (let i = 0; i < item.quantity; i++) {
-			rows.push(
-				<span key={item.item_uid + i + getKey()}>
-					<span>
-						<button onClick={(event) => handleClick(event)}>
-							<img
-								src={item.imgurl}
-								alt={item.name}
-								id={item.item_uid}
-							/>
-						</button>
-					</span>
-				</span>
-			);
+	const computeRows = () => {
+		let placeholder = [];
+		props.inventory.map((itemBundle) => {
+			const { item_uid, name, tier, imgurl, quantity } = itemBundle;
+			for (let index = 0; index < quantity; index++) {
+				placeholder.push({
+					item_uid: item_uid + index,
+					name,
+					tier,
+					imgurl,
+				});
+			}
+		});
+		const freeSpace = props.inventorySize - placeholder.length;
+		for (let b = 0; b < freeSpace; b++) {
+			placeholder.push({
+				item_uid: b,
+				name: false,
+				tier: NaN,
+				imgurl: null,
+			});
 		}
-	});
-	const freeSpace = props.inventorySize - rows.length;
-	for (let b = 0; b < freeSpace; b++) {
-		rows.push(
-			<span key={b}>
-				<span></span>
-			</span>
-		);
-	}
-	return <div className="inventory">{rows}</div>;
+		setRows(placeholder);
+	};
+	useEffect(() => {
+		computeRows();
+	}, [props.inventory]);
+	return (
+		<div className="inventory">
+			<ul>
+				{rows.map((row, index) => {
+					if (!row.name) {
+						return (
+							<li key={index}>
+								<span></span>
+							</li>
+						);
+					}
+					return (
+						<li key={row.item_uid + index}>
+							<span>
+								<button onClick={() => handleClick(index)}>
+									<img
+										src={row.imgurl}
+										alt={row.name}
+										id={row.item_uid}
+									/>
+								</button>
+							</span>
+						</li>
+					);
+				})}
+			</ul>
+		</div>
+	);
 };
 
 export default InventoryItems;

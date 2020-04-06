@@ -2,15 +2,42 @@ import React from "react";
 import http from "../services/httpService";
 
 const Transfer = (props) => {
-	let rows = [];
-	let key = 0;
 	const token = localStorage.getItem("token");
-	const getKey = () => {
-		return key++;
+	const createSlots = () => {
+		const difference = 3 - props.transferItems.length;
+		let rows = [];
+		for (let i = 0; i < difference; i++) {
+			rows.push(
+				<span key={i}>
+					<span>
+						<button></button>
+					</span>
+				</span>
+			);
+		}
+		props.transferItems.map((item, index) => {
+			rows.unshift(
+				<span key={item.item_uid + index}>
+					<span>
+						<button onClick={() => handleClick(item)}>
+							<img
+								src={item.imgurl}
+								alt={item.name}
+								id={item.item_uid}
+							/>
+						</button>
+					</span>
+				</span>
+			);
+		});
+		return rows;
 	};
-	const handleClick = (event) => {
-		console.log("Item Removed", event.target.id);
+	const handleClick = (item) => {
+		let transferItemCopy = [...props.transferItems];
+		let notTheItem = transferItemCopy.filter((row) => row.id !== item.id);
+		props.setTransferItems(notTheItem);
 	};
+
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		await http.post(
@@ -28,57 +55,14 @@ const Transfer = (props) => {
 			await props.fetchWeaponStats(props.weaponInventory[0].weapon_uid)
 		);
 	};
-
-	if (props.transferItems.length === 0) {
-		return (
-			<div className="transfer-container">
-				<div className="transfer">
-					<span></span>
-					<span></span>
-					<span></span>
-				</div>
-				<form onSubmit={handleSubmit}>
-					<button type="submit" disabled className="disabled">
-						UPGRADE!
-					</button>
-				</form>
-			</div>
-		);
-	} else {
-		props.transferItems.map((item) => {
-			for (let i = 0; i < item.quantity; i++) {
-				rows.push(
-					<span key={item.item_uid + i + getKey()}>
-						<span>
-							<button onClick={(event) => handleClick(event)}>
-								<img
-									src={item.imgurl}
-									alt={item.name}
-									id={item.item_uid}
-								/>
-							</button>
-						</span>
-					</span>
-				);
-			}
-		});
-		const freeSpace = 3 - rows.length;
-		for (let b = 0; b < freeSpace; b++) {
-			rows.push(
-				<span key={b}>
-					<span></span>
-				</span>
-			);
-		}
-		return (
-			<div className="transfer-container">
-				<div className="transfer">{rows}</div>
-				<form onSubmit={handleSubmit}>
-					<button type="submit">UPGRADE!</button>
-				</form>
-			</div>
-		);
-	}
+	return (
+		<div className="transfer-container">
+			<div className="transfer">{createSlots()}</div>
+			<form onSubmit={handleSubmit}>
+				<button type="submit">UPGRADE!</button>
+			</form>
+		</div>
+	);
 };
 
 export default Transfer;

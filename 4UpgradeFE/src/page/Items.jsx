@@ -13,7 +13,7 @@ const Items = () => {
 	const [transferItems, _setTransferItems] = useState([]);
 	const token = localStorage.getItem("token");
 	const updateTransferItems = (value) => {
-		if (transferItems.length > 2) {
+		if (value.length > 3) {
 			return false;
 		} else {
 			_setTransferItems(value);
@@ -87,6 +87,7 @@ const Items = () => {
 						/>
 						<Transfer
 							transferItems={transferItems}
+							setTransferItems={updateTransferItems}
 							weaponInventory={weaponInventory}
 							weaponStats={weaponStats}
 							setWeaponStats={setWeaponStats}
