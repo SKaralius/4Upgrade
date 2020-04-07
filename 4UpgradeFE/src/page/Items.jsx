@@ -6,6 +6,7 @@ import Item from "../components/Item";
 import Transfer from "../components/Transfer";
 
 const Items = () => {
+	console.log();
 	const [weapon, setWeapon] = useState([]);
 	const [weaponInventory, setWeaponInventory] = useState([]);
 	const [weaponStats, setWeaponStats] = useState([]);
@@ -23,7 +24,7 @@ const Items = () => {
 	};
 	const fetchWeaponInventory = async () => {
 		const { data } = await http.get(
-			"http://192.168.1.141:8080/inventory/getweaponInventory/",
+			process.env.REACT_APP_IP + "inventory/getweaponInventory/",
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -34,7 +35,7 @@ const Items = () => {
 	};
 	const fetchWeaponStats = async (weapon_uid) => {
 		const { data } = await http.get(
-			"http://192.168.1.141:8080/weapons/getWeaponStats/" + weapon_uid,
+			process.env.REACT_APP_IP + "weapons/getWeaponStats/" + weapon_uid,
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -45,7 +46,7 @@ const Items = () => {
 	};
 	const fetchWeapon = async (weapon_uid) => {
 		const { data } = await http.get(
-			"http://192.168.1.141:8080/weapons/getWeapon/" + weapon_uid,
+			process.env.REACT_APP_IP + "weapons/getWeapon/" + weapon_uid,
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token

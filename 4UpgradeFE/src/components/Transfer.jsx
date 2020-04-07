@@ -46,13 +46,13 @@ const Transfer = (props) => {
 
 		const upgradeItems = [];
 		props.transferItems.map((item) => {
-			upgradeItems.push(item.item_uid.substring(0, 36));
+			upgradeItems.unshift(item.item_uid.substring(0, 36));
 		});
-		console.log(upgradeItems);
-		await http.post(
-			"http://192.168.1.141:8080/weapons/addWeaponStat/",
+		const response = await http.post(
+			process.env.REACT_APP_IP + "upgrade/postUpgrade",
 			{
 				id: props.weaponInventory[0].weapon_uid,
+				items: upgradeItems,
 			},
 			{
 				headers: {
@@ -60,16 +60,32 @@ const Transfer = (props) => {
 				},
 			}
 		);
-		props.setWeaponStats(
-			await props.fetchWeaponStats(props.weaponInventory[0].weapon_uid)
-		);
+		console.log(response.data);
+		if (response.data === true) {
+			props.setWeaponStats(
+				await props.fetchWeaponStats(
+					props.weaponInventory[0].weapon_uid
+				)
+			);
+			props.setTransferItems([]);
+		} else {
+			alert("No such combination");
+		}
 	};
 	return (
 		<div className="transfer-container">
 			<div className="transfer">{createSlots()}</div>
-			<form onSubmit={handleSubmit}>
-				<button type="submit">UPGRADE!</button>
-			</form>
+			{props.transferItems.length === 0 ? (
+				<form>
+					<button className="disabled" disabled>
+						UPGRADE!
+					</button>
+				</form>
+			) : (
+				<form onSubmit={handleSubmit}>
+					<button type="submit">UPGRADE!</button>
+				</form>
+			)}
 		</div>
 	);
 };

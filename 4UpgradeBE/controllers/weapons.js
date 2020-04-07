@@ -19,6 +19,7 @@ exports.getWeapon = async (req, res, next) => {
 		const values = [authorizationQueryResult.rows[0].weapon_uid];
 		const query = "SELECT * FROM weapons WHERE weapon_uid = $1";
 		const result = await db.query(query, values);
+		result.rows[0].imgurl = process.env.IP + result.rows[0].imgurl;
 		res.status(200).send(result.rows);
 	} catch (err) {
 		next(err);
@@ -67,7 +68,7 @@ exports.removeWeaponStat = async (req, res, next) => {
 		"SELECT * FROM weapon_stats WHERE weapon_uid = $1;";
 	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
 	if (result.rows.length === 0) {
-		res.status(200).send("No stats to delete");
+		return res.status(200).send("No stats to delete");
 	}
 	const randomNumber = Math.ceil(Math.random() * result.rows.length);
 	const statToDelete = [result.rows[randomNumber - 1].weapon_stat_uid];

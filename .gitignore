@@ -15,6 +15,7 @@
 /4UpgradeFE/src/css
 # misc
 /4upgradeBE/.env
+/4upgradeFE/.env
 .DS_Store
 .env.local
 .env.development.local

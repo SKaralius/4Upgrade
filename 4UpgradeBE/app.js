@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const inventoryRoutes = require("./routes/inventory");
 const weaponRoutes = require("./routes/weapons");
 const userRoutes = require("./routes/users");
+const upgradeRoutes = require("./routes/upgrade");
 
 app.use(bodyParser.json());
 app.use("/img", express.static(path.join(__dirname, "img")));
@@ -27,6 +28,7 @@ app.use((req, res, next) => {
 app.use("/weapons", weaponRoutes);
 app.use("/users", userRoutes);
 app.use("/inventory", inventoryRoutes);
+app.use("/upgrade", upgradeRoutes);
 
 app.use((error, req, res, next) => {
 	const status = error.statusCode || 500;

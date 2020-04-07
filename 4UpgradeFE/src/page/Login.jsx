@@ -13,7 +13,7 @@ const LogIn = (props) => {
 		event.preventDefault();
 		try {
 			const { data } = await http.post(
-				"http://192.168.1.141:8080/users/login",
+				process.env.REACT_APP_IP + "users/login",
 				{
 					username,
 					password,

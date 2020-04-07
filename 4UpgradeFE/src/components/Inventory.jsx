@@ -9,7 +9,7 @@ const Inventory = (props) => {
 	const [hasLoaded, setHasLoaded] = useState(false);
 	const getItemData = async (item_uid) => {
 		const { data } = await http.get(
-			"http://192.168.1.141:8080/inventory/getresource/" + item_uid,
+			process.env.REACT_APP_IP + "inventory/getresource/" + item_uid,
 			{
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -25,7 +25,7 @@ const Inventory = (props) => {
 	useEffect(() => {
 		const fetchData = async () => {
 			const resourceInventory = await http.get(
-				"http://192.168.1.141:8080/inventory/getresourceinventory",
+				process.env.REACT_APP_IP + "inventory/getresourceinventory",
 				{
 					headers: {
 						Authorization: "Bearer " + token, //the token is a variable which holds the token
