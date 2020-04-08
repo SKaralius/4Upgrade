@@ -24,8 +24,18 @@ function typeRoll() {
 	};
 	return weighted.select(options);
 }
+// TODO: When there are more items in the DB, the roll
+// doesn't have to be limited to 2 tiers, and rollTier can be used.
+function itemTierRoll() {
+	const options = {
+		"1": 0.5,
+		"3": 0.5,
+	};
+	return weighted.select(options);
+}
 
 module.exports = {
 	typeRoll,
 	tierRoll,
+	itemTierRoll,
 };

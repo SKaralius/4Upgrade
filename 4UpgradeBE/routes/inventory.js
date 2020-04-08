@@ -16,4 +16,6 @@ router.get(
 	inventoryController.getWeaponInventory
 );
 
+router.post("/addItemToUser", isAuth, inventoryController.addItemToUser);
+
 module.exports = router;

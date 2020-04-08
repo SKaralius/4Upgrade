@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = ({ isAuth, setIsAuth }) => {
+	const token = localStorage.getItem("token");
 	const LogOut = (e) => {
 		setIsAuth(false);
 	};
-	return isAuth ? (
+	console.log(token);
+	return token ? (
 		<nav>
 			<ul>
 				<li>
@@ -13,6 +15,9 @@ const Navbar = ({ isAuth, setIsAuth }) => {
 				</li>
 				<li>
 					<Link to="/items">Items</Link>
+				</li>
+				<li>
+					<Link to="/arena">Arena</Link>
 				</li>
 				<li>
 					<Link to="/login" onClick={(e) => LogOut(e)}>

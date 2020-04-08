@@ -1,7 +1,6 @@
 const db = require("../util/dbConnect");
 const { throwError } = require("../util/errors");
-const { getItem } = require("../util/itemMap");
-const { typeRoll, tierRoll } = require("../util/rolls");
+const { typeRoll, tierRoll } = require("../util/projectUtil/rolls");
 const { v4: uuidv4 } = require("uuid");
 
 exports.postUpgrade = async (req, res, next) => {
