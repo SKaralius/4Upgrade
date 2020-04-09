@@ -8,9 +8,8 @@ import LogIn from "./page/LogIn";
 import Arena from "./page/Arena";
 
 function App() {
-	const [isAuth, setIsAuth] = useState(false);
+	const [isAuth, setIsAuth] = useState(true);
 	const [token, setToken] = useState("");
-	useEffect(() => {});
 	return (
 		<React.Fragment>
 			<Navbar isAuth={isAuth} setIsAuth={setIsAuth} />

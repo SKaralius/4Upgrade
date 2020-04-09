@@ -28,10 +28,14 @@ const Arena = () => {
 				}
 			);
 
-			alert(`Congragulations, you got ${data.name}`);
+			console.log(`Congragulations, you got ${data.name}`);
 		}
 	};
-	return <button onClick={(event) => handleClick(event)}>Get Item</button>;
+	return (
+		<div>
+			<button onClick={(event) => handleClick(event)}>Get Item</button>
+		</div>
+	);
 };
 
 export default Arena;

@@ -2,10 +2,16 @@ const db = require("../util/dbConnect");
 const { throwError } = require("../util/errors");
 const { typeRoll, tierRoll } = require("../util/projectUtil/rolls");
 const { v4: uuidv4 } = require("uuid");
+const {
+	getWeaponStats,
+	removeStat,
+} = require("../util/projectUtil/helperFunctions");
 
 exports.postUpgrade = async (req, res, next) => {
 	//Verify the user has the item and suficient quantity
 	const items = req.body.items;
+	const weapon_uid = req.body.id;
+	const username = req.username;
 	try {
 		if (items.length > 3) {
 			throwError(400, "Please reload the browser");
@@ -13,8 +19,8 @@ exports.postUpgrade = async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
-	const weapon_uid = req.body.id;
-	const username = req.username;
+
+	const currentWeaponStats = await getWeaponStats(username, weapon_uid, next);
 
 	let combinedItemIds = {};
 	items.forEach((itemId) => {
@@ -25,12 +31,17 @@ exports.postUpgrade = async (req, res, next) => {
 	try {
 		confirmItemValidity(username, ids, quantities, next);
 		const fullItems = await getFullItems(ids, quantities);
-		if (
-			(await weaponElixirEffect(fullItems, weapon_uid, username)) === true
-		) {
+		const message = effectSort(
+			fullItems,
+			weapon_uid,
+			username,
+			currentWeaponStats.rows
+		);
+		if (message === true) {
+			consumeItems(fullItems, username);
 			return res.status(200).send(true);
 		} else {
-			return res.status(200).send(false);
+			return res.status(200).send(message);
 		}
 	} catch (err) {
 		next(err);
@@ -82,26 +93,8 @@ async function getFullItems(ids, quantities) {
 	return fullItems;
 }
 
-async function weaponElixirEffect(fullItems, weapon_uid, username) {
-	if (fullItems[0].item_uid === "a5b5bff3-1ec1-4a94-b998-5394772158ba") {
-		const statRetrieveQueryValues = [tierRoll(), typeRoll()];
-		const statRetrieveQuery =
-			"SELECT * FROM stats WHERE tier = $1 AND type = $2";
-		const result = await db.query(
-			statRetrieveQuery,
-			statRetrieveQueryValues
-		);
-		const stat_uid = result.rows[0].stat_uid;
-		addWeaponStat(stat_uid, username, weapon_uid);
-		consumeItems(fullItems, username);
-		return true;
-	} else {
-		return false;
-	}
-}
-
 async function addWeaponStat(stat_uid, username, weapon_uid) {
-	db.query(
+	await db.query(
 		"SELECT weapon_uid FROM weapon_inventory \
     WHERE username = $1 AND weapon_uid = $2",
 		[username, weapon_uid]
@@ -109,7 +102,7 @@ async function addWeaponStat(stat_uid, username, weapon_uid) {
 	const weaponStatInsertQuery =
 		"INSERT INTO weapon_stats(weapon_stat_uid, weapon_uid, stat_uid) VALUES($1,$2,$3)";
 	const weaponStatInsertQueryValues = [uuidv4(), weapon_uid, stat_uid];
-	db.query(weaponStatInsertQuery, weaponStatInsertQueryValues);
+	await db.query(weaponStatInsertQuery, weaponStatInsertQueryValues);
 }
 
 async function consumeItems(fullItems, username) {
@@ -137,4 +130,35 @@ async function consumeItems(fullItems, username) {
 		}
 	}
 	return fullItems;
+}
+
+async function weaponElixirEffect(weapon_uid, username) {
+	const statRetrieveQueryValues = [tierRoll(), typeRoll()];
+	const statRetrieveQuery =
+		"SELECT * FROM stats WHERE tier = $1 AND type = $2";
+	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
+	const stat_uid = result.rows[0].stat_uid;
+	addWeaponStat(stat_uid, username, weapon_uid);
+}
+async function astralStoneEffect(currentWeaponStats) {
+	removeStat(currentWeaponStats);
+}
+
+function effectSort(fullItems, weapon_uid, username, currentWeaponStats) {
+	switch (fullItems[0].item_uid) {
+		case "a5b5bff3-1ec1-4a94-b998-5394772158ba":
+			if (currentWeaponStats.length > 5) {
+				return "Weapon stats are full";
+			}
+			weaponElixirEffect(weapon_uid, username);
+			return true;
+		case "3f7d57cd-27b2-4759-9b57-bf56f30ce9d0":
+			if (currentWeaponStats.length === 0) {
+				return "No stats to delete";
+			}
+			astralStoneEffect(currentWeaponStats);
+			return true;
+		default:
+			return false;
+	}
 }

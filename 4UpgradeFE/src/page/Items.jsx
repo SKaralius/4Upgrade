@@ -58,20 +58,21 @@ const Items = () => {
 	useEffect(() => {
 		setHasLoaded(false);
 		async function fetchData() {
-			const unresolvedPromise = await fetchWeaponInventory();
-			const resolvedPromise = await Promise.all(unresolvedPromise);
-			if (resolvedPromise.length === 0) {
-				setWeaponInventory(resolvedPromise);
+			const receivedWeaponInventory = await fetchWeaponInventory();
+			if (receivedWeaponInventory.length === 0) {
+				setWeaponInventory(receivedWeaponInventory);
 				setHasLoaded(true);
 				return;
 			}
-			const weaponData = await fetchWeapon(resolvedPromise[0].weapon_uid);
+			const weaponData = await fetchWeapon(
+				receivedWeaponInventory[0].weapon_uid
+			);
 			const weaponStatsResult = await fetchWeaponStats(
-				resolvedPromise[0].weapon_uid
+				receivedWeaponInventory[0].weapon_uid
 			);
 			setWeapon(weaponData);
 			setWeaponStats(weaponStatsResult);
-			setWeaponInventory(resolvedPromise);
+			setWeaponInventory(receivedWeaponInventory);
 			setHasLoaded(true);
 		}
 		fetchData();

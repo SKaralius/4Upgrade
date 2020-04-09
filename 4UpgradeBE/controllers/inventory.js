@@ -2,6 +2,7 @@ const db = require("../util/dbConnect");
 const { throwError } = require("../util/errors");
 const { itemTierRoll } = require("../util/projectUtil/rolls");
 const { v4: uuidv4 } = require("uuid");
+const { isFreeInventorySpace } = require("../util/projectUtil/helperFunctions");
 
 exports.getResource = async (req, res, next) => {
 	const allResourcesValues = [req.username, req.params.item_uid];
@@ -70,7 +71,7 @@ exports.addItemToUser = async (req, res, next) => {
 	if (result.rowCount === 0) {
 		db.query(
 			"INSERT INTO resource_inventory(entry_uid, username, item_uid, quantity)\
-		VALUES($1, $2, '$3', $4);",
+		VALUES($1, $2, $3, $4);",
 			[uuidv4(), username, itemIdToAdd, 1]
 		);
 	} else {
@@ -80,22 +81,5 @@ exports.addItemToUser = async (req, res, next) => {
 			[result.rows[0].quantity + 1, result.rows[0].entry_uid]
 		);
 	}
-	return res.status(200).send(result.rows[0].item_uid);
+	return res.status(200).send(itemIdToAdd);
 };
-
-async function isFreeInventorySpace(username) {
-	let totalQuantity = 0;
-	const {
-		rows,
-	} = await db.query(
-		"SELECT quantity FROM resource_inventory \
-	WHERE username = $1",
-		[username]
-	);
-	rows.forEach((row) => (totalQuantity += row.quantity));
-	if (totalQuantity < 24) {
-		return true;
-	} else {
-		return false;
-	}
-}

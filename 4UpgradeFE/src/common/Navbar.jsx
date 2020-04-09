@@ -2,12 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = ({ isAuth, setIsAuth }) => {
-	const token = localStorage.getItem("token");
 	const LogOut = (e) => {
 		setIsAuth(false);
 	};
-	console.log(token);
-	return token ? (
+	return isAuth ? (
 		<nav>
 			<ul>
 				<li>

@@ -60,7 +60,6 @@ const Transfer = (props) => {
 				},
 			}
 		);
-		console.log(response.data);
 		if (response.data === true) {
 			props.setWeaponStats(
 				await props.fetchWeaponStats(
@@ -69,7 +68,7 @@ const Transfer = (props) => {
 			);
 			props.setTransferItems([]);
 		} else {
-			alert("No such combination");
+			alert(response.data);
 		}
 	};
 	return (
