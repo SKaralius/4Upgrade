@@ -3,6 +3,7 @@ const { throwError } = require("../util/errors");
 const { itemTierRoll } = require("../util/projectUtil/rolls");
 const { v4: uuidv4 } = require("uuid");
 const {
+	deleteItem,
 	isFreeInventorySpace,
 	item_uidToResource,
 } = require("../util/projectUtil/helperFunctions");
@@ -73,4 +74,9 @@ exports.addItemToUser = async (req, res, next) => {
 		);
 	}
 	return res.status(200).send(itemIdToAdd);
+};
+
+exports.deleteItemFromUser = async (req, res, next) => {
+	deleteItem(req.username, req.body.item_uid);
+	res.status(200).send("Item deleted.");
 };

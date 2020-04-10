@@ -69,6 +69,17 @@ nav > ul {
       height: 80px; }
       .inventory > ul > li > span > button > img:hover {
         opacity: 50%; }
+  .inventory > ul > li > span > .delete {
+    display: flex;
+    justify-content: flex-end; }
+    .inventory > ul > li > span > .delete > button {
+      height: 1.5rem;
+      width: 1.5rem;
+      border-radius: 50%;
+      position: absolute;
+      background-color: black;
+      color: red;
+      z-index: 5; }
 
 .transfer-container {
   display: flex;

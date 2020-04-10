@@ -18,4 +18,10 @@ router.get(
 
 router.post("/addItemToUser", isAuth, inventoryController.addItemToUser);
 
+router.delete(
+	"/deleteitemfromuser",
+	isAuth,
+	inventoryController.deleteItemFromUser
+);
+
 module.exports = router;

@@ -1,15 +1,31 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import http from "../services/httpService";
 
 const InventoryItems = (props) => {
-	const handleClick = (item_uid) => {
+	const token = localStorage.getItem("token");
+	const handleDeleteItem = (index) => {
 		const rowCopy = [...props.inventoryRows];
-		rowCopy[item_uid].id = item_uid;
+		rowCopy[index].id = index;
+		http.delete(process.env.REACT_APP_IP + "inventory/deleteitemfromuser", {
+			data: {
+				item_uid: rowCopy[index].item_uid.substring(0, 36),
+			},
+			headers: {
+				Authorization: "Bearer " + token, //the token is a variable which holds the token
+			},
+		});
+		rowCopy[index] = {};
+		props.setInventoryRows(rowCopy);
+	};
+	const handleClick = (index) => {
+		const rowCopy = [...props.inventoryRows];
+		rowCopy[index].id = index;
 		const wasUpdated = props.setTransferItems([
-			rowCopy[item_uid],
+			rowCopy[index],
 			...props.transferItems,
 		]);
 		if (wasUpdated) {
-			rowCopy[item_uid] = {};
+			rowCopy[index] = {};
 			props.setInventoryRows(rowCopy);
 		}
 	};
@@ -54,6 +70,13 @@ const InventoryItems = (props) => {
 					return (
 						<li key={row.item_uid + index}>
 							<span>
+								<div className="delete">
+									<button
+										onClick={() => handleDeleteItem(index)}
+									>
+										X
+									</button>
+								</div>
 								<button onClick={() => handleClick(index)}>
 									<img
 										src={row.imgurl}

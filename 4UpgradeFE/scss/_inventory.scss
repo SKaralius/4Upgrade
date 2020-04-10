@@ -16,17 +16,32 @@
 		&:hover {
 			border: yellow 3px solid;
 		}
-		& > span > button {
-			border: none;
-			padding: 0;
-			width: 80px;
-			height: 80px;
-			& > img {
+		& > span {
+			& > button {
+				border: none;
+				padding: 0;
 				width: 80px;
 				height: 80px;
+				& > img {
+					width: 80px;
+					height: 80px;
 
-				&:hover {
-					opacity: 50%;
+					&:hover {
+						opacity: 50%;
+					}
+				}
+			}
+			& > .delete {
+				display: flex;
+				justify-content: flex-end;
+				& > button {
+					height: 1.5rem;
+					width: 1.5rem;
+					border-radius: 50%;
+					position: absolute;
+					background-color: black;
+					color: red;
+					z-index: 5;
 				}
 			}
 		}
