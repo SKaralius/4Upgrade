@@ -7,6 +7,7 @@ const inventoryRoutes = require("./routes/inventory");
 const weaponRoutes = require("./routes/weapons");
 const userRoutes = require("./routes/users");
 const upgradeRoutes = require("./routes/upgrade");
+const combatRoutes = require("./routes/combat");
 
 app.use(bodyParser.json());
 app.use("/img", express.static(path.join(__dirname, "img")));
@@ -29,6 +30,7 @@ app.use("/weapons", weaponRoutes);
 app.use("/users", userRoutes);
 app.use("/inventory", inventoryRoutes);
 app.use("/upgrade", upgradeRoutes);
+app.use("/combat", combatRoutes);
 
 app.use((error, req, res, next) => {
 	const status = error.statusCode || 500;

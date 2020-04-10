@@ -6,7 +6,6 @@ import Item from "../components/Item";
 import Transfer from "../components/Transfer";
 
 const Items = () => {
-	console.log();
 	const [weapon, setWeapon] = useState([]);
 	const [weaponInventory, setWeaponInventory] = useState([]);
 	const [weaponStats, setWeaponStats] = useState([]);
