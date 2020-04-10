@@ -1,5 +1,10 @@
 const weighted = require("weighted");
 
+function badRollShield(roll, shield) {
+	if (roll <= shield) roll = shield;
+	return roll;
+}
+
 function tierRoll() {
 	const options = {
 		"9": 0.01,
@@ -28,8 +33,8 @@ function typeRoll() {
 // doesn't have to be limited to 2 tiers, and rollTier can be used.
 function itemTierRoll() {
 	const options = {
-		"1": 0.5,
-		"3": 0.5,
+		"2": 0.5,
+		"9": 0.5,
 	};
 	return weighted.select(options);
 }
@@ -38,4 +43,5 @@ module.exports = {
 	typeRoll,
 	tierRoll,
 	itemTierRoll,
+	badRollShield,
 };

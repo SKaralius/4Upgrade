@@ -1,6 +1,30 @@
 const db = require("../dbConnect");
 const { throwError } = require("../errors");
 
+async function deleteItem(username, item_uid) {
+	const {
+		rows,
+	} = await db.query(
+		"SELECT * FROM resource_inventory \
+        WHERE username = $1 AND item_uid = $2",
+		[username, item_uid]
+	);
+	rows[0].quantity -= 1;
+	if (rows[0].quantity < 1) {
+		//DELETE ROW BASED ON ENTRY ID
+		return await db.query(
+			"DELETE FROM resource_inventory WHERE entry_uid = $1;",
+			[rows[0].entry_uid]
+		);
+		// else I update the row in db.
+	} else {
+		return await db.query(
+			"UPDATE resource_inventory SET quantity = $1 WHERE entry_uid = $2;",
+			[rows[0].quantity, rows[0].entry_uid]
+		);
+	}
+}
+
 async function isFreeInventorySpace(username) {
 	let totalQuantity = 0;
 	const {
@@ -17,7 +41,8 @@ async function isFreeInventorySpace(username) {
 		return false;
 	}
 }
-
+// Returns the weapon stats result from the DB with tiers converted to damage values.
+// Checks if user owns the weapon.
 async function getWeaponStats(username, weapon_uid, next) {
 	const weaponQuery = "SELECT * FROM weapon_inventory WHERE weapon_uid = $1";
 	const statQuery =
@@ -44,18 +69,18 @@ async function getWeaponStats(username, weapon_uid, next) {
 	}
 }
 
-function removeStat(stats) {
-	const randomNumber = Math.ceil(Math.random() * stats.length);
-	const statToDelete = [stats[randomNumber - 1].weapon_stat_uid];
+async function item_uidToResource(item_uid) {
+	const values = [item_uid];
+	const query = "SELECT * from items where item_uid = $1;";
+	return await db.query(query, values);
+}
+// Doesn't check if the user is authorized.
+async function removeStat(weapon_stat_uid) {
+	const statToDelete = [weapon_stat_uid];
 
 	const statDeleteQuery =
 		"DELETE FROM weapon_stats WHERE weapon_stat_uid = $1;";
-	db.query(statDeleteQuery, statToDelete);
-	return {
-		length: stats.length,
-		randomNumber,
-		statToDelete,
-	};
+	return await db.query(statDeleteQuery, statToDelete);
 }
 
 function tierToDamage(tier) {
@@ -103,4 +128,10 @@ function tierToDamage(tier) {
 	}
 }
 
-module.exports = { isFreeInventorySpace, getWeaponStats, removeStat };
+module.exports = {
+	deleteItem,
+	isFreeInventorySpace,
+	item_uidToResource,
+	getWeaponStats,
+	removeStat,
+};

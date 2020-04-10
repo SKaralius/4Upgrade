@@ -14,7 +14,7 @@ const Items = () => {
 	const [inventoryRows, setInventoryRows] = useState([]);
 	const token = localStorage.getItem("token");
 	const updateTransferItems = (value) => {
-		if (value.length > 3) {
+		if (value.length > 2) {
 			return false;
 		} else {
 			_setTransferItems(value);

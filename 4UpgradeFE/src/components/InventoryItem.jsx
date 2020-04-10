@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 
 const InventoryItems = (props) => {
 	const handleClick = (item_uid) => {
-		let rowCopy = [...props.inventoryRows];
+		const rowCopy = [...props.inventoryRows];
 		rowCopy[item_uid].id = item_uid;
 		const wasUpdated = props.setTransferItems([
-			...props.transferItems,
 			rowCopy[item_uid],
+			...props.transferItems,
 		]);
 		if (wasUpdated) {
 			rowCopy[item_uid] = {};

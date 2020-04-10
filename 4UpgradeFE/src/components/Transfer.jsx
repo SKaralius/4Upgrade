@@ -4,7 +4,7 @@ import http from "../services/httpService";
 const Transfer = (props) => {
 	const token = localStorage.getItem("token");
 	const createSlots = () => {
-		const difference = 3 - props.transferItems.length;
+		const difference = 2 - props.transferItems.length;
 		let rows = [];
 		for (let i = 0; i < difference; i++) {
 			rows.push(

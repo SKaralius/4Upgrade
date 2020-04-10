@@ -9,7 +9,12 @@
 			"request": "launch",
 			"name": "Launch Node Program",
 			"program": "${workspaceFolder}/app.js",
-			"skipFiles": ["<node_internals>/**"]
+			"skipFiles": [
+				"inspector_async_hook.js",
+				"async_hooks.js",
+				"${workspaceFolder}/node_modules/**/*.js",
+				"<node_internals>/**/*.js"
+			]
 		},
 		{
 			"type": "chrome",

@@ -2,26 +2,17 @@ const db = require("../util/dbConnect");
 const { throwError } = require("../util/errors");
 const { itemTierRoll } = require("../util/projectUtil/rolls");
 const { v4: uuidv4 } = require("uuid");
-const { isFreeInventorySpace } = require("../util/projectUtil/helperFunctions");
+const {
+	isFreeInventorySpace,
+	item_uidToResource,
+} = require("../util/projectUtil/helperFunctions");
 
 exports.getResource = async (req, res, next) => {
-	const allResourcesValues = [req.username, req.params.item_uid];
-	const allResourcesQuery =
-		"SELECT item_uid FROM resource_inventory WHERE username = $1 AND item_uid = $2";
 	try {
-		const allResources = await db.query(
-			allResourcesQuery,
-			allResourcesValues
-		);
-		if (allResources.rows.length > 0) {
-			const values = [req.params.item_uid];
-			const query = "SELECT * from items where item_uid = $1;";
-			result = await db.query(query, values);
-			result.rows[0].imgurl = process.env.IP + result.rows[0].imgurl;
-			res.status(200).send(result.rows[0]);
-		} else {
-			throwError(400, "Item doesn't belong to the user.");
-		}
+		let itemResponse = await item_uidToResource(req.params.item_uid);
+		itemResponse.rows[0].imgurl =
+			process.env.IP + itemResponse.rows[0].imgurl;
+		res.status(200).send(itemResponse.rows[0]);
 	} catch (err) {
 		next(err);
 	}
