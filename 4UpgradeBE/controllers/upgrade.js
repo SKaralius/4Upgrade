@@ -37,7 +37,7 @@ exports.postUpgrade = async (req, res, next) => {
 	const effectSortResultArray = effectSort(
 		fullItems,
 		weapon_uid,
-		currentWeaponStats.rows,
+		currentWeaponStats.stats,
 		username
 	);
 	if (!effectSortResultArray.effectPossible) {
@@ -110,7 +110,7 @@ async function weaponElixirEffect(weapon_uid, fullItems, username) {
 }
 // Picks a weapon stat at complete random and removes it.
 async function astralStoneEffect(currentWeaponStats, fullItems) {
-	let randomNumber = Math.ceil(Math.random() * currentWeaponStats.length);
+	let randomNumber = 0;
 	if (fullItems[1]) {
 		const filteredStats = currentWeaponStats.filter(
 			(stat) => stat.tier < fullItems[1].tier
@@ -121,7 +121,12 @@ async function astralStoneEffect(currentWeaponStats, fullItems) {
 				currentWeaponStats[randomNumber - 1].weapon_stat_uid
 			);
 		}
+		randomNumber = Math.ceil(Math.random() * filteredStats.length);
+		return await removeStat(
+			filteredStats[randomNumber - 1].weapon_stat_uid
+		);
 	}
+	randomNumber = Math.ceil(Math.random() * currentWeaponStats.length);
 	return await removeStat(
 		currentWeaponStats[randomNumber - 1].weapon_stat_uid
 	);

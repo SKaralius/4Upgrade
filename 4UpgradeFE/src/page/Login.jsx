@@ -6,9 +6,8 @@ const LogIn = (props) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	useEffect(() => {
-		localStorage.setItem("token", props.token);
 		localStorage.setItem("username", username);
-	}, [props, props.token, username]);
+	}, [props, username]);
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -20,7 +19,7 @@ const LogIn = (props) => {
 				}
 			);
 			props.setIsAuth(true);
-			props.setToken(data.token);
+			localStorage.setItem("token", data.token);
 			setUsername(data.username);
 			props.history.push("/items");
 		} catch (err) {

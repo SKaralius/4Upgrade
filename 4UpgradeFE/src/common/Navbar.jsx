@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const Navbar = ({ isAuth, setIsAuth }) => {
 	const LogOut = (e) => {
 		setIsAuth(false);
+		localStorage.removeItem("token");
 	};
 	return isAuth ? (
 		<nav>

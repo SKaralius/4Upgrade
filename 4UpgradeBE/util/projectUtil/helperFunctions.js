@@ -57,9 +57,15 @@ async function getWeaponStats(username, weapon_uid, next) {
 			if (rows[0].username !== username) {
 				throwError(401, "Not Authorized");
 			}
-			const stats = await db.query(statQuery, [weapon_uid]);
-			stats.rows.map((row) => (row.damage = tierToDamage(row.tier)));
-			return stats;
+			const statsResult = await db.query(statQuery, [weapon_uid]);
+			const stats = statsResult.rows;
+			const totalDamage = { minTotalDamage: 0, maxTotalDamage: 0 };
+			stats.forEach((stat) => {
+				stat.damage = tierToDamage(stat.tier);
+				totalDamage.minTotalDamage += stat.damage.minDamage;
+				totalDamage.maxTotalDamage += stat.damage.maxDamage;
+			});
+			return { stats, totalDamage };
 			//return result ehre
 		} else {
 			throwError(400, "No record found.");
@@ -90,41 +96,41 @@ function tierToDamage(tier) {
 		case 1:
 			minDamage = 5;
 			maxDamage = 9;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 2:
 			minDamage = 8;
 			maxDamage = 14;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 3:
 			minDamage = 12;
 			maxDamage = 21;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 4:
 			minDamage = 18;
 			maxDamage = 32;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 5:
 			minDamage = 27;
 			maxDamage = 47;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 6:
 			minDamage = 41;
 			maxDamage = 71;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 7:
 			minDamage = 62;
 			maxDamage = 106;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 8:
 			minDamage = 82;
 			maxDamage = 159;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		case 9:
 			minDamage = 103;
 			maxDamage = 212;
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 		default:
-			return [minDamage, maxDamage];
+			return { minDamage, maxDamage };
 	}
 }
 

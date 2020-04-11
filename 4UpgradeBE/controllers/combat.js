@@ -6,8 +6,9 @@ const {
 } = require("../util/projectUtil/combatSession");
 
 exports.endEncounter = (req, res, next) => {
-	const monster = getSession(req.username);
-	if (monster.health === 0) {
+	const weapon_uid = req.body.weapon_uid;
+	const monster = getSession(req.username, weapon_uid, next);
+	if (monster.health <= 0) {
 		//Give reward
 		deleteSession(req.username);
 	} else {
@@ -16,7 +17,8 @@ exports.endEncounter = (req, res, next) => {
 };
 
 exports.getEnemy = (req, res, next) => {
-	const monster = getSession(req.username);
+	const weapon_uid = req.params.id;
+	const monster = getSession(req.username, weapon_uid, next);
 	res.status(200).send(monster);
 };
 

@@ -33,8 +33,11 @@ exports.getWeapon = async (req, res, next) => {
 exports.getWeaponStats = async (req, res, next) => {
 	const username = req.username;
 	const weapon_uid = req.params.id;
-	const weaponStatResult = await getWeaponStats(username, weapon_uid, next);
-	res.status(200).send(weaponStatResult.rows);
+	const weaponStats = await getWeaponStats(username, weapon_uid, next);
+	res.status(200).send({
+		stats: weaponStats.stats,
+		totalDamage: weaponStats.totalDamage,
+	});
 };
 // TODO: Add limitations, validation
 exports.addWeaponStat = async (req, res, next) => {

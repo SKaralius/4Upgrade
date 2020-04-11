@@ -43,8 +43,9 @@ const Transfer = (props) => {
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-
+		console.log("handling submit");
 		const upgradeItems = [];
+
 		props.transferItems.map((item) => {
 			upgradeItems.unshift(item.item_uid.substring(0, 36));
 		});

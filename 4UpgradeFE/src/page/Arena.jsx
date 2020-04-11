@@ -1,28 +1,29 @@
 import React, { useEffect, useState } from "react";
 import http from "../services/httpService";
-const Arena = () => {
-	const [health, setHealth] = useState(1);
+
+const Arena = (props) => {
+	const [monster, setMonster] = useState(1);
 	const [encounter, setEncounter] = useState(true);
 	const token = localStorage.getItem("token");
 	useEffect(() => {
-		console.log("in use effect");
 		const fetchData = async () => {
 			const { data } = await http.get(
-				process.env.REACT_APP_IP + "combat/getenemy",
+				process.env.REACT_APP_IP +
+					"combat/getenemy/" +
+					props.weaponInventory[0].weapon_uid,
 				{
 					headers: {
 						Authorization: "Bearer " + token, //the token is a variable which holds the token
 					},
 				}
 			);
-			console.log("in fetch data", data.health);
-			setHealth(data.health);
 			setEncounter(true);
+			setMonster(data);
 		};
 		fetchData();
 	}, []);
+
 	const handleDealDamage = async () => {
-		console.log(token);
 		const { data } = await http.patch(
 			process.env.REACT_APP_IP + "combat/dealdamage",
 			{},
@@ -32,17 +33,20 @@ const Arena = () => {
 				},
 			}
 		);
-		console.log(data.health);
-		if (data.health < 1) {
-			setHealth(data.health);
+		if (data.currentHealth < 1) {
+			setMonster(data);
 			setEncounter(false);
 			http.delete(process.env.REACT_APP_IP + "combat/endencounter", {
+				data: {
+					weapon_uid: props.weaponInventory[0].weapon_uid,
+				},
+
 				headers: {
 					Authorization: "Bearer " + token, //the token is a variable which holds the token
 				},
 			});
 		}
-		setHealth(data.health);
+		setMonster(data);
 	};
 	const handleClick = async (event) => {
 		event.preventDefault();
@@ -74,14 +78,50 @@ const Arena = () => {
 	};
 	return (
 		<div>
-			<button onClick={(event) => handleClick(event)}>Get Item</button>
 			{encounter ? (
 				<React.Fragment>
-					<h1>{health}</h1>
+					<h1>{monster.currentHealth}</h1>
+					<div
+						className="healthContainer"
+						className="maxHealth"
+						style={{
+							display: "flex",
+							justifyContent: "center",
+						}}
+					>
+						<div
+							className="maxHealth"
+							style={{
+								width: `50rem`,
+								height: "10vw",
+								backgroundColor: "#8B0000",
+								color: "blue",
+								border: "5px inset #8B0000",
+							}}
+						>
+							<div
+								style={{
+									width: `${
+										monster.currentHealth /
+										(monster.maxHealth / 100)
+									}%`,
+									height: "10vw",
+									backgroundColor: "red",
+									color: "blue",
+								}}
+								className="health"
+							></div>
+						</div>
+					</div>
 					<button onClick={handleDealDamage}>ATTACK</button>
 				</React.Fragment>
 			) : (
-				<h1>The monster is dead</h1>
+				<div>
+					<h1>The monster is dead</h1>
+					<button onClick={(event) => handleClick(event)}>
+						Get Item
+					</button>
+				</div>
 			)}
 		</div>
 	);

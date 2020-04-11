@@ -121,6 +121,10 @@ nav > ul {
   background-color: grey;
   opacity: 50%; }
 
+div > button {
+  width: 100vw;
+  height: 10vw; }
+
 body {
   box-sizing: border-box;
   color: #121218;

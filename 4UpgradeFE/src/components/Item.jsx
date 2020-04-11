@@ -1,9 +1,7 @@
 import React from "react";
 
 const Item = (props) => {
-	let totalDamage = [0, 0];
-	function renderList() {}
-	if (props.hasLoaded) {
+	if (props.hasLoaded && props.weaponStats.stats) {
 		return (
 			<div className="item-container">
 				<div className="item-img">
@@ -12,20 +10,18 @@ const Item = (props) => {
 				<div className="item-text">
 					<h1>{`${props.weapon.name}`}</h1>
 					<ul>
-						{props.weaponStats.map((stat) => {
-							totalDamage[0] += stat.damage[0];
-							totalDamage[1] += stat.damage[1];
+						{props.weaponStats.stats.map((stat) => {
 							return (
 								<li
 									className={stat.type}
 									key={stat.weapon_stat_uid}
 								>
-									{`Adds from ${stat.damage[0]} to ${stat.damage[1]} ${stat.type} damage`}
+									{`Adds from ${stat.damage.minDamage} to ${stat.damage.maxDamage} ${stat.type} damage`}
 								</li>
 							);
 						})}
 					</ul>
-					<h4>{`Total damage: from ${totalDamage[0]} to ${totalDamage[1]} `}</h4>
+					<h4>{`Total damage: from ${props.weaponStats.totalDamage.minTotalDamage} to ${props.weaponStats.totalDamage.maxTotalDamage} `}</h4>
 				</div>
 			</div>
 		);

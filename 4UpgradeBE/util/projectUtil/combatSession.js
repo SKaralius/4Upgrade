@@ -1,20 +1,28 @@
+const { getWeaponStats } = require("./helperFunctions");
 // TODO: MEMORY LEAK!!! Is storing sessions in an object appropriate?
 // is it possible to delete a session when JWT expires?
 // I can call server from FE to delete the session on logout, but what
 // if user just navigates away?
 let session = {};
 
-function getSession(username) {
+async function getSession(username, weapon_uid, next) {
+	const weaponStats = await getWeaponStats(username, weapon_uid, next);
 	if (session[username]) {
 		return session[username];
 	} else {
-		session[username] = { health: 500 };
+		session[username] = { maxHealth: 500, currentHealth: 500, weaponStats };
 		return session[username];
 	}
 }
 
 function dealDamage(username) {
-	session[username].health -= 250;
+	const variance =
+		session[username].weaponStats.totalDamage.maxTotalDamage -
+		session[username].weaponStats.totalDamage.minTotalDamage;
+	const roll = Math.ceil(variance * Math.random());
+	console.log(session[username].currentHealth);
+	session[username].currentHealth -=
+		session[username].weaponStats.totalDamage.minTotalDamage + roll;
 	return session[username];
 }
 
