@@ -4,6 +4,7 @@ import http from "../services/httpService";
 const Arena = ({ weaponInventory, token }) => {
 	const [monster, setMonster] = useState(1);
 	const [encounter, setEncounter] = useState(true);
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	useEffect(() => {
 		const fetchData = async () => {
 			if (weaponInventory.length > 0) {
@@ -23,8 +24,9 @@ const Arena = ({ weaponInventory, token }) => {
 		};
 		fetchData();
 	}, [token, weaponInventory]);
-
 	const handleDealDamage = async () => {
+		setButtonDisabled(true);
+		setTimeout(() => setButtonDisabled(false), 1000);
 		const { data } = await http.patch(
 			process.env.REACT_APP_IP + "combat/dealdamage",
 			{},
@@ -113,7 +115,12 @@ const Arena = ({ weaponInventory, token }) => {
 							></div>
 						</div>
 					</div>
-					<button onClick={handleDealDamage}>ATTACK</button>
+					<button
+						onClick={handleDealDamage}
+						disabled={buttonDisabled}
+					>
+						ATTACK
+					</button>
 				</React.Fragment>
 			) : (
 				<div>

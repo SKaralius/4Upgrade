@@ -81,6 +81,21 @@ exports.logIn = async (req, res, next) => {
 	}
 };
 
+exports.logOut = async (req, res, next) => {
+	const refreshToken = req.body.refreshToken;
+	jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, function (
+		err,
+		decodedRefreshToken
+	) {
+		if (!decodedRefreshToken) {
+			throwError(401, "Not Authenticated.");
+		}
+		link_uid = decodedRefreshToken.link_uid;
+		db.query("DELETE FROM refresh_tokens WHERE link_uid=$1", [link_uid]);
+		res.status(200).send({ message: "Logged out" });
+	});
+};
+
 exports.token = async (req, res, next) => {
 	const refreshToken = req.body.token;
 	if (refreshToken === null) throwError(401, "Not Authorized.");

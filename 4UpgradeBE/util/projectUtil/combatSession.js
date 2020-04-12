@@ -10,7 +10,15 @@ async function getSession(username, weapon_uid, next) {
 	if (session[username]) {
 		return session[username];
 	} else {
-		session[username] = { maxHealth: 500, currentHealth: 500, weaponStats };
+		session[username] = {
+			maxHealth:
+				weaponStats.totalDamage.maxTotalDamage *
+				weaponStats.stats.length,
+			currentHealth:
+				weaponStats.totalDamage.maxTotalDamage *
+				weaponStats.stats.length,
+			weaponStats,
+		};
 		return session[username];
 	}
 }
@@ -20,10 +28,25 @@ function dealDamage(username) {
 		session[username].weaponStats.totalDamage.maxTotalDamage -
 		session[username].weaponStats.totalDamage.minTotalDamage;
 	const roll = Math.ceil(variance * Math.random());
-	console.log(session[username].currentHealth);
-	session[username].currentHealth -=
-		session[username].weaponStats.totalDamage.minTotalDamage + roll;
-	return session[username];
+	if (session[username].cooldown) {
+		const timeRemaining = session[username].cooldown - Date.now();
+		if (timeRemaining <= 0) {
+			session[username].currentHealth -=
+				session[username].weaponStats.totalDamage.minTotalDamage + roll;
+			if (session[username].currentHealth <= 0) {
+				return session[username];
+			}
+			session[username].cooldown = Date.now() + 700;
+			return session[username];
+		} else {
+			return { message: "Too fast" };
+		}
+	} else {
+		session[username].currentHealth -=
+			session[username].weaponStats.totalDamage.minTotalDamage + roll;
+		session[username].cooldown = Date.now() + 700;
+		return session[username];
+	}
 }
 
 function deleteSession(username) {

@@ -1,4 +1,3 @@
-const db = require("../util/dbConnect");
 const {
 	getSession,
 	dealDamage,
@@ -8,12 +7,11 @@ const {
 exports.endEncounter = (req, res, next) => {
 	const weapon_uid = req.body.weapon_uid;
 	const monster = getSession(req.username, weapon_uid, next);
-	if (monster.health <= 0) {
+	if (monster && monster.health <= 0) {
 		//Give reward
 		deleteSession(req.username);
-	} else {
-		deleteSession(req.username);
 	}
+	res.status(200).send({ message: "Monster is dead." });
 };
 
 exports.getEnemy = (req, res, next) => {
@@ -24,8 +22,9 @@ exports.getEnemy = (req, res, next) => {
 
 exports.dealDamage = (req, res, next) => {
 	const monster = dealDamage(req.username);
-	if (monster.health < 0) {
-		monster.health = 0;
+	if (monster.currentHealth < 0) {
+		monster.currentHealth = 0;
+		deleteSession(req.username);
 	}
 	res.status(200).send(monster);
 };

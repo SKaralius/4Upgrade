@@ -1,10 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import http from "../services/httpService";
 
 const Navbar = ({ isAuth, updateAuth }) => {
 	const LogOut = (e) => {
 		updateAuth(false);
 		localStorage.removeItem("token");
+		http.delete(process.env.REACT_APP_IP + "users/logout", {
+			data: {
+				refreshToken: localStorage.getItem("refreshToken"),
+			},
+		});
 	};
 	return isAuth ? (
 		<nav>
