@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import http from "./services/httpService";
+import tokens from "./services/tokens";
 
 import Navbar from "./common/Navbar";
 import Items from "./page/Items";
 import Register from "./page/Register";
 import LogIn from "./page/LogIn";
 import Arena from "./page/Arena";
+import axios from "axios";
 
 function App() {
 	const [weaponInventory, setWeaponInventory] = useState([]);
 	const [weaponStats, setWeaponStats] = useState([]);
 	const [isAuth, setIsAuth] = useState(false);
 	const [token, setToken] = useState("");
+	axios.interceptors.request.use(async (request) => {
+		if (localStorage.getItem("expiryDate") - Date.now() <= 0) {
+			localStorage.setItem("expiryDate", Date.now() + 1000 * 3600);
+			const newToken = await tokens.getAccessToken();
+			request.Authorization = `Bearer ${newToken}`;
+			setToken(newToken);
+		}
+		return request;
+	});
+	console.log(weaponInventory);
 	useEffect(() => {
 		setToken(localStorage.getItem("token"));
 	}, [isAuth]);
@@ -28,10 +40,12 @@ function App() {
 						},
 					}
 				);
+				if (weaponInventoryResult.data.status === "Error") return;
 				if (weaponInventoryResult.data.length === 0) {
 					setWeaponInventory(weaponInventoryResult.data);
 					return;
 				}
+				console.log({ weaponInventoryResult });
 				const weaponStatsResult = await http.get(
 					process.env.REACT_APP_IP +
 						"weapons/getWeaponStats/" +

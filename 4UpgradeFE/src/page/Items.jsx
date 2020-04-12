@@ -26,7 +26,6 @@ const Items = ({ weaponInventory, weaponStats, updateWeaponStats, token }) => {
 			}
 		}
 		fetchData();
-		console.log("tries to retrieve weapon by weapon inventory");
 	}, [token, weaponInventory]);
 	const updateTransferItems = (newItems) => {
 		if (newItems.length > 2) {

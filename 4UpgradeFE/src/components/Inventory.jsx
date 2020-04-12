@@ -21,6 +21,7 @@ const Inventory = ({
 					},
 				}
 			);
+			if (resourceInventory.data.status === "Error") return;
 			const unresolvedPromises = await resourceInventory.data.map(
 				async (inventoryItem) => {
 					const itemResult = await http.get(

@@ -2,8 +2,7 @@ const db = require("../util/dbConnect");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { throwError } = require("../util/errors");
-
-let refreshTokens = [];
+const { v4: uuidv4 } = require("uuid");
 
 exports.addUser = async (req, res, next) => {
 	const username = req.body.username.toLowerCase();
@@ -74,11 +73,8 @@ exports.logIn = async (req, res, next) => {
 		}
 		// Sign an return an access token
 		const accessToken = generateAccessToken(username);
-		const refreshToken = jwt.sign(
-			{ username },
-			process.env.REFRESH_TOKEN_SECRET
-		);
-		refreshTokens.push(refreshToken);
+		const link_uid = uuidv4();
+		const refreshToken = generateRefreshToken(link_uid, username);
 		res.status(200).json({ accessToken, refreshToken, username });
 	} catch (err) {
 		next(err);
@@ -87,15 +83,34 @@ exports.logIn = async (req, res, next) => {
 
 exports.token = async (req, res, next) => {
 	const refreshToken = req.body.token;
+	if (refreshToken === null) throwError(401, "Not Authorized.");
+	// Verify that token is valid.
+	//Verify token
 	try {
-		if (refreshToken === null) throwError(401, "Not Authorized.");
-		if (!refreshTokens.includes(refreshToken))
-			throwError(403, "Not Authorized.");
-		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-		const accessToken = generateAccessToken(req.username);
-		res.json({ accessToken });
+		decodedAccessToken = jwt.verify(
+			refreshToken,
+			process.env.REFRESH_TOKEN_SECRET
+		);
 	} catch (err) {
-		next(err);
+		throw err;
+	}
+	if (!decodedAccessToken) {
+		throwError(401, "Not Authenticated.");
+	}
+	// Write username to req. Now I can be sure that req.username is accurate.
+	const refreshTokenValidationQuery =
+		"SELECT * FROM refresh_tokens \
+		WHERE link_uid=$1;";
+	const refreshTokenValidationValue = [decodedAccessToken.link_uid];
+	const refreshTokenValidationResult = await db.query(
+		refreshTokenValidationQuery,
+		refreshTokenValidationValue
+	);
+	if (refreshTokenValidationResult.rowCount > 0) {
+		const accessToken = generateAccessToken(decodedAccessToken.username);
+		res.json({ accessToken });
+	} else {
+		throwError(400, "Not Authorized.");
 	}
 };
 
@@ -103,4 +118,12 @@ function generateAccessToken(username) {
 	return jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
 		expiresIn: "1h",
 	});
+}
+function generateRefreshToken(link_uid, username) {
+	const query =
+		"INSERT INTO refresh_tokens(link_uid, username)\
+	VALUES($1,$2);";
+	const values = [link_uid, username];
+	db.query(query, values);
+	return jwt.sign({ link_uid, username }, process.env.REFRESH_TOKEN_SECRET);
 }

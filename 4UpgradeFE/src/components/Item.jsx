@@ -4,7 +4,7 @@ const Item = ({ weaponStats, weapon }) => {
 	// TODO: props.weapon should be replaced with currentWeapon,
 	// then a useEffect or useWeapon can retrieve the value every time the
 	// weaponInventory changes.
-	return weaponStats.stats ? (
+	return weaponStats.stats && weapon ? (
 		<div className="item-container">
 			<div className="item-img">
 				<img className="weapon" src={weapon.imgurl} alt="" />

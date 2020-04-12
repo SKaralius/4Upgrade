@@ -18,8 +18,11 @@ const LogIn = ({ updateAuth, history }) => {
 					password,
 				}
 			);
+			const expiryDate = Date.now() + 1000 * 3600;
 			updateAuth(true);
 			localStorage.setItem("token", data.accessToken);
+			localStorage.setItem("refreshToken", data.refreshToken);
+			localStorage.setItem("expiryDate", expiryDate);
 			setUsername(data.username);
 			history.push("/items");
 		} catch (err) {

@@ -6,18 +6,20 @@ const Arena = ({ weaponInventory, token }) => {
 	const [encounter, setEncounter] = useState(true);
 	useEffect(() => {
 		const fetchData = async () => {
-			const { data } = await http.get(
-				process.env.REACT_APP_IP +
-					"combat/getenemy/" +
-					weaponInventory[0].weapon_uid,
-				{
-					headers: {
-						Authorization: "Bearer " + token, //the token is a variable which holds the token
-					},
-				}
-			);
-			setEncounter(true);
-			setMonster(data);
+			if (weaponInventory.length > 0) {
+				const { data } = await http.get(
+					process.env.REACT_APP_IP +
+						"combat/getenemy/" +
+						weaponInventory[0].weapon_uid,
+					{
+						headers: {
+							Authorization: "Bearer " + token, //the token is a variable which holds the token
+						},
+					}
+				);
+				setEncounter(true);
+				setMonster(data);
+			}
 		};
 		fetchData();
 	}, [token, weaponInventory]);

@@ -33,13 +33,12 @@ app.use("/upgrade", upgradeRoutes);
 app.use("/combat", combatRoutes);
 
 app.use((error, req, res, next) => {
-	const status = error.statusCode || 500;
-	const message = error.message;
-	res.status(status).json({ message });
+	const { message } = error;
+	const statusCode = error.statusCode || 500;
+	res.status(statusCode).json({ status: "Error", statusCode, message });
 });
 
 const port = 8080;
-
 try {
 	app.listen(port);
 	console.log(`listening on port ${port}`);
