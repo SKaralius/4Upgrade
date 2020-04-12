@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ isAuth, setIsAuth }) => {
+const Navbar = ({ isAuth, updateAuth }) => {
 	const LogOut = (e) => {
-		setIsAuth(false);
+		updateAuth(false);
 		localStorage.removeItem("token");
 	};
 	return isAuth ? (

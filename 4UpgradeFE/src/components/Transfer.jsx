@@ -1,10 +1,17 @@
 import React from "react";
 import http from "../services/httpService";
 
-const Transfer = (props) => {
+const Transfer = ({
+	weaponInventory,
+	updateWeaponStats,
+	transferItems,
+	updateTransferItems,
+	inventoryRows,
+	updateInventoryRows,
+}) => {
 	const token = localStorage.getItem("token");
 	const createSlots = () => {
-		const difference = 2 - props.transferItems.length;
+		const difference = 2 - transferItems.length;
 		let rows = [];
 		for (let i = 0; i < difference; i++) {
 			rows.push(
@@ -15,7 +22,7 @@ const Transfer = (props) => {
 				</span>
 			);
 		}
-		props.transferItems.map((item, index) => {
+		transferItems.forEach((item, index) => {
 			rows.unshift(
 				<span key={item.item_uid + index}>
 					<span>
@@ -33,26 +40,25 @@ const Transfer = (props) => {
 		return rows;
 	};
 	const handleClick = (item) => {
-		const inventoryRowCopy = [...props.inventoryRows];
+		const inventoryRowCopy = [...inventoryRows];
 		inventoryRowCopy[item.id] = item;
-		const transferItemCopy = [...props.transferItems];
+		const transferItemCopy = [...transferItems];
 		const notTheItem = transferItemCopy.filter((row) => row.id !== item.id);
-		props.setTransferItems(notTheItem);
-		props.setInventoryRows(inventoryRowCopy);
+		updateTransferItems(notTheItem);
+		updateInventoryRows(inventoryRowCopy);
 	};
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
-		console.log("handling submit");
 		const upgradeItems = [];
 
-		props.transferItems.map((item) => {
+		transferItems.forEach((item) => {
 			upgradeItems.unshift(item.item_uid.substring(0, 36));
 		});
 		const response = await http.post(
 			process.env.REACT_APP_IP + "upgrade/postUpgrade",
 			{
-				id: props.weaponInventory[0].weapon_uid,
+				id: weaponInventory[0].weapon_uid,
 				items: upgradeItems,
 			},
 			{
@@ -62,12 +68,18 @@ const Transfer = (props) => {
 			}
 		);
 		if (response.data === true) {
-			props.setWeaponStats(
-				await props.fetchWeaponStats(
-					props.weaponInventory[0].weapon_uid
-				)
+			const weaponStatsResult = await http.get(
+				process.env.REACT_APP_IP +
+					"weapons/getWeaponStats/" +
+					weaponInventory[0].weapon_uid,
+				{
+					headers: {
+						Authorization: "Bearer " + token, //the token is a variable which holds the token
+					},
+				}
 			);
-			props.setTransferItems([]);
+			updateWeaponStats(weaponStatsResult.data);
+			updateTransferItems([]);
 		} else {
 			alert(response.data);
 		}
@@ -75,7 +87,7 @@ const Transfer = (props) => {
 	return (
 		<div className="transfer-container">
 			<div className="transfer">{createSlots()}</div>
-			{props.transferItems.length === 0 ? (
+			{transferItems.length === 0 ? (
 				<form>
 					<button className="disabled" disabled>
 						UPGRADE!

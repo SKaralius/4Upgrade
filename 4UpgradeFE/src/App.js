@@ -9,56 +9,55 @@ import LogIn from "./page/LogIn";
 import Arena from "./page/Arena";
 
 function App() {
+	const [weaponInventory, setWeaponInventory] = useState([]);
 	const [weaponStats, setWeaponStats] = useState([]);
 	const [isAuth, setIsAuth] = useState(false);
-	const [weaponInventory, setWeaponInventory] = useState([]);
-	const [loading, setLoading] = useState(true);
+
 	const token = localStorage.getItem("token");
 	useEffect(() => {
 		async function fetchData() {
-			setLoading(true);
 			if (token) {
-				setIsAuth(true);
-				const weaponInventoryData = await fetchWeaponInventory();
-				const weaponStatsData = await fetchWeaponStats(
-					weaponInventoryData[0].weapon_uid
+				updateAuth(true);
+				const weaponInventoryResult = await http.get(
+					process.env.REACT_APP_IP + "inventory/getweaponInventory/",
+					{
+						headers: {
+							Authorization: "Bearer " + token, //the token is a variable which holds the token
+						},
+					}
 				);
-				setWeaponInventory(weaponInventoryData);
-				setWeaponStats(weaponStatsData);
+				console.log(weaponInventoryResult);
+				if (weaponInventoryResult.data.length === 0) {
+					setWeaponInventory(weaponInventoryResult.data);
+					return;
+				}
+				const weaponStatsResult = await http.get(
+					process.env.REACT_APP_IP +
+						"weapons/getWeaponStats/" +
+						weaponInventoryResult.data[0].weapon_uid,
+					{
+						headers: {
+							Authorization: "Bearer " + token, //the token is a variable which holds the token
+						},
+					}
+				);
+				setWeaponInventory(weaponInventoryResult.data);
+				setWeaponStats(weaponStatsResult.data);
 			} else {
-				setIsAuth(false);
+				updateAuth(false);
 			}
-			setLoading(false);
 		}
 		fetchData();
 	}, [token]);
-	const fetchWeaponInventory = async () => {
-		const { data } = await http.get(
-			process.env.REACT_APP_IP + "inventory/getweaponInventory/",
-			{
-				headers: {
-					Authorization: "Bearer " + token, //the token is a variable which holds the token
-				},
-			}
-		);
-		return data;
+	const updateWeaponStats = (newStats) => {
+		setWeaponStats(newStats);
 	};
-	const fetchWeaponStats = async (weapon_uid) => {
-		const { data } = await http.get(
-			process.env.REACT_APP_IP + "weapons/getWeaponStats/" + weapon_uid,
-			{
-				headers: {
-					Authorization: "Bearer " + token, //the token is a variable which holds the token
-				},
-			}
-		);
-		return data;
+	const updateAuth = (newAuth) => {
+		setIsAuth(newAuth);
 	};
-	return loading ? (
-		<h1>Loading...</h1>
-	) : (
+	return (
 		<React.Fragment>
-			<Navbar isAuth={isAuth} setIsAuth={setIsAuth} />
+			<Navbar isAuth={isAuth} updateAuth={updateAuth} />
 			<hr />
 			<Switch>
 				<Route path="/register" component={Register}></Route>
@@ -74,17 +73,15 @@ function App() {
 						<Items
 							{...props}
 							weaponInventory={weaponInventory}
-							setWeaponInventory={setWeaponInventory}
-							setWeaponStats={setWeaponStats}
+							updateWeaponStats={updateWeaponStats}
 							weaponStats={weaponStats}
-							fetchWeaponStats={fetchWeaponStats}
 						/>
 					)}
 				></Route>
 				<Route
 					path="/login"
 					render={(props) => (
-						<LogIn {...props} setIsAuth={setIsAuth} />
+						<LogIn {...props} updateAuth={updateAuth} />
 					)}
 				/>
 			</Switch>

@@ -1,37 +1,34 @@
 import React from "react";
 
-const Item = (props) => {
-	if (props.hasLoaded && props.weaponStats.stats) {
-		return (
-			<div className="item-container">
-				<div className="item-img">
-					<img className="weapon" src={props.weapon.imgurl} alt="" />
-				</div>
-				<div className="item-text">
-					<h1>{`${props.weapon.name}`}</h1>
-					<ul>
-						{props.weaponStats.stats.map((stat) => {
-							return (
-								<li
-									className={stat.type}
-									key={stat.weapon_stat_uid}
-								>
-									{`Adds from ${stat.damage.minDamage} to ${stat.damage.maxDamage} ${stat.type} damage`}
-								</li>
-							);
-						})}
-					</ul>
-					<h4>{`Total damage: from ${props.weaponStats.totalDamage.minTotalDamage} to ${props.weaponStats.totalDamage.maxTotalDamage} `}</h4>
-				</div>
+const Item = ({ weaponStats, weapon }) => {
+	// TODO: props.weapon should be replaced with currentWeapon,
+	// then a useEffect or useWeapon can retrieve the value every time the
+	// weaponInventory changes.
+	return weaponStats.stats ? (
+		<div className="item-container">
+			<div className="item-img">
+				<img className="weapon" src={weapon.imgurl} alt="" />
 			</div>
-		);
-	} else {
-		return (
-			<div>
-				<h1>Loading...</h1>
+			<div className="item-text">
+				<h1>{`${weapon.name}`}</h1>
+				<ul>
+					{weaponStats.stats.map((stat) => {
+						return (
+							<li
+								className={stat.type}
+								key={stat.weapon_stat_uid}
+							>
+								{`Adds from ${stat.damage.minDamage} to ${stat.damage.maxDamage} ${stat.type} damage`}
+							</li>
+						);
+					})}
+				</ul>
+				<h4>{`Total damage: from ${weaponStats.totalDamage.minTotalDamage} to ${weaponStats.totalDamage.maxTotalDamage} `}</h4>
 			</div>
-		);
-	}
+		</div>
+	) : (
+		<h1>Loading...</h1>
+	);
 };
 
 export default Item;

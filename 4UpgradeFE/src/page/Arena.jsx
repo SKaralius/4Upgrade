@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import http from "../services/httpService";
 
-const Arena = (props) => {
+const Arena = ({ weaponInventory }) => {
 	const [monster, setMonster] = useState(1);
 	const [encounter, setEncounter] = useState(true);
 	const token = localStorage.getItem("token");
@@ -10,7 +10,7 @@ const Arena = (props) => {
 			const { data } = await http.get(
 				process.env.REACT_APP_IP +
 					"combat/getenemy/" +
-					props.weaponInventory[0].weapon_uid,
+					weaponInventory[0].weapon_uid,
 				{
 					headers: {
 						Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -21,7 +21,7 @@ const Arena = (props) => {
 			setMonster(data);
 		};
 		fetchData();
-	}, []);
+	}, [token, weaponInventory]);
 
 	const handleDealDamage = async () => {
 		const { data } = await http.patch(
@@ -38,7 +38,7 @@ const Arena = (props) => {
 			setEncounter(false);
 			http.delete(process.env.REACT_APP_IP + "combat/endencounter", {
 				data: {
-					weapon_uid: props.weaponInventory[0].weapon_uid,
+					weapon_uid: weaponInventory[0].weapon_uid,
 				},
 
 				headers: {
@@ -82,8 +82,7 @@ const Arena = (props) => {
 				<React.Fragment>
 					<h1>{monster.currentHealth}</h1>
 					<div
-						className="healthContainer"
-						className="maxHealth"
+						className="healthContainer maxHealth"
 						style={{
 							display: "flex",
 							justifyContent: "center",

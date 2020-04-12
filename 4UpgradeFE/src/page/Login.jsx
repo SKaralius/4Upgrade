@@ -2,12 +2,12 @@ import React, { useState, useEffect } from "react";
 import { handleChange } from "../util/handleChange";
 import http from "../services/httpService";
 
-const LogIn = (props) => {
+const LogIn = ({ updateAuth, history }) => {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	useEffect(() => {
 		localStorage.setItem("username", username);
-	}, [props, username]);
+	}, [username]);
 	const handleSubmit = async (event) => {
 		event.preventDefault();
 		try {
@@ -18,10 +18,10 @@ const LogIn = (props) => {
 					password,
 				}
 			);
-			props.setIsAuth(true);
+			updateAuth(true);
 			localStorage.setItem("token", data.token);
 			setUsername(data.username);
-			props.history.push("/items");
+			history.push("/items");
 		} catch (err) {
 			if (err.response && err.response.status === 401) {
 				alert(err.response.data.message);
