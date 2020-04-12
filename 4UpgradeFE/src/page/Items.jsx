@@ -5,11 +5,10 @@ import Inventory from "../components/Inventory";
 import Item from "../components/Item";
 import Transfer from "../components/Transfer";
 
-const Items = ({ weaponInventory, weaponStats, updateWeaponStats }) => {
+const Items = ({ weaponInventory, weaponStats, updateWeaponStats, token }) => {
 	const [weapon, setWeapon] = useState([]);
 	const [transferItems, setTransferItems] = useState([]);
 	const [inventoryRows, setInventoryRows] = useState([]);
-	const token = localStorage.getItem("token");
 	useEffect(() => {
 		async function fetchData() {
 			if (weaponInventory.length > 0) {
@@ -27,6 +26,7 @@ const Items = ({ weaponInventory, weaponStats, updateWeaponStats }) => {
 			}
 		}
 		fetchData();
+		console.log("tries to retrieve weapon by weapon inventory");
 	}, [token, weaponInventory]);
 	const updateTransferItems = (newItems) => {
 		if (newItems.length > 2) {
@@ -51,6 +51,7 @@ const Items = ({ weaponInventory, weaponStats, updateWeaponStats }) => {
 						updateTransferItems={updateTransferItems}
 						weaponInventory={weaponInventory}
 						updateWeaponStats={updateWeaponStats}
+						token={token}
 					/>
 				</div>
 			) : (
@@ -63,6 +64,7 @@ const Items = ({ weaponInventory, weaponStats, updateWeaponStats }) => {
 				inventoryRows={inventoryRows}
 				updateTransferItems={updateTransferItems}
 				transferItems={transferItems}
+				token={token}
 			/>
 		</React.Fragment>
 	);

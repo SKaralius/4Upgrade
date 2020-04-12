@@ -3,6 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { throwError } = require("../util/errors");
 
+let refreshTokens = [];
+
 exports.addUser = async (req, res, next) => {
 	const username = req.body.username.toLowerCase();
 	const email = req.body.email.toLowerCase();
@@ -52,6 +54,7 @@ exports.addUser = async (req, res, next) => {
 };
 
 exports.logIn = async (req, res, next) => {
+	// Get user information and validate it against the DB.
 	const username = req.body.username.toLowerCase();
 	const password = req.body.password;
 	const query = "SELECT * FROM users WHERE username = $1";
@@ -65,16 +68,39 @@ exports.logIn = async (req, res, next) => {
 		next(err);
 	}
 	const isEqual = await bcrypt.compare(password, result.rows[0].password);
-
 	try {
 		if (!isEqual) {
 			throwError(401, "Wrong password or username.");
 		}
-		const token = jwt.sign({ username }, process.env.JWT_SECRET, {
-			expiresIn: "1h",
-		});
-		res.status(200).json({ token, username });
+		// Sign an return an access token
+		const accessToken = generateAccessToken(username);
+		const refreshToken = jwt.sign(
+			{ username },
+			process.env.REFRESH_TOKEN_SECRET
+		);
+		refreshTokens.push(refreshToken);
+		res.status(200).json({ accessToken, refreshToken, username });
 	} catch (err) {
 		next(err);
 	}
 };
+
+exports.token = async (req, res, next) => {
+	const refreshToken = req.body.token;
+	try {
+		if (refreshToken === null) throwError(401, "Not Authorized.");
+		if (!refreshTokens.includes(refreshToken))
+			throwError(403, "Not Authorized.");
+		jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
+		const accessToken = generateAccessToken(req.username);
+		res.json({ accessToken });
+	} catch (err) {
+		next(err);
+	}
+};
+
+function generateAccessToken(username) {
+	return jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET, {
+		expiresIn: "1h",
+	});
+}

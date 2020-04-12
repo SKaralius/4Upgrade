@@ -19,7 +19,7 @@ const LogIn = ({ updateAuth, history }) => {
 				}
 			);
 			updateAuth(true);
-			localStorage.setItem("token", data.token);
+			localStorage.setItem("token", data.accessToken);
 			setUsername(data.username);
 			history.push("/items");
 		} catch (err) {

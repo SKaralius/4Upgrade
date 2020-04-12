@@ -8,8 +8,8 @@ const InventoryItems = ({
 	inventorySize,
 	transferItems,
 	updateTransferItems,
+	token,
 }) => {
-	const token = localStorage.getItem("token");
 	const handleDeleteItem = (index) => {
 		const rowCopy = [...inventoryRows];
 		rowCopy[index].id = index;

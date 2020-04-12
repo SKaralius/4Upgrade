@@ -8,8 +8,8 @@ const Transfer = ({
 	updateTransferItems,
 	inventoryRows,
 	updateInventoryRows,
+	token,
 }) => {
-	const token = localStorage.getItem("token");
 	const createSlots = () => {
 		const difference = 2 - transferItems.length;
 		let rows = [];

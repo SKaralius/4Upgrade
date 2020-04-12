@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import http from "../services/httpService";
 
-const Arena = ({ weaponInventory }) => {
+const Arena = ({ weaponInventory, token }) => {
 	const [monster, setMonster] = useState(1);
 	const [encounter, setEncounter] = useState(true);
-	const token = localStorage.getItem("token");
 	useEffect(() => {
 		const fetchData = async () => {
 			const { data } = await http.get(

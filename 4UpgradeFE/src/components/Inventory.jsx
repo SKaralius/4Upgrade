@@ -7,8 +7,8 @@ const Inventory = ({
 	transferItems,
 	inventoryRows,
 	updateInventoryRows,
+	token,
 }) => {
-	const token = localStorage.getItem("token");
 	const [inventory, setInventory] = useState([]);
 
 	useEffect(() => {
@@ -41,7 +41,9 @@ const Inventory = ({
 			const resolvedPromises = await Promise.all(unresolvedPromises);
 			updateInventory(resolvedPromises);
 		};
-		fetchData();
+		if (token) {
+			fetchData();
+		}
 	}, [token]);
 	const updateInventory = (newInventory) => {
 		setInventory(newInventory);
@@ -55,6 +57,7 @@ const Inventory = ({
 				transferItems={transferItems}
 				inventory={inventory}
 				inventorySize={24}
+				token={token}
 			/>
 		);
 	} else {

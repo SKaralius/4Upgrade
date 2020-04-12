@@ -12,8 +12,10 @@ function App() {
 	const [weaponInventory, setWeaponInventory] = useState([]);
 	const [weaponStats, setWeaponStats] = useState([]);
 	const [isAuth, setIsAuth] = useState(false);
-
-	const token = localStorage.getItem("token");
+	const [token, setToken] = useState("");
+	useEffect(() => {
+		setToken(localStorage.getItem("token"));
+	}, [isAuth]);
 	useEffect(() => {
 		async function fetchData() {
 			if (token) {
@@ -26,7 +28,6 @@ function App() {
 						},
 					}
 				);
-				console.log(weaponInventoryResult);
 				if (weaponInventoryResult.data.length === 0) {
 					setWeaponInventory(weaponInventoryResult.data);
 					return;
@@ -48,7 +49,8 @@ function App() {
 			}
 		}
 		fetchData();
-	}, [token]);
+		return setWeaponInventory([]);
+	}, [token, isAuth]);
 	const updateWeaponStats = (newStats) => {
 		setWeaponStats(newStats);
 	};
@@ -64,7 +66,11 @@ function App() {
 				<Route
 					path="/arena"
 					render={(props) => (
-						<Arena {...props} weaponInventory={weaponInventory} />
+						<Arena
+							{...props}
+							weaponInventory={weaponInventory}
+							token={token}
+						/>
 					)}
 				></Route>
 				<Route
@@ -75,6 +81,7 @@ function App() {
 							weaponInventory={weaponInventory}
 							updateWeaponStats={updateWeaponStats}
 							weaponStats={weaponStats}
+							token={token}
 						/>
 					)}
 				></Route>
