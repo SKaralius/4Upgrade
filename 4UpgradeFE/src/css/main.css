@@ -10,6 +10,46 @@ nav > ul {
     color: white;
     font-size: larger; }
 
+.login-wrap {
+  height: 100vh;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  background: #cccb08;
+  background: radial-gradient(circle, #cccb08 0%, rgba(50, 28, 0, 0.922581) 65%, rgba(0, 0, 0, 0.92043) 100%); }
+  .login-wrap > .login-form {
+    background: url("../img/login.png") no-repeat center;
+    -webkit-background-size: cover;
+    background-size: cover;
+    text-align: center;
+    margin: 0 2rem;
+    color: white;
+    background-color: #021d0b;
+    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); }
+    .login-wrap > .login-form > .login-title {
+      -webkit-text-stroke-width: 3px;
+      -webkit-text-stroke-color: black;
+      font-size: 3.5rem;
+      margin: 2rem; }
+    .login-wrap > .login-form > .submit {
+      margin: 1rem 2rem 1rem 0rem;
+      background-color: white;
+      font-weight: bold;
+      border: none; }
+    .login-wrap > .login-form > .forgot {
+      color: rgba(255, 255, 255, 0.3);
+      text-decoration: none; }
+    .login-wrap > .login-form > input {
+      padding: 1rem;
+      color: #021d0b;
+      font-weight: 500;
+      font-size: large; }
+
+::placeholder {
+  color: rgba(19, 19, 90, 0.5);
+  opacity: 1;
+  /* Firefox */ }
+
 .item-container {
   display: flex;
   flex-flow: wrap;
@@ -121,9 +161,105 @@ nav > ul {
   background-color: grey;
   opacity: 50%; }
 
-div > button {
-  width: 100vw;
-  height: 10vw; }
+.monster {
+  display: flex;
+  flex-flow: column;
+  align-items: center; }
+  .monster > .idle {
+    animation: bounce 0.2s infinite alternate;
+    -webkit-animation: bounce 0.2s infinite alternate; }
+  .monster > .hitRight {
+    animation: hitRight 1s infinite alternate;
+    -webkit-animation: hitRight 1s infinite alternate; }
+  .monster > .hitLeft {
+    animation: hitLeft 1s infinite alternate;
+    -webkit-animation: hitLeft 1s infinite alternate; }
+  .monster > .hitUp {
+    animation: hitUp 1s infinite alternate;
+    -webkit-animation: hitUp 1s infinite alternate; }
+  .monster > .healthContainer {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    width: 50vw; }
+    .monster > .healthContainer > .maxHealth {
+      width: 100%;
+      height: 50vw;
+      background-color: #8b0000;
+      border: 5px inset #8b0000;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center; }
+      .monster > .healthContainer > .maxHealth > .currentHealth {
+        height: 50vw;
+        width: 100%;
+        background-color: red;
+        border-radius: 50%; }
+
+.attackButton {
+  margin-top: 5rem;
+  border: 1rem white groove;
+  background-color: #1b1212;
+  padding: 1.5rem;
+  border-radius: 50%; }
+  .attackButton > img {
+    width: 40vw; }
+
+.damage {
+  padding: 2rem;
+  font-size: xx-large;
+  position: absolute;
+  margin-top: 10rem;
+  font-weight: 900;
+  z-index: 1;
+  color: red;
+  -webkit-text-stroke-width: 3px;
+  -webkit-text-stroke-color: black; }
+
+.damageHidden {
+  opacity: 0; }
+
+.damageAnimation {
+  opacity: 1; }
+
+@keyframes hitLeft {
+  0% {
+    transform: translate3d(0px, 0px, 0px); }
+  10% {
+    transform: translate3d(300px, -300px, 0px);
+    transform: skewY(35deg); }
+  30% {
+    transform: translate3d(-300px, 300px, 0px); }
+  100% {
+    transform: translate3d(0px, 0px, 0px); } }
+
+@keyframes hitRight {
+  0% {
+    transform: translate3d(0px, 0px, 0px); }
+  10% {
+    transform: translate3d(-300px, -300px, 0px);
+    transform: skewY(200deg); }
+  30% {
+    transform: translate3d(300px, 300px, 0px); }
+  100% {
+    transform: translate3d(0px, 0px, 0px); } }
+
+@keyframes hitUp {
+  0% {
+    transform: translate3d(0px, 0px, 0px); }
+  10% {
+    transform: skewX(60deg); }
+  30% {
+    transform: translate3d(0px, -300px, 0px); }
+  100% {
+    transform: translate3d(0px, 0px, 0px); } }
+
+@keyframes bounce {
+  from {
+    transform: translateY(0px); }
+  to {
+    transform: translateY(-3rem); } }
 
 body {
   box-sizing: border-box;

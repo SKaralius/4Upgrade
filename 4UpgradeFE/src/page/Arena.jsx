@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import http from "../services/httpService";
+import attack from "../img/attack.png";
+
+const animations = ["hitLeft", "hitRight", "hitUp"];
 
 const Arena = ({ weaponInventory, token }) => {
-	const [monster, setMonster] = useState(1);
+	const [monster, setMonster] = useState([]);
 	const [encounter, setEncounter] = useState(true);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
 	useEffect(() => {
@@ -80,48 +83,51 @@ const Arena = ({ weaponInventory, token }) => {
 		}
 	};
 	return (
-		<div>
+		<div className="encounterContainer">
 			{encounter ? (
-				<React.Fragment>
-					<h1>{monster.currentHealth}</h1>
+				<div className="monster">
 					<div
-						className="healthContainer maxHealth"
+						className={`damage ${
+							buttonDisabled ? "damageAnimation" : "damageHidden"
+						}`}
 						style={{
-							display: "flex",
-							justifyContent: "center",
+							transform: `rotate(${
+								Math.ceil(Math.random() * 90) - 45
+							}deg)`,
 						}}
+					>{`${monster.lastDamageDealt}`}</div>
+					<div
+						className={`healthContainer ${
+							buttonDisabled
+								? animations[Math.floor(Math.random() * 3)]
+								: "idle"
+						}`}
 					>
-						<div
-							className="maxHealth"
-							style={{
-								width: `50rem`,
-								height: "10vw",
-								backgroundColor: "#8B0000",
-								color: "blue",
-								border: "5px inset #8B0000",
-							}}
-						>
+						<div className="maxHealth">
 							<div
+								className="currentHealth"
 								style={{
 									width: `${
 										monster.currentHealth /
 										(monster.maxHealth / 100)
 									}%`,
-									height: "10vw",
-									backgroundColor: "red",
-									color: "blue",
+									height: `${
+										monster.currentHealth /
+										(monster.maxHealth / 100)
+									}%`,
 								}}
-								className="health"
 							></div>
 						</div>
 					</div>
+
 					<button
+						className="attackButton"
 						onClick={handleDealDamage}
 						disabled={buttonDisabled}
 					>
-						ATTACK
+						<img src={attack} alt="attack" />
 					</button>
-				</React.Fragment>
+				</div>
 			) : (
 				<div>
 					<h1>The monster is dead</h1>

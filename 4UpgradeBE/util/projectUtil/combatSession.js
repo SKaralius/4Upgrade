@@ -29,6 +29,8 @@ function dealDamage(username) {
 		if (timeRemaining <= 0) {
 			session[username].currentHealth -=
 				session[username].weaponStats.totalDamage.minTotalDamage + roll;
+			session[username].lastDamageDealt =
+				session[username].weaponStats.totalDamage.minTotalDamage + roll;
 			if (session[username].currentHealth <= 0) {
 				return session[username];
 			}
@@ -39,6 +41,8 @@ function dealDamage(username) {
 		}
 	} else {
 		session[username].currentHealth -=
+			session[username].weaponStats.totalDamage.minTotalDamage + roll;
+		session[username].lastDamageDealt =
 			session[username].weaponStats.totalDamage.minTotalDamage + roll;
 		session[username].cooldown = Date.now() + 700;
 		return session[username];

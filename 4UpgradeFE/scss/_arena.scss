@@ -1,4 +1,80 @@
-div > button {
-	width: 100vw;
-	height: 10vw;
+.monster {
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	& > .idle {
+		animation: bounce 0.2s infinite alternate;
+		-webkit-animation: bounce 0.2s infinite alternate;
+	}
+
+	& > .hitRight {
+		animation: hitRight 1s infinite alternate;
+		-webkit-animation: hitRight 1s infinite alternate;
+	}
+	& > .hitLeft {
+		animation: hitLeft 1s infinite alternate;
+		-webkit-animation: hitLeft 1s infinite alternate;
+	}
+	& > .hitUp {
+		animation: hitUp 1s infinite alternate;
+		-webkit-animation: hitUp 1s infinite alternate;
+	}
+	& > .healthContainer {
+		margin-top: 50px;
+		display: flex;
+		justify-content: center;
+		width: 50vw;
+		& > .maxHealth {
+			width: 100%;
+			height: 50vw;
+			background-color: #8b0000;
+			border: 5px inset #8b0000;
+			border-radius: 50%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			// Dynamic style is in component.
+			& > .currentHealth {
+				height: 50vw;
+				width: 100%;
+				background-color: red;
+				border-radius: 50%;
+			}
+		}
+	}
 }
+
+//Attack button
+.attackButton {
+	& > img {
+		width: 40vw;
+	}
+	margin-top: 5rem;
+	border: 1rem white groove;
+	background-color: rgb(27, 18, 18);
+	padding: 1.5rem;
+	border-radius: 50%;
+}
+
+//Damage Splat
+.damage {
+	padding: 2rem;
+	font-size: xx-large;
+	position: absolute;
+	margin-top: 10rem;
+	font-weight: 900;
+	z-index: 1;
+	color: red;
+	-webkit-text-stroke-width: 3px;
+	-webkit-text-stroke-color: black;
+}
+
+.damageHidden {
+	opacity: 0;
+}
+
+.damageAnimation {
+	opacity: 1;
+}
+
+@import "keyframes";

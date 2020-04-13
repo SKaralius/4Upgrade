@@ -35,32 +35,36 @@ const LogIn = ({ updateAuth, history }) => {
 		}
 	};
 	return (
-		<React.Fragment>
-			<h1>Log In</h1>
-			<form onSubmit={handleSubmit}>
-				<label htmlFor="username">Username: </label>
+		<div className="login-wrap">
+			<form onSubmit={handleSubmit} className="login-form">
+				<h1 className="login-title">4Upgrade</h1>
+				<label htmlFor="username"></label>
 				<input
 					type="text"
 					value={username}
 					onChange={(event) => handleChange(event, setUsername)}
+					placeholder="Username"
 					id="username"
 					name="username"
 					autoComplete="username"
 				/>
 				<br />
-				<label htmlFor="password">Password: </label>
+				<label htmlFor="password"></label>
 				<input
 					type="password"
 					value={password}
 					onChange={(event) => handleChange(event, setPassword)}
 					id="password"
+					placeholder="Password!987"
 					name="password"
 					autoComplete="current-password"
 				/>
-				<br />
-				<input type="submit" value="Submit"></input>
+				<input type="submit" value="Log In" className="submit"></input>
+				<a href="" className="forgot">
+					Forgot password?
+				</a>
 			</form>
-		</React.Fragment>
+		</div>
 	);
 };
 

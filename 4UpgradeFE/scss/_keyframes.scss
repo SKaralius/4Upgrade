@@ -1,0 +1,56 @@
+// Arena
+@import "config";
+
+@keyframes hitLeft {
+	0% {
+		transform: translate3d(0px, 0px, 0px);
+	}
+	10% {
+		transform: translate3d($bounciness, -$bounciness, 0px);
+		transform: skewY(35deg);
+	}
+	30% {
+		transform: translate3d(-$bounciness, $bounciness, 0px);
+	}
+	100% {
+		transform: translate3d(0px, 0px, 0px);
+	}
+}
+@keyframes hitRight {
+	0% {
+		transform: translate3d(0px, 0px, 0px);
+	}
+	10% {
+		transform: translate3d(-$bounciness, -$bounciness, 0px);
+		transform: skewY(200deg);
+	}
+	30% {
+		transform: translate3d($bounciness, $bounciness, 0px);
+	}
+	100% {
+		transform: translate3d(0px, 0px, 0px);
+	}
+}
+@keyframes hitUp {
+	0% {
+		transform: translate3d(0px, 0px, 0px);
+	}
+	10% {
+		transform: skewX(60deg);
+	}
+	30% {
+		transform: translate3d(0px, -$bounciness, 0px);
+	}
+	100% {
+		transform: translate3d(0px, 0px, 0px);
+	}
+}
+
+@keyframes bounce {
+	from {
+		transform: translateY(0px);
+	}
+	to {
+		transform: translateY(-$idleBounciness);
+	}
+}
