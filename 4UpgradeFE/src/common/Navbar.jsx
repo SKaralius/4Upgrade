@@ -25,24 +25,13 @@ const Navbar = ({ isAuth, updateAuth }) => {
 					<Link to="/arena">Arena</Link>
 				</li>
 				<li>
-					<Link to="/login" onClick={(e) => LogOut(e)}>
+					<Link to="/authenticate" onClick={(e) => LogOut(e)}>
 						Log Out
 					</Link>
 				</li>
 			</ul>
 		</nav>
-	) : (
-		<nav>
-			<ul>
-				<li>
-					<Link to="/register">Register</Link>
-				</li>
-				<li>
-					<Link to="/login">Log In</Link>
-				</li>
-			</ul>
-		</nav>
-	);
+	) : null;
 };
 
 export default Navbar;

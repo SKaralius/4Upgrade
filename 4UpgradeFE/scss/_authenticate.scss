@@ -1,5 +1,4 @@
-$loginColor: rgb(2, 29, 11);
-
+$loginColor: black;
 .login-wrap {
 	height: 100vh;
 	display: flex;
@@ -16,7 +15,7 @@ $loginColor: rgb(2, 29, 11);
 		background: url("../img/login.png") no-repeat center;
 		-webkit-background-size: cover;
 		background-size: cover;
-		& > .login-title {
+		& > form > .login-title {
 			-webkit-text-stroke-width: 3px;
 			-webkit-text-stroke-color: black;
 			font-size: 3.5rem;
@@ -27,26 +26,49 @@ $loginColor: rgb(2, 29, 11);
 		color: white;
 		background-color: $loginColor;
 		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-		& > .submit {
-			margin: 1rem 2rem 1rem 0rem;
-			background-color: white;
-			font-weight: bold;
-			border: none;
-		}
-		& > .forgot {
+		& > form > .forgot {
 			color: rgba(255, 255, 255, 0.3);
 			text-decoration: none;
 		}
-		& > input {
+		& > form > input {
 			padding: 1rem;
 			color: $loginColor;
-			font-weight: 500;
+			font-weight: 700;
 			font-size: large;
+			background-color: rgba(255, 255, 255, 0.75);
+			border: none;
 		}
 	}
 }
 
+.submit {
+	margin: 1rem 2rem 1rem 0rem;
+	background-color: white;
+	font-weight: bold;
+	border: none;
+	background-color: rgba(255, 255, 255, 1) !important;
+}
+
+.form-select {
+	display: flex;
+	justify-content: space-around;
+	& > label {
+		text-transform: uppercase;
+		color: white;
+		padding: 1rem 1rem 0.2rem 1rem;
+		font-size: 1rem;
+		font-weight: bold;
+		opacity: 0.5;
+	}
+}
+
+.selected {
+	opacity: 1 !important;
+	border-bottom: 10px solid rgb(201, 201, 201);
+	border-bottom-right-radius: 2rem;
+}
+
 ::placeholder {
-	color: lighten(rgba(10, 10, 48, 0.5), 10);
-	opacity: 1; /* Firefox */
+	color: rgb(10, 10, 48);
+	opacity: 0.7; /* Firefox */
 }

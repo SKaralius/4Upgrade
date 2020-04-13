@@ -5,8 +5,7 @@ import tokens from "./services/tokens";
 
 import Navbar from "./common/Navbar";
 import Items from "./page/Items";
-import Register from "./page/Register";
-import LogIn from "./page/LogIn";
+import Authenticate from "./page/Authenticate";
 import Arena from "./page/Arena";
 import axios from "axios";
 
@@ -75,9 +74,7 @@ function App() {
 	return (
 		<React.Fragment>
 			<Navbar isAuth={isAuth} updateAuth={updateAuth} />
-			<hr />
 			<Switch>
-				<Route path="/register" component={Register}></Route>
 				<Route
 					path="/arena"
 					render={(props) => (
@@ -101,9 +98,9 @@ function App() {
 					)}
 				></Route>
 				<Route
-					path="/login"
+					path="/Authenticate"
 					render={(props) => (
-						<LogIn {...props} updateAuth={updateAuth} />
+						<Authenticate {...props} updateAuth={updateAuth} />
 					)}
 				/>
 			</Switch>

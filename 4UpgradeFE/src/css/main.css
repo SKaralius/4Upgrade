@@ -24,30 +24,50 @@ nav > ul {
     text-align: center;
     margin: 0 2rem;
     color: white;
-    background-color: #021d0b;
+    background-color: black;
     box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); }
-    .login-wrap > .login-form > .login-title {
+    .login-wrap > .login-form > form > .login-title {
       -webkit-text-stroke-width: 3px;
       -webkit-text-stroke-color: black;
       font-size: 3.5rem;
       margin: 2rem; }
-    .login-wrap > .login-form > .submit {
-      margin: 1rem 2rem 1rem 0rem;
-      background-color: white;
-      font-weight: bold;
-      border: none; }
-    .login-wrap > .login-form > .forgot {
+    .login-wrap > .login-form > form > .forgot {
       color: rgba(255, 255, 255, 0.3);
       text-decoration: none; }
-    .login-wrap > .login-form > input {
+    .login-wrap > .login-form > form > input {
       padding: 1rem;
-      color: #021d0b;
-      font-weight: 500;
-      font-size: large; }
+      color: black;
+      font-weight: 700;
+      font-size: large;
+      background-color: rgba(255, 255, 255, 0.75);
+      border: none; }
+
+.submit {
+  margin: 1rem 2rem 1rem 0rem;
+  background-color: white;
+  font-weight: bold;
+  border: none;
+  background-color: white !important; }
+
+.form-select {
+  display: flex;
+  justify-content: space-around; }
+  .form-select > label {
+    text-transform: uppercase;
+    color: white;
+    padding: 1rem 1rem 0.2rem 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+    opacity: 0.5; }
+
+.selected {
+  opacity: 1 !important;
+  border-bottom: 10px solid #c9c9c9;
+  border-bottom-right-radius: 2rem; }
 
 ::placeholder {
-  color: rgba(19, 19, 90, 0.5);
-  opacity: 1;
+  color: #0a0a30;
+  opacity: 0.7;
   /* Firefox */ }
 
 .item-container {
