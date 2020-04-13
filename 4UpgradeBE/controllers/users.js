@@ -102,27 +102,27 @@ exports.token = async (req, res, next) => {
 	// Verify that token is valid.
 	//Verify token
 	try {
-		decodedAccessToken = jwt.verify(
+		decodedRefreshToken = jwt.verify(
 			refreshToken,
 			process.env.REFRESH_TOKEN_SECRET
 		);
 	} catch (err) {
 		throw err;
 	}
-	if (!decodedAccessToken) {
+	if (!decodedRefreshToken) {
 		throwError(401, "Not Authenticated.");
 	}
 	// Write username to req. Now I can be sure that req.username is accurate.
 	const refreshTokenValidationQuery =
 		"SELECT * FROM refresh_tokens \
 		WHERE link_uid=$1;";
-	const refreshTokenValidationValue = [decodedAccessToken.link_uid];
+	const refreshTokenValidationValue = [decodedRefreshToken.link_uid];
 	const refreshTokenValidationResult = await db.query(
 		refreshTokenValidationQuery,
 		refreshTokenValidationValue
 	);
 	if (refreshTokenValidationResult.rowCount > 0) {
-		const accessToken = generateAccessToken(decodedAccessToken.username);
+		const accessToken = generateAccessToken(decodedRefreshToken.username);
 		res.json({ accessToken });
 	} else {
 		throwError(400, "Not Authorized.");

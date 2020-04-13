@@ -11,12 +11,8 @@ async function getSession(username, weapon_uid, next) {
 		return session[username];
 	} else {
 		session[username] = {
-			maxHealth:
-				weaponStats.totalDamage.maxTotalDamage *
-				weaponStats.stats.length,
-			currentHealth:
-				weaponStats.totalDamage.maxTotalDamage *
-				weaponStats.stats.length,
+			maxHealth: weaponStats.totalDamage.maxTotalDamage * 4,
+			currentHealth: weaponStats.totalDamage.maxTotalDamage * 4,
 			weaponStats,
 		};
 		return session[username];

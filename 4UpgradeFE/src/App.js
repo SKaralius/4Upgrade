@@ -16,21 +16,21 @@ function App() {
 	const [isAuth, setIsAuth] = useState(false);
 	const [token, setToken] = useState("");
 	axios.interceptors.request.use(async (request) => {
-		const remainingMilliseconds = 60 * 60 * 1000;
-		const expiryDate = new Date(
-			new Date().getTime() + remainingMilliseconds
-		);
-		const dateNow = new Date().getTime();
-		localStorage.setItem("expiryDate", expiryDate.toISOString());
-		if (localStorage.getItem("expiryDate") - dateNow <= 0) {
-			const expiryDate = Date.now() + 1000 * 3600;
-			localStorage.setItem("expiryDate", expiryDate);
+		const currentExpiryDate = localStorage.getItem("expiryDate");
+		if (new Date(currentExpiryDate) <= new Date()) {
+			const expiryDate = new Date(new Date().getTime() + 60 * 60 * 1000);
+			localStorage.setItem("expiryDate", expiryDate.toISOString());
 			const newToken = await tokens.getAccessToken();
 			request.Authorization = `Bearer ${newToken}`;
 			setToken(newToken);
 		}
 		return request;
 	});
+	useEffect(() => {
+		if (token) {
+			localStorage.setItem("token", token);
+		}
+	}, [token]);
 	useEffect(() => {
 		setToken(localStorage.getItem("token"));
 	}, [isAuth]);
