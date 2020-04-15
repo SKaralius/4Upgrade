@@ -16,24 +16,20 @@ const Transfer = ({
 		for (let i = 0; i < difference; i++) {
 			rows.push(
 				<span key={i}>
-					<span>
-						<button></button>
-					</span>
+					<button></button>
 				</span>
 			);
 		}
 		transferItems.forEach((item, index) => {
 			rows.unshift(
 				<span key={item.item_uid + index}>
-					<span>
-						<button onClick={() => handleClick(item)}>
-							<img
-								src={item.imgurl}
-								alt={item.name}
-								id={item.item_uid}
-							/>
-						</button>
-					</span>
+					<button onClick={() => handleClick(item)}>
+						<img
+							src={item.imgurl}
+							alt={item.name}
+							id={item.item_uid}
+						/>
+					</button>
 				</span>
 			);
 		});
@@ -85,20 +81,23 @@ const Transfer = ({
 		}
 	};
 	return (
-		<div className="transfer-container">
-			<div className="transfer">{createSlots()}</div>
-			{transferItems.length === 0 ? (
-				<form>
-					<button className="disabled" disabled>
-						UPGRADE!
-					</button>
-				</form>
-			) : (
-				<form onSubmit={handleSubmit}>
-					<button type="submit">UPGRADE!</button>
-				</form>
-			)}
-		</div>
+		<React.Fragment>
+			<hr />
+			<div className="transfer-container">
+				<div className="transfer">{createSlots()}</div>
+				{transferItems.length === 0 ? (
+					<form>
+						<button className="disabled" disabled>
+							UPGRADE!
+						</button>
+					</form>
+				) : (
+					<form onSubmit={handleSubmit}>
+						<button type="submit">UPGRADE!</button>
+					</form>
+				)}
+			</div>
+		</React.Fragment>
 	);
 };
 

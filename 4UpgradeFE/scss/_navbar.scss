@@ -1,15 +1,19 @@
 nav {
+	border: thick double gold;
 	& > ul {
 		margin: 0;
-		background-color: grey;
+		background-color: gold;
 		padding: 1.5rem;
 		display: flex;
 		justify-content: space-around;
 		list-style-type: none;
 		& > li > a {
 			text-decoration: none;
-			color: white;
-			font-size: larger;
+			color: black;
+			font-size: x-large;
+			&:hover {
+				border-bottom: solid;
+			}
 		}
 	}
 }

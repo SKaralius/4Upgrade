@@ -2,57 +2,71 @@ import React from "react";
 
 const Register = ({
 	handleRegisterSubmit,
-	handleChange,
-	username,
-	password,
-	email,
-	updateUsername,
-	updatePassword,
-	updateEmail,
+	// React Hook Form
+	register,
+	handleSubmit,
+	errors,
 }) => {
 	return (
-		<React.Fragment>
+		<form onSubmit={handleSubmit(handleRegisterSubmit)}>
 			<h1>Register</h1>
-			<form onSubmit={handleRegisterSubmit}>
-				<label htmlFor="username"></label>
-				<input
-					type="text"
-					value={username}
-					onChange={handleChange(updateUsername)}
-					id="username"
-					name="username"
-					placeholder="Username"
-					autoComplete="username"
-				/>
-				<br />
-				<label htmlFor="email"></label>
-				<input
-					type="text"
-					value={email}
-					onChange={handleChange(updateEmail)}
-					id="email"
-					name="email"
-					placeholder="username@email.xyz"
-				/>
-				<br />
-				<label htmlFor="password"></label>
-				<input
-					type="password"
-					value={password}
-					onChange={handleChange(updatePassword)}
-					id="password"
-					name="password"
-					autoComplete="current-password"
-					placeholder="Password!987"
-				/>
-				<br />
-				<input
-					type="submit"
-					value="Register"
-					className="submit"
-				></input>
-			</form>
-		</React.Fragment>
+			<input
+				ref={register({
+					required: true,
+					minLength: {
+						value: 2,
+						message:
+							"Usernames have to have at least 2 characters.",
+					},
+					pattern: {
+						value: /^[a-zA-Z0-9_]*$/,
+						message:
+							"Usernames are not allowed to have special symbols.",
+					},
+				})}
+				name="usernameRegister"
+				placeholder="Username"
+				autoComplete="username"
+			/>
+			<br />
+			{errors.usernameRegister && (
+				<span>{errors.usernameRegister.message}</span>
+			)}
+			<input
+				ref={register({
+					required: { value: true, message: "Email is required." },
+				})}
+				name="emailRegister"
+				placeholder="username@email.xyz"
+				autoComplete="email"
+			/>
+			<br />
+			{errors.emailRegister && (
+				<span>{errors.emailRegister.message}</span>
+			)}
+			<input
+				ref={register({
+					required: {
+						value: true,
+						message: "Password is required.",
+					},
+					minLength: {
+						value: 6,
+						message:
+							"Passwords have to have at least 6 characters.",
+					},
+				})}
+				type="password"
+				name="passwordRegister"
+				autoComplete="current-password"
+				placeholder="Password!987"
+			/>
+			<br />
+			{errors.passwordRegister && (
+				<span>{errors.passwordRegister.message}</span>
+			)}
+			<input type="submit" value="Register" className="submit"></input>
+		</form>
 	);
 };
 

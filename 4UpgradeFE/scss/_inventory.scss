@@ -1,23 +1,31 @@
 .inventory {
 	& > ul {
-		background-color: slategrey;
+		background-color: black;
+		background: url("../img/inventoryBackground.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: center center;
 		display: flex;
 		flex-flow: wrap;
 		justify-content: center;
 		padding: 0;
+		padding-top: 1rem;
+		margin: 0;
 	}
 	& > ul > li {
 		width: 80px;
 		height: 80px;
 		list-style-type: none;
 		margin: 0.5rem;
-		background-color: saddlebrown;
+		background-color: black;
+		background: url("../img/inventorySlot.png") no-repeat center;
 		border: black 3px solid;
 		&:hover {
 			border: yellow 3px solid;
 		}
 		& > span {
 			& > button {
+				background: url("../img/inventorySlot.png") no-repeat center;
 				border: none;
 				padding: 0;
 				width: 80px;

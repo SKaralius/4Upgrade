@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { handleChange } from "../util/handleChange";
 import { useForm } from "react-hook-form";
 
@@ -7,22 +7,15 @@ import LogIn from "../components/LogIn";
 import Register from "../components/Register";
 
 const Authenticate = ({ updateAuth, history }) => {
-	const [username, setUsername] = useState("");
-	const [password, setPassword] = useState("");
-	const [email, setEmail] = useState("");
 	const [selectedForm, setSelectedForm] = useState("Log In");
-	const { register, handleSubmit } = useForm();
-	useEffect(() => {
-		localStorage.setItem("username", username);
-	}, [username]);
-	const handleLoginSubmit = async (event) => {
-		event.preventDefault();
+	const { register, handleSubmit, errors } = useForm();
+	const handleLoginSubmit = async (userInfo) => {
 		try {
 			const { data } = await http.post(
 				process.env.REACT_APP_IP + "users/login",
 				{
-					username,
-					password,
+					username: userInfo.username,
+					password: userInfo.password,
 				}
 			);
 			const remainingMilliseconds = 60 * 60 * 1000;
@@ -33,7 +26,6 @@ const Authenticate = ({ updateAuth, history }) => {
 			updateAuth(true);
 			localStorage.setItem("token", data.accessToken);
 			localStorage.setItem("refreshToken", data.refreshToken);
-			setUsername(data.username);
 			history.push("/items");
 		} catch (err) {
 			if (err.response && err.response.status === 401) {
@@ -41,29 +33,21 @@ const Authenticate = ({ updateAuth, history }) => {
 			}
 		}
 	};
-	const handleRegisterSubmit = async (event) => {
-		event.preventDefault();
+	const handleRegisterSubmit = async (userInfo) => {
 		try {
 			await http.post(process.env.REACT_APP_IP + "users/adduser", {
-				username,
-				email,
-				password,
+				username: userInfo.usernameRegister,
+				email: userInfo.emailRegister,
+				password: userInfo.passwordRegister,
 			});
-			alert("User Created");
+			userInfo.username = userInfo.usernameRegister;
+			userInfo.password = userInfo.passwordRegister;
+			handleLoginSubmit(userInfo);
 		} catch (err) {
 			if (err.response && err.response.status === 403) {
 				alert(err.response.data.message);
 			}
 		}
-	};
-	const updateEmail = (value) => {
-		setEmail(value);
-	};
-	const updatePassword = (value) => {
-		setPassword(value);
-	};
-	const updateUsername = (value) => {
-		setUsername(value);
 	};
 	console.log("leak?");
 	return (
@@ -101,25 +85,18 @@ const Authenticate = ({ updateAuth, history }) => {
 				{selectedForm === "Log In" ? (
 					<LogIn
 						handleLoginSubmit={handleLoginSubmit}
-						handleChange={handleChange}
-						username={username}
-						password={password}
-						updatePassword={updatePassword}
-						updateUsername={updateUsername}
 						// React hook form
 						register={register}
 						handleSubmit={handleSubmit}
+						errors={errors}
 					/>
 				) : (
 					<Register
 						handleRegisterSubmit={handleRegisterSubmit}
-						handleChange={handleChange}
-						username={username}
-						password={password}
-						email={email}
-						updateEmail={updateEmail}
-						updatePassword={updatePassword}
-						updateUsername={updateUsername}
+						// React hook form
+						register={register}
+						handleSubmit={handleSubmit}
+						errors={errors}
 					/>
 				)}
 			</div>

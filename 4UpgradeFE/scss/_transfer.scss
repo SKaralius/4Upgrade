@@ -2,8 +2,16 @@
 	display: flex;
 	flex-flow: wrap;
 	justify-content: center;
+	background: rgb(255, 255, 255);
+	background: radial-gradient(
+		circle,
+		rgba(255, 255, 255, 1) 0%,
+		rgba(204, 203, 8, 0.7995226730310263) 37%,
+		rgba(0, 0, 0, 0.7374701670644391) 90%,
+		rgba(0, 0, 0, 1) 100%
+	);
 	.transfer {
-		background-color: slategrey;
+		background-color: transparent;
 		display: flex;
 		flex-flow: wrap;
 		justify-content: center;
@@ -16,16 +24,18 @@
 			&:hover {
 				border: yellow 3px solid;
 			}
-			& > span > button {
-				border: none;
+			& > button {
 				padding: 0;
+				background: url("../img/inventorySlot.png");
+				background-position: center;
+				background-size: cover;
+				border: none;
 				width: 100px;
 				height: 100px;
 			}
-			& > span > button > img {
+			& > button > img {
 				width: 100px;
 				height: 100px;
-
 				&:hover {
 					opacity: 50%;
 				}
@@ -38,7 +48,6 @@
 		border: 3px gold solid;
 		border-radius: 16px;
 		padding: 1rem;
-		color: black;
 	}
 }
 
@@ -46,4 +55,9 @@
 	text-decoration: line-through;
 	background-color: grey;
 	opacity: 50%;
+}
+
+hr {
+	margin: 0;
+	border: 1rem double rgb(17, 16, 16);
 }

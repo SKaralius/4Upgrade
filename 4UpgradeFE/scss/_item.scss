@@ -4,24 +4,46 @@
 	display: flex;
 	flex-flow: wrap;
 	justify-content: center;
+	background: url("../img/inventoryBackground.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
 	& > .item-img > img {
-		width: 20rem;
+		width: 10rem;
 	}
 	& > .item-text {
-		background-color: darken($color: slategray, $amount: 20);
+		height: 298px;
+		width: 252px;
+		padding: 2rem 2rem;
+		background: url("../img/statsTable.png");
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: contain;
 		text-align: center;
+		overflow-wrap: break-word;
+		overflow: hidden;
+		display: flex;
+		flex-flow: column;
+		justify-content: space-around;
 		& > h1 {
-			min-width: 5rem;
-			padding: 0 1rem;
 			margin: 0;
-			background-color: yellow;
-			border: 5px darken($color: yellow, $amount: 10) inset;
+			color: gold;
+			background-color: transparent;
 		}
 		& > ul {
+			padding: 0;
 			margin: 0;
-			padding: 1rem;
 			list-style-type: none;
 			text-align: left;
+			& > li {
+				text-align: center;
+			}
+		}
+		& > h4 {
+			font-size: larger;
+			color: white;
+			-webkit-text-stroke-width: 1px;
+			-webkit-text-stroke-color: black;
 		}
 	}
 }

@@ -18,7 +18,7 @@ const Item = ({ weaponStats, weapon }) => {
 								className={stat.type}
 								key={stat.weapon_stat_uid}
 							>
-								{`Adds from ${stat.damage.minDamage} to ${stat.damage.maxDamage} ${stat.type} damage`}
+								{`Adds ${stat.damage.minDamage} to ${stat.damage.maxDamage} ${stat.type} damage`}
 							</li>
 						);
 					})}

@@ -1,14 +1,18 @@
-nav > ul {
-  margin: 0;
-  background-color: grey;
-  padding: 1.5rem;
-  display: flex;
-  justify-content: space-around;
-  list-style-type: none; }
-  nav > ul > li > a {
-    text-decoration: none;
-    color: white;
-    font-size: larger; }
+nav {
+  border: thick double gold; }
+  nav > ul {
+    margin: 0;
+    background-color: gold;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none; }
+    nav > ul > li > a {
+      text-decoration: none;
+      color: black;
+      font-size: x-large; }
+      nav > ul > li > a:hover {
+        border-bottom: solid; }
 
 .login-wrap {
   height: 100vh;
@@ -73,23 +77,43 @@ nav > ul {
 .item-container {
   display: flex;
   flex-flow: wrap;
-  justify-content: center; }
+  justify-content: center;
+  background: url("../img/inventoryBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center; }
   .item-container > .item-img > img {
-    width: 20rem; }
+    width: 10rem; }
   .item-container > .item-text {
-    background-color: #434d57;
-    text-align: center; }
+    height: 298px;
+    width: 252px;
+    padding: 2rem 2rem;
+    background: url("../img/statsTable.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    text-align: center;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around; }
     .item-container > .item-text > h1 {
-      min-width: 5rem;
-      padding: 0 1rem;
       margin: 0;
-      background-color: yellow;
-      border: 5px #cccc00 inset; }
+      color: gold;
+      background-color: transparent; }
     .item-container > .item-text > ul {
+      padding: 0;
       margin: 0;
-      padding: 1rem;
       list-style-type: none;
       text-align: left; }
+      .item-container > .item-text > ul > li {
+        text-align: center; }
+    .item-container > .item-text > h4 {
+      font-size: larger;
+      color: white;
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: black; }
 
 .Fire {
   color: #fa4700; }
@@ -104,22 +128,30 @@ nav > ul {
   color: yellow; }
 
 .inventory > ul {
-  background-color: slategrey;
+  background-color: black;
+  background: url("../img/inventoryBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  padding: 0; }
+  padding: 0;
+  padding-top: 1rem;
+  margin: 0; }
 
 .inventory > ul > li {
   width: 80px;
   height: 80px;
   list-style-type: none;
   margin: 0.5rem;
-  background-color: saddlebrown;
+  background-color: black;
+  background: url("../img/inventorySlot.png") no-repeat center;
   border: black 3px solid; }
   .inventory > ul > li:hover {
     border: yellow 3px solid; }
   .inventory > ul > li > span > button {
+    background: url("../img/inventorySlot.png") no-repeat center;
     border: none;
     padding: 0;
     width: 80px;
@@ -144,9 +176,11 @@ nav > ul {
 .transfer-container {
   display: flex;
   flex-flow: wrap;
-  justify-content: center; }
+  justify-content: center;
+  background: white;
+  background: radial-gradient(circle, white 0%, rgba(204, 203, 8, 0.799523) 37%, rgba(0, 0, 0, 0.73747) 90%, black 100%); }
   .transfer-container .transfer {
-    background-color: slategrey;
+    background-color: transparent;
     display: flex;
     flex-flow: wrap;
     justify-content: center; }
@@ -158,28 +192,34 @@ nav > ul {
       border: black 3px solid; }
       .transfer-container .transfer > span:hover {
         border: yellow 3px solid; }
-      .transfer-container .transfer > span > span > button {
-        border: none;
+      .transfer-container .transfer > span > button {
         padding: 0;
+        background: url("../img/inventorySlot.png");
+        background-position: center;
+        background-size: cover;
+        border: none;
         width: 100px;
         height: 100px; }
-      .transfer-container .transfer > span > span > button > img {
+      .transfer-container .transfer > span > button > img {
         width: 100px;
         height: 100px; }
-        .transfer-container .transfer > span > span > button > img:hover {
+        .transfer-container .transfer > span > button > img:hover {
           opacity: 50%; }
   .transfer-container > form > button {
     font-weight: bold;
     font-size: 3rem;
     border: 3px gold solid;
     border-radius: 16px;
-    padding: 1rem;
-    color: black; }
+    padding: 1rem; }
 
 .disabled {
   text-decoration: line-through;
   background-color: grey;
   opacity: 50%; }
+
+hr {
+  margin: 0;
+  border: 1rem double #111010; }
 
 .monster {
   display: flex;
@@ -284,7 +324,7 @@ nav > ul {
 body {
   box-sizing: border-box;
   color: #121218;
-  background-color: slategrey;
+  background-color: black;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;

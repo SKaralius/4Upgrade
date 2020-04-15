@@ -56,7 +56,6 @@ const Items = ({ weaponInventory, weaponStats, updateWeaponStats, token }) => {
 			) : (
 				<h1>You don't have a weapon</h1>
 			)}
-
 			<hr />
 			<Inventory
 				updateInventoryRows={updateInventoryRows}

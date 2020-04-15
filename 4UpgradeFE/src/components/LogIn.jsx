@@ -2,44 +2,49 @@ import React from "react";
 
 const LogIn = ({
 	handleLoginSubmit,
-	handleChange,
-	username,
-	password,
-	updatePassword,
-	updateUsername,
+	// React Hook Form
 	register,
 	handleSubmit,
+	errors,
 }) => {
 	return (
 		<form onSubmit={handleSubmit(handleLoginSubmit)}>
 			<h1 className="login-title">4Upgrade</h1>
-			<label htmlFor="username"></label>
 			<input
-				ref={register({ required: true })}
-				type="text"
-				value={username}
-				onChange={handleChange(updateUsername)}
+				ref={register({
+					required: true,
+					minLength: {
+						value: 2,
+						message:
+							"Usernames have to have at least 2 characters.",
+					},
+					pattern: {
+						value: /^[a-zA-Z0-9_]*$/,
+						message:
+							"Usernames are not allowed to have special symbols.",
+					},
+				})}
 				placeholder="Username"
-				id="username"
 				name="username"
 				autoComplete="username"
 			/>
 			<br />
-			<label htmlFor="password"></label>
+			{errors.username && <span>{errors.username.message}</span>}
 			<input
-				ref={register({ required: true })}
+				ref={register({
+					required: {
+						value: true,
+						message: "Password is required.",
+					},
+				})}
 				type="password"
-				value={password}
-				onChange={handleChange(updatePassword)}
-				id="password"
 				placeholder="Password!987"
 				name="password"
 				autoComplete="current-password"
 			/>
+			<br />
+			{errors.password && <span>{errors.password.message}</span>}
 			<input type="submit" value="Log In" className="submit" />
-			<a href="" className="forgot">
-				Forgot password?
-			</a>
 		</form>
 	);
 };
