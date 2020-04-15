@@ -1,3 +1,3 @@
-exports.handleChange = (event, setState) => {
+exports.handleChange = (setState) => (event) => {
 	setState(event.target.value);
 };

@@ -18,7 +18,7 @@ nav > ul {
   background: #cccb08;
   background: radial-gradient(circle, #cccb08 0%, rgba(50, 28, 0, 0.922581) 65%, rgba(0, 0, 0, 0.92043) 100%); }
   .login-wrap > .login-form {
-    background: url("../img/login.png") no-repeat center;
+    background: url("../img/login.jpg") no-repeat center;
     -webkit-background-size: cover;
     background-size: cover;
     text-align: center;

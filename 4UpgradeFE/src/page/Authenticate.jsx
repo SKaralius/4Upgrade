@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { handleChange } from "../util/handleChange";
+import { useForm } from "react-hook-form";
+
 import http from "../services/httpService";
 import LogIn from "../components/LogIn";
 import Register from "../components/Register";
@@ -9,6 +11,7 @@ const Authenticate = ({ updateAuth, history }) => {
 	const [password, setPassword] = useState("");
 	const [email, setEmail] = useState("");
 	const [selectedForm, setSelectedForm] = useState("Log In");
+	const { register, handleSubmit } = useForm();
 	useEffect(() => {
 		localStorage.setItem("username", username);
 	}, [username]);
@@ -62,6 +65,7 @@ const Authenticate = ({ updateAuth, history }) => {
 	const updateUsername = (value) => {
 		setUsername(value);
 	};
+	console.log("leak?");
 	return (
 		<div className="login-wrap">
 			<div className="login-form">
@@ -73,9 +77,7 @@ const Authenticate = ({ updateAuth, history }) => {
 							type="radio"
 							value="Log In"
 							checked={selectedForm === "Log In"}
-							onChange={(event) =>
-								handleChange(event, setSelectedForm)
-							}
+							onChange={handleChange(setSelectedForm)}
 							hidden
 						/>
 						Log In
@@ -90,9 +92,7 @@ const Authenticate = ({ updateAuth, history }) => {
 							type="radio"
 							value="Register"
 							checked={selectedForm === "Register"}
-							onChange={(event) =>
-								handleChange(event, setSelectedForm)
-							}
+							onChange={handleChange(setSelectedForm)}
 							hidden
 						/>
 						Register
@@ -106,6 +106,9 @@ const Authenticate = ({ updateAuth, history }) => {
 						password={password}
 						updatePassword={updatePassword}
 						updateUsername={updateUsername}
+						// React hook form
+						register={register}
+						handleSubmit={handleSubmit}
 					/>
 				) : (
 					<Register

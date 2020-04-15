@@ -7,15 +7,18 @@ const LogIn = ({
 	password,
 	updatePassword,
 	updateUsername,
+	register,
+	handleSubmit,
 }) => {
 	return (
-		<form onSubmit={handleLoginSubmit}>
+		<form onSubmit={handleSubmit(handleLoginSubmit)}>
 			<h1 className="login-title">4Upgrade</h1>
 			<label htmlFor="username"></label>
 			<input
+				ref={register({ required: true })}
 				type="text"
 				value={username}
-				onChange={(event) => handleChange(event, updateUsername)}
+				onChange={handleChange(updateUsername)}
 				placeholder="Username"
 				id="username"
 				name="username"
@@ -24,15 +27,16 @@ const LogIn = ({
 			<br />
 			<label htmlFor="password"></label>
 			<input
+				ref={register({ required: true })}
 				type="password"
 				value={password}
-				onChange={(event) => handleChange(event, updatePassword)}
+				onChange={handleChange(updatePassword)}
 				id="password"
 				placeholder="Password!987"
 				name="password"
 				autoComplete="current-password"
 			/>
-			<input type="submit" value="Log In" className="submit"></input>
+			<input type="submit" value="Log In" className="submit" />
 			<a href="" className="forgot">
 				Forgot password?
 			</a>
