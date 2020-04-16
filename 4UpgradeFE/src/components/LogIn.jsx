@@ -19,7 +19,7 @@ const LogIn = ({
 							"Usernames have to have at least 2 characters.",
 					},
 					pattern: {
-						value: /^[a-zA-Z0-9_]*$/,
+						value: /^[a-zA-Z0-9]*$/,
 						message:
 							"Usernames are not allowed to have special symbols.",
 					},

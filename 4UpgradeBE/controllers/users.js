@@ -3,18 +3,22 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { throwError } = require("../util/errors");
 const { v4: uuidv4 } = require("uuid");
+const { check, validationResult } = require("express-validator");
 
 exports.addUser = async (req, res, next) => {
 	const username = req.body.username.toLowerCase();
 	const email = req.body.email.toLowerCase();
 	const password = req.body.password;
 	const hashedPassword = await bcrypt.hash(password, 12);
-	console.log(hashedPassword);
+
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array() });
+	}
 
 	const query =
 		"INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
 	const values = [username, email, hashedPassword];
-
 	const lookup =
 		"SELECT username, email FROM users WHERE username = $1 OR email = $2;";
 	const lookupValues = [username, email];

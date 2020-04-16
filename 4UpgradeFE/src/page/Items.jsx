@@ -22,7 +22,7 @@ const Items = ({ weaponInventory, weaponStats, updateWeaponStats, token }) => {
 						},
 					}
 				);
-				setWeapon(weaponDataResult.data[0]);
+				setWeapon(weaponDataResult.data);
 			}
 		}
 		fetchData();

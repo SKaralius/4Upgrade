@@ -19,7 +19,7 @@ const Register = ({
 							"Usernames have to have at least 2 characters.",
 					},
 					pattern: {
-						value: /^[a-zA-Z0-9_]*$/,
+						value: /^[a-zA-Z0-9]*$/,
 						message:
 							"Usernames are not allowed to have special symbols.",
 					},
@@ -35,6 +35,10 @@ const Register = ({
 			<input
 				ref={register({
 					required: { value: true, message: "Email is required." },
+					pattern: {
+						value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+						message: "Invalid email address",
+					},
 				})}
 				name="emailRegister"
 				placeholder="username@email.xyz"

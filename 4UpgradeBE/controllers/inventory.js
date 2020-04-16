@@ -1,5 +1,4 @@
 const db = require("../util/dbConnect");
-const { throwError } = require("../util/errors");
 const { itemTierRoll } = require("../util/projectUtil/rolls");
 const { v4: uuidv4 } = require("uuid");
 const {

@@ -85,6 +85,7 @@ nav {
   .item-container > .item-img > img {
     width: 10rem; }
   .item-container > .item-text {
+    color: #a5a3a3;
     height: 298px;
     width: 252px;
     padding: 2rem 2rem;
@@ -210,7 +211,8 @@ nav {
     font-size: 3rem;
     border: 3px gold solid;
     border-radius: 16px;
-    padding: 1rem; }
+    padding: 1rem;
+    margin: 1rem; }
 
 .disabled {
   text-decoration: line-through;

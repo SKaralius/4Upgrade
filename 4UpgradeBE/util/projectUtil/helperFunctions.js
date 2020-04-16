@@ -57,15 +57,20 @@ async function getWeaponStats(username, weapon_uid, next) {
 			if (rows[0].username !== username) {
 				throwError(401, "Not Authorized");
 			}
+			const weaponInfo = await getWeaponInfo(username, weapon_uid);
 			const statsResult = await db.query(statQuery, [weapon_uid]);
 			const stats = statsResult.rows;
-			const totalDamage = { minTotalDamage: 0, maxTotalDamage: 0 };
+			const totalDamage = {
+				minTotalDamage: weaponInfo.damage.minDamage,
+				maxTotalDamage: weaponInfo.damage.maxDamage,
+			};
 			stats.forEach((stat) => {
 				stat.damage = tierToDamage(stat.tier);
 				totalDamage.minTotalDamage += stat.damage.minDamage;
 				totalDamage.maxTotalDamage += stat.damage.maxDamage;
 			});
-			return { stats, totalDamage };
+
+			return { stats, totalDamage, weaponInfo };
 			//return result ehre
 		} else {
 			throwError(400, "No record found.");
@@ -73,6 +78,25 @@ async function getWeaponStats(username, weapon_uid, next) {
 	} catch (err) {
 		next(err);
 	}
+}
+
+async function getWeaponInfo(username, weapon_uid) {
+	const authorizationValues = [weapon_uid, username];
+	const authorizationQuery =
+		"SELECT * FROM weapon_inventory WHERE weapon_uid = $1 AND username = $2";
+	const authorizationQueryResult = await db.query(
+		authorizationQuery,
+		authorizationValues
+	);
+	if (authorizationQueryResult.rows.length < 1) {
+		throwError(401, "Not Authorized");
+	}
+	const values = [authorizationQueryResult.rows[0].weapon_uid];
+	const query = "SELECT * FROM weapons WHERE weapon_uid = $1";
+	const result = await db.query(query, values);
+	result.rows[0].imgurl = process.env.IP + result.rows[0].imgurl;
+	result.rows[0].damage = tierToDamage(result.rows[0].tier);
+	return result.rows[0];
 }
 
 async function item_uidToResource(item_uid) {
@@ -139,5 +163,6 @@ module.exports = {
 	isFreeInventorySpace,
 	item_uidToResource,
 	getWeaponStats,
+	getWeaponInfo,
 	removeStat,
 };

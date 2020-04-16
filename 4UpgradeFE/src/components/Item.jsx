@@ -4,6 +4,7 @@ const Item = ({ weaponStats, weapon }) => {
 	// TODO: props.weapon should be replaced with currentWeapon,
 	// then a useEffect or useWeapon can retrieve the value every time the
 	// weaponInventory changes.
+
 	return weaponStats.stats && weapon ? (
 		<div className="item-container">
 			<div className="item-img">
@@ -12,6 +13,7 @@ const Item = ({ weaponStats, weapon }) => {
 			<div className="item-text">
 				<h1>{`${weapon.name}`}</h1>
 				<ul>
+					<li>{`Base Damage: ${weaponStats.weaponInfo.damage.minDamage} to ${weaponStats.weaponInfo.damage.maxDamage}`}</li>
 					{weaponStats.stats.map((stat) => {
 						return (
 							<li
@@ -23,7 +25,7 @@ const Item = ({ weaponStats, weapon }) => {
 						);
 					})}
 				</ul>
-				<h4>{`Total damage: from ${weaponStats.totalDamage.minTotalDamage} to ${weaponStats.totalDamage.maxTotalDamage} `}</h4>
+				<h4>{`Total damage: ${weaponStats.totalDamage.minTotalDamage} to ${weaponStats.totalDamage.maxTotalDamage} `}</h4>
 			</div>
 		</div>
 	) : (

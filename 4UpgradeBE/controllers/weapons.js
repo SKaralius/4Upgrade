@@ -4,27 +4,18 @@ const weighted = require("weighted");
 const { throwError } = require("../util/errors");
 const {
 	getWeaponStats,
+	getWeaponInfo,
 	removeStat,
 } = require("../util/projectUtil/helperFunctions");
+const { deleteSession } = require("../util/projectUtil/combatSession");
 
 exports.getWeapon = async (req, res, next) => {
 	const username = req.username;
-	const authorizationValues = [req.params.id, username];
+	const weapon_uid = req.params.id;
+	deleteSession(username);
 	try {
-		const authorizationQuery =
-			"SELECT * FROM weapon_inventory WHERE weapon_uid = $1 AND username = $2";
-		const authorizationQueryResult = await db.query(
-			authorizationQuery,
-			authorizationValues
-		);
-		if (authorizationQueryResult.rows.length < 1) {
-			throwError(401, "Not Authorized");
-		}
-		const values = [authorizationQueryResult.rows[0].weapon_uid];
-		const query = "SELECT * FROM weapons WHERE weapon_uid = $1";
-		const result = await db.query(query, values);
-		result.rows[0].imgurl = process.env.IP + result.rows[0].imgurl;
-		res.status(200).send(result.rows);
+		const weaponInfo = await getWeaponInfo(username, weapon_uid);
+		res.status(200).send(weaponInfo);
 	} catch (err) {
 		next(err);
 	}
@@ -37,6 +28,7 @@ exports.getWeaponStats = async (req, res, next) => {
 	res.status(200).send({
 		stats: weaponStats.stats,
 		totalDamage: weaponStats.totalDamage,
+		weaponInfo: weaponStats.weaponInfo,
 	});
 };
 // TODO: Add limitations, validation
