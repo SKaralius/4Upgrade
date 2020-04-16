@@ -5,8 +5,8 @@ const { getWeaponStats } = require("./helperFunctions");
 // if user just navigates away?
 let session = {};
 
-async function getSession(username, weapon_uid, next) {
-	const weaponStats = await getWeaponStats(username, weapon_uid, next);
+async function getSession(username, weapon_entry_uid, next) {
+	const weaponStats = await getWeaponStats(username, weapon_entry_uid, next);
 	if (session[username]) {
 		return session[username];
 	} else {

@@ -77,13 +77,15 @@ nav {
 .item-container {
   display: flex;
   flex-flow: wrap;
-  justify-content: center;
+  justify-content: space-around;
+  align-items: center;
   background: url("../img/inventoryBackground.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center; }
   .item-container > .item-img > img {
-    width: 10rem; }
+    width: 5rem;
+    max-height: 20rem; }
   .item-container > .item-text {
     color: #a5a3a3;
     height: 298px;
@@ -327,7 +329,6 @@ body {
   box-sizing: border-box;
   color: #121218;
   background-color: black;
-  margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; }

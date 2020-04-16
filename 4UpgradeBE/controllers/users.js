@@ -3,7 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { throwError } = require("../util/errors");
 const { v4: uuidv4 } = require("uuid");
-const { check, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
+const { setUpUser } = require("../util/projectUtil/helperFunctions");
 
 exports.addUser = async (req, res, next) => {
 	const username = req.body.username.toLowerCase();
@@ -15,40 +16,43 @@ exports.addUser = async (req, res, next) => {
 	if (!errors.isEmpty()) {
 		return res.status(422).json({ errors: errors.array() });
 	}
-
-	const query =
-		"INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
-	const values = [username, email, hashedPassword];
+	// Check if username or email already exists
 	const lookup =
 		"SELECT username, email FROM users WHERE username = $1 OR email = $2;";
 	const lookupValues = [username, email];
-
-	const result = await db.query(lookup, lookupValues);
-
-	if (result.rows.length > 0 && result.rows.length < 2) {
+	const lookupResult = await db.query(lookup, lookupValues);
+	// Returns a single row if email OR username exists, returns 2 rows if both used
+	// by different users
+	if (lookupResult.rows.length > 0 && lookupResult.rows.length < 2) {
 		try {
 			if (
-				result.rows[0].username === username &&
-				result.rows[0].email === email
+				lookupResult.rows[0].username === username &&
+				lookupResult.rows[0].email === email
 			) {
 				throwError(403, "Username and email are already in use.");
-			} else if (result.rows[0].username === username) {
+			} else if (lookupResult.rows[0].username === username) {
 				throwError(403, "Username is already in use.");
-			} else if (result.rows[0].email === email) {
+			} else if (lookupResult.rows[0].email === email) {
 				throwError(403, "Email is already in use.");
 			}
 		} catch (err) {
 			next(err);
 		}
-	} else if (result.rows.length > 1) {
+	} else if (lookupResult.rows.length > 1) {
 		try {
 			throwError(403, "Username and email are already in use.");
 		} catch (err) {
 			next(err);
 		}
+		// If lookup doesn't return any values, that means email and username are unique.
 	} else {
 		try {
-			await db.query(query, values);
+			const createUserQuery =
+				"INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
+			const createUserValues = [username, email, hashedPassword];
+			await db.query(createUserQuery, createUserValues);
+			// Setup new character
+			setUpUser(username);
 			res.status(200).send({ message: `User ${username} Created` });
 		} catch (err) {
 			next(err);

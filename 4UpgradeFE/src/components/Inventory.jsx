@@ -21,7 +21,6 @@ const Inventory = ({
 					},
 				}
 			);
-			if (resourceInventory.data.status === "Error") return;
 			const unresolvedPromises = await resourceInventory.data.map(
 				async (inventoryItem) => {
 					const itemResult = await http.get(
@@ -49,21 +48,17 @@ const Inventory = ({
 	const updateInventory = (newInventory) => {
 		setInventory(newInventory);
 	};
-	if (inventory.length !== 0) {
-		return (
-			<InventoryItems
-				updateInventoryRows={updateInventoryRows}
-				inventoryRows={inventoryRows}
-				updateTransferItems={updateTransferItems}
-				transferItems={transferItems}
-				inventory={inventory}
-				inventorySize={24}
-				token={token}
-			/>
-		);
-	} else {
-		return <h1>Loading...</h1>;
-	}
+	return (
+		<InventoryItems
+			updateInventoryRows={updateInventoryRows}
+			inventoryRows={inventoryRows}
+			updateTransferItems={updateTransferItems}
+			transferItems={transferItems}
+			inventory={inventory}
+			inventorySize={24}
+			token={token}
+		/>
+	);
 };
 
 export default Inventory;

@@ -3,12 +3,12 @@ const pool = new Pool({
 	host: "localhost", // server name or IP address;
 	application_name: "Project-04-03",
 	port: 5432,
-	database: "test",
+	database: "forupgrade",
 	user: "postgres",
 	password: process.env.DB_PASS,
 	max: 20,
 	idleTimeoutMillis: 30000,
-	connectionTimeoutMillis: 2000
+	connectionTimeoutMillis: 2000,
 });
 
 module.exports = {
@@ -19,8 +19,8 @@ module.exports = {
 		console.log("executed query", {
 			text,
 			duration,
-			rows: result.rowCount
+			rows: result.rowCount,
 		});
 		return result;
-	}
+	},
 };

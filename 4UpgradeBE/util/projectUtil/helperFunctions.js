@@ -1,5 +1,72 @@
 const db = require("../dbConnect");
 const { throwError } = require("../errors");
+const { v4: uuidv4 } = require("uuid");
+const { tierRoll, itemTierRoll } = require("./rolls");
+
+async function setUpUser(username) {
+	giveWeapon(username, 2);
+	// TODO: Limit mat tiers
+	for (let i = 0; i < 5; i++) {
+		giveItem(username, 2);
+	}
+}
+
+async function giveWeapon(username, upToTier) {
+	const weaponTier = [tierRoll(upToTier)];
+	const weaponToInsertQuery = "SELECT * FROM weapons WHERE tier = $1;";
+	const weaponToInsert = await db.query(weaponToInsertQuery, weaponTier);
+	const sameTierItemSelect = Math.floor(
+		Math.random() * weaponToInsert.rowCount
+	);
+	const giveWeaponValues = [
+		uuidv4(),
+		username,
+		weaponToInsert.rows[sameTierItemSelect].weapon_uid,
+	];
+	const giveWeaponQuery =
+		"INSERT INTO weapon_inventory(weapon_entry_uid, username, weapon_uid)\
+	 VALUES($1, $2, $3)";
+	db.query(giveWeaponQuery, giveWeaponValues);
+}
+
+async function giveItem(username, upToTier) {
+	if (!(await isFreeInventorySpace(username))) {
+		return;
+	}
+	const itemTier = itemTierRoll(upToTier);
+	const itemToAddResult = await db.query(
+		"SELECT item_uid FROM items \
+			WHERE tier = $1;",
+		[itemTier]
+	);
+	const sameTierItemSelect = Math.floor(
+		Math.random() * itemToAddResult.rowCount
+	);
+	console.log(
+		{ sameTierItemSelect },
+		{ itemresult: itemToAddResult.rowCount }
+	);
+	const itemIdToAdd = itemToAddResult.rows[sameTierItemSelect].item_uid;
+	const result = await db.query(
+		"SELECT * FROM resource_inventory \
+				WHERE username = $1 AND item_uid = $2",
+		[username, itemIdToAdd]
+	);
+	if (result.rowCount === 0) {
+		db.query(
+			"INSERT INTO resource_inventory(entry_uid, username, item_uid, quantity)\
+		VALUES($1, $2, $3, $4);",
+			[uuidv4(), username, itemIdToAdd, 1]
+		);
+	} else {
+		db.query(
+			"UPDATE resource_inventory SET quantity = $1\
+		WHERE entry_uid = $2",
+			[result.rows[0].quantity + 1, result.rows[0].entry_uid]
+		);
+	}
+	return itemIdToAdd;
+}
 
 async function deleteItem(username, item_uid) {
 	const {
@@ -43,22 +110,26 @@ async function isFreeInventorySpace(username) {
 }
 // Returns the weapon stats result from the DB with tiers converted to damage values.
 // Checks if user owns the weapon.
-async function getWeaponStats(username, weapon_uid, next) {
-	const weaponQuery = "SELECT * FROM weapon_inventory WHERE weapon_uid = $1";
+async function getWeaponStats(username, weapon_entry_uid, next) {
+	const weaponQuery =
+		"SELECT * FROM weapon_inventory WHERE weapon_entry_uid = $1";
 	const statQuery =
-		"SELECT weapon_stats.weapon_stat_uid, weapon_stats.weapon_uid, weapon_stats.stat_uid, \
+		"SELECT weapon_stats.weapon_stat_uid, weapon_stats.weapon_entry_uid, weapon_stats.stat_uid, \
 		stats.tier, stats.type FROM \
 		weapon_stats INNER JOIN stats ON weapon_stats.stat_uid = stats.stat_uid \
-		WHERE weapon_stats.weapon_uid = $1;";
+		WHERE weapon_stats.weapon_entry_uid = $1;";
 
 	try {
-		const { rows } = await db.query(weaponQuery, [weapon_uid]);
+		const { rows } = await db.query(weaponQuery, [weapon_entry_uid]);
 		if (rows.length > 0) {
 			if (rows[0].username !== username) {
 				throwError(401, "Not Authorized");
 			}
-			const weaponInfo = await getWeaponInfo(username, weapon_uid);
-			const statsResult = await db.query(statQuery, [weapon_uid]);
+			const weaponInfo = await getWeaponInfo(
+				username,
+				rows[0].weapon_entry_uid
+			);
+			const statsResult = await db.query(statQuery, [weapon_entry_uid]);
 			const stats = statsResult.rows;
 			const totalDamage = {
 				minTotalDamage: weaponInfo.damage.minDamage,
@@ -80,10 +151,10 @@ async function getWeaponStats(username, weapon_uid, next) {
 	}
 }
 
-async function getWeaponInfo(username, weapon_uid) {
-	const authorizationValues = [weapon_uid, username];
+async function getWeaponInfo(username, weapon_entry_uid) {
+	const authorizationValues = [weapon_entry_uid, username];
 	const authorizationQuery =
-		"SELECT * FROM weapon_inventory WHERE weapon_uid = $1 AND username = $2";
+		"SELECT * FROM weapon_inventory WHERE weapon_entry_uid = $1 AND username = $2";
 	const authorizationQueryResult = await db.query(
 		authorizationQuery,
 		authorizationValues
@@ -159,6 +230,9 @@ function tierToDamage(tier) {
 }
 
 module.exports = {
+	setUpUser,
+	giveWeapon,
+	giveItem,
 	deleteItem,
 	isFreeInventorySpace,
 	item_uidToResource,

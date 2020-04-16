@@ -54,7 +54,7 @@ const Transfer = ({
 		const response = await http.post(
 			process.env.REACT_APP_IP + "upgrade/postUpgrade",
 			{
-				id: weaponInventory[0].weapon_uid,
+				id: weaponInventory[0].weapon_entry_uid,
 				items: upgradeItems,
 			},
 			{
@@ -67,7 +67,7 @@ const Transfer = ({
 			const weaponStatsResult = await http.get(
 				process.env.REACT_APP_IP +
 					"weapons/getWeaponStats/" +
-					weaponInventory[0].weapon_uid,
+					weaponInventory[0].weapon_entry_uid,
 				{
 					headers: {
 						Authorization: "Bearer " + token, //the token is a variable which holds the token

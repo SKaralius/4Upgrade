@@ -1,11 +1,16 @@
 const weighted = require("weighted");
 
+// Sets a weak roll to a higher value.
 function badRollShield(roll, shield) {
 	if (roll <= shield) roll = shield;
 	return roll;
 }
 
-function tierRoll() {
+function tierRoll(upToTier = 9) {
+	let tiers = [];
+	for (let i = 1; i <= upToTier; i++) {
+		tiers.push(i);
+	}
 	const options = {
 		"9": 0.01,
 		"8": 0.02,
@@ -17,7 +22,14 @@ function tierRoll() {
 		"2": 0.21,
 		"1": 0.3,
 	};
-	return weighted.select(options);
+	// Maps to an array of values
+	let includedTiers = {};
+	tiers.forEach((tier) => {
+		const value = options[tier];
+		includedTiers = { ...includedTiers, [tier]: value };
+	});
+
+	return weighted.select(includedTiers);
 }
 
 function typeRoll() {
@@ -33,8 +45,12 @@ function typeRoll() {
 // doesn't have to be limited to 2 tiers, and rollTier can be used.
 function itemTierRoll() {
 	const options = {
-		"2": 0.5,
-		"9": 0.5,
+		"9": 0.01,
+		"8": 0.02,
+		"7": 0.04,
+		"5": 0.09,
+		"3": 0.15,
+		"2": 0.21,
 	};
 	return weighted.select(options);
 }

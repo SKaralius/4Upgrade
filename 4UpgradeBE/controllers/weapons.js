@@ -1,7 +1,6 @@
 const db = require("../util/dbConnect");
 const { v4: uuidv4 } = require("uuid");
 const weighted = require("weighted");
-const { throwError } = require("../util/errors");
 const {
 	getWeaponStats,
 	getWeaponInfo,
@@ -11,10 +10,10 @@ const { deleteSession } = require("../util/projectUtil/combatSession");
 
 exports.getWeapon = async (req, res, next) => {
 	const username = req.username;
-	const weapon_uid = req.params.id;
+	const weapon_entry_uid = req.params.id;
 	deleteSession(username);
 	try {
-		const weaponInfo = await getWeaponInfo(username, weapon_uid);
+		const weaponInfo = await getWeaponInfo(username, weapon_entry_uid);
 		res.status(200).send(weaponInfo);
 	} catch (err) {
 		next(err);
@@ -23,8 +22,8 @@ exports.getWeapon = async (req, res, next) => {
 
 exports.getWeaponStats = async (req, res, next) => {
 	const username = req.username;
-	const weapon_uid = req.params.id;
-	const weaponStats = await getWeaponStats(username, weapon_uid, next);
+	const weapon_entry_uid = req.params.id;
+	const weaponStats = await getWeaponStats(username, weapon_entry_uid, next);
 	res.status(200).send({
 		stats: weaponStats.stats,
 		totalDamage: weaponStats.totalDamage,
@@ -41,7 +40,7 @@ exports.addWeaponStat = async (req, res, next) => {
 	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
 	const stat_uid = result.rows[0].stat_uid; //has to be a query into stats table, the stat_uid has to be retrieved from type and tier;
 	const weaponStatInsertQuery =
-		"INSERT INTO weapon_stats(weapon_stat_uid, weapon_uid, stat_uid) VALUES($1,$2,$3)";
+		"INSERT INTO weapon_stats(weapon_stat_uid, weapon_entry_uid, stat_uid) VALUES($1,$2,$3)";
 	const weaponStatInsertQueryValues = [weapon_stat_uid, weapon_id, stat_uid];
 	await db.query(weaponStatInsertQuery, weaponStatInsertQueryValues);
 	res.status(200).send(result.rows[0]);
@@ -50,7 +49,7 @@ exports.addWeaponStat = async (req, res, next) => {
 exports.removeWeaponStat = async (req, res, next) => {
 	const statRetrieveQueryValues = [req.body.id];
 	const statRetrieveQuery =
-		"SELECT * FROM weapon_stats WHERE weapon_uid = $1;";
+		"SELECT * FROM weapon_stats WHERE weapon_entry_uid = $1;";
 	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
 	const statRemoveResult = await removeStat(result.rows);
 	res.status(200).send(statRemoveResult);

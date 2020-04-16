@@ -39,11 +39,11 @@ const InventoryItems = ({
 	useEffect(() => {
 		let placeholder = [];
 		inventory.forEach((itemBundle) => {
-			const { item_uid, name, tier, imgurl, quantity } = itemBundle;
+			console.log(itemBundle);
+			const { item_uid, tier, imgurl, quantity } = itemBundle;
 			for (let index = 0; index < quantity; index++) {
 				placeholder.push({
 					item_uid: item_uid + index,
-					name,
 					tier,
 					imgurl,
 				});
@@ -52,8 +52,7 @@ const InventoryItems = ({
 		const freeSpace = inventorySize - placeholder.length;
 		for (let b = 0; b < freeSpace; b++) {
 			placeholder.push({
-				item_uid: b,
-				name: false,
+				item_uid: NaN,
 				tier: NaN,
 				imgurl: null,
 			});
@@ -69,7 +68,7 @@ const InventoryItems = ({
 		<div className="inventory">
 			<ul>
 				{inventoryRows.map((row, index) => {
-					if (!row.name) {
+					if (!row.item_uid) {
 						return (
 							<li key={index}>
 								<span></span>

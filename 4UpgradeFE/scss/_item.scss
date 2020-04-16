@@ -3,13 +3,15 @@
 .item-container {
 	display: flex;
 	flex-flow: wrap;
-	justify-content: center;
+	justify-content: space-around;
+	align-items: center;
 	background: url("../img/inventoryBackground.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
 	& > .item-img > img {
-		width: 10rem;
+		width: 5rem;
+		max-height: 20rem;
 	}
 	& > .item-text {
 		color: rgb(165, 163, 163);

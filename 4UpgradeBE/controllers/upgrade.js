@@ -16,7 +16,7 @@ const {
 exports.postUpgrade = async (req, res, next) => {
 	//Verify the user has the item and suficient quantity
 	const item_uids = req.body.items;
-	const weapon_uid = req.body.id;
+	const weapon_entry_uid = req.body.id;
 	const username = req.username;
 	try {
 		if (item_uids.length > 2) {
@@ -25,8 +25,12 @@ exports.postUpgrade = async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
-	// Retrieves weapon stats, also check's if weapon_uid belongs to user.
-	const currentWeaponStats = await getWeaponStats(username, weapon_uid, next);
+	// Retrieves weapon stats, also check's if weapon_entry_uid belongs to user.
+	const currentWeaponStats = await getWeaponStats(
+		username,
+		weapon_entry_uid,
+		next
+	);
 
 	const fullItemsPromises = await item_uids.map(async (item_uid) => {
 		const response = await item_uidToResource(item_uid);
@@ -36,7 +40,7 @@ exports.postUpgrade = async (req, res, next) => {
 
 	const effectSortResultArray = effectSort(
 		fullItems,
-		weapon_uid,
+		weapon_entry_uid,
 		currentWeaponStats.stats,
 		username
 	);
@@ -82,21 +86,21 @@ async function confirmItemValidity(username, item_uid) {
 	}
 }
 
-async function addWeaponStat(stat_uid, username, weapon_uid) {
+async function addWeaponStat(stat_uid, username, weapon_entry_uid) {
 	db.query(
-		"SELECT weapon_uid FROM weapon_inventory \
-    WHERE username = $1 AND weapon_uid = $2",
-		[username, weapon_uid]
+		"SELECT weapon_entry_uid FROM weapon_inventory \
+    WHERE username = $1 AND weapon_entry_uid = $2",
+		[username, weapon_entry_uid]
 	);
 	const weaponStatInsertQuery =
-		"INSERT INTO weapon_stats(weapon_stat_uid, weapon_uid, stat_uid) VALUES($1,$2,$3)";
-	const weaponStatInsertQueryValues = [uuidv4(), weapon_uid, stat_uid];
+		"INSERT INTO weapon_stats(weapon_stat_uid, weapon_entry_uid, stat_uid) VALUES($1,$2,$3)";
+	const weaponStatInsertQueryValues = [uuidv4(), weapon_entry_uid, stat_uid];
 	return await db.query(weaponStatInsertQuery, weaponStatInsertQueryValues);
 }
 
 // Selects a stat at weighted random from the DB. Calls another func to add the
 // stat to the weapon.
-async function weaponElixirEffect(weapon_uid, fullItems, username) {
+async function weaponElixirEffect(weapon_entry_uid, fullItems, username) {
 	let rolledValue = tierRoll();
 	if (fullItems[1]) {
 		rolledValue = badRollShield(rolledValue, fullItems[1].tier);
@@ -106,7 +110,7 @@ async function weaponElixirEffect(weapon_uid, fullItems, username) {
 		"SELECT * FROM stats WHERE tier = $1 AND type = $2";
 	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
 	const stat_uid = result.rows[0].stat_uid;
-	await addWeaponStat(stat_uid, username, weapon_uid);
+	await addWeaponStat(stat_uid, username, weapon_entry_uid);
 }
 // Picks a weapon stat at complete random and removes it.
 async function astralStoneEffect(currentWeaponStats, fullItems) {
@@ -134,7 +138,7 @@ async function astralStoneEffect(currentWeaponStats, fullItems) {
 // Checks if the first item sent is defined in combinations and returns
 // an object which contains values if effect is possible,
 // a message and the effect's function.
-function effectSort(fullItems, weapon_uid, currentWeaponStats, username) {
+function effectSort(fullItems, weapon_entry_uid, currentWeaponStats, username) {
 	switch (fullItems[0].item_uid) {
 		case "a5b5bff3-1ec1-4a94-b998-5394772158ba":
 			if (currentWeaponStats.length > 5) {
@@ -147,7 +151,7 @@ function effectSort(fullItems, weapon_uid, currentWeaponStats, username) {
 				effectPossible: true,
 				message: "Weapon upgraded",
 				executeEffect: () =>
-					weaponElixirEffect(weapon_uid, fullItems, username),
+					weaponElixirEffect(weapon_entry_uid, fullItems, username),
 			};
 		case "3f7d57cd-27b2-4759-9b57-bf56f30ce9d0":
 			if (currentWeaponStats.length === 0) {

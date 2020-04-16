@@ -14,7 +14,7 @@ const Arena = ({ weaponInventory, token }) => {
 				const { data } = await http.get(
 					process.env.REACT_APP_IP +
 						"combat/getenemy/" +
-						weaponInventory[0].weapon_uid,
+						weaponInventory[0].weapon_entry_uid,
 					{
 						headers: {
 							Authorization: "Bearer " + token, //the token is a variable which holds the token
@@ -44,7 +44,7 @@ const Arena = ({ weaponInventory, token }) => {
 			setEncounter(false);
 			http.delete(process.env.REACT_APP_IP + "combat/endencounter", {
 				data: {
-					weapon_uid: weaponInventory[0].weapon_uid,
+					weapon_uid: weaponInventory[0].weapon_entry_uid,
 				},
 
 				headers: {

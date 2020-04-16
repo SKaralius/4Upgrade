@@ -15,7 +15,7 @@ const Items = ({ weaponInventory, weaponStats, updateWeaponStats, token }) => {
 				const weaponDataResult = await http.get(
 					process.env.REACT_APP_IP +
 						"weapons/getWeapon/" +
-						weaponInventory[0].weapon_uid,
+						weaponInventory[0].weapon_entry_uid,
 					{
 						headers: {
 							Authorization: "Bearer " + token, //the token is a variable which holds the token

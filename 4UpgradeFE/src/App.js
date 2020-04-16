@@ -45,11 +45,11 @@ function App() {
 						},
 					}
 				);
-				if (weaponInventoryResult.data.status === "Error") return;
+				if (weaponInventoryResult.data.length === 0) return;
 				const weaponStatsResult = await http.get(
 					process.env.REACT_APP_IP +
 						"weapons/getWeaponStats/" +
-						weaponInventoryResult.data[0].weapon_uid,
+						weaponInventoryResult.data[0].weapon_entry_uid,
 					{
 						headers: {
 							Authorization: "Bearer " + token, //the token is a variable which holds the token
