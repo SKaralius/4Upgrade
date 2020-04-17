@@ -1,23 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import http from "../services/httpService";
-import InventoryItems from "./InventoryItem";
+
+import InventoryItem from "./InventoryItem";
+import WeaponInventory from "../components/WeaponInventory";
 
 const Inventory = ({
-	updateTransferItems,
-	transferItems,
 	inventoryRows,
 	updateInventoryRows,
+	transferItems,
+	updateTransferItems,
+	inventorySize,
 	token,
+	weaponsDetails,
+	updateWeaponsDetails,
+	setSelectedWeapon,
 }) => {
-	const [inventory, setInventory] = useState([]);
-
 	useEffect(() => {
 		const fetchData = async () => {
+			let placeholder = [];
 			const resourceInventory = await http.get(
 				process.env.REACT_APP_IP + "inventory/getresourceinventory",
 				{
 					headers: {
-						Authorization: "Bearer " + token, //the token is a variable which holds the token
+						Authorization: "Bearer " + token,
 					},
 				}
 			);
@@ -29,7 +34,7 @@ const Inventory = ({
 							inventoryItem.item_uid,
 						{
 							headers: {
-								Authorization: "Bearer " + token, //the token is a variable which holds the token
+								Authorization: "Bearer " + token,
 							},
 						}
 					);
@@ -39,25 +44,85 @@ const Inventory = ({
 				}
 			);
 			const resolvedPromises = await Promise.all(unresolvedPromises);
-			updateInventory(resolvedPromises);
+			resolvedPromises.forEach((itemBundle) => {
+				const { item_uid, tier, imgurl, quantity } = itemBundle;
+				for (let index = 0; index < quantity; index++) {
+					placeholder.push({
+						item_uid: item_uid + index,
+						tier,
+						imgurl,
+					});
+				}
+			});
+			const freeSpace = inventorySize - placeholder.length;
+			for (let b = 0; b < freeSpace; b++) {
+				placeholder.push({
+					item_uid: NaN,
+					tier: NaN,
+					imgurl: null,
+				});
+			}
+			updateInventoryRows(placeholder);
 		};
 		if (token) {
 			fetchData();
 		}
-	}, [token]);
-	const updateInventory = (newInventory) => {
-		setInventory(newInventory);
+	}, [token, inventorySize, updateInventoryRows]);
+	const handleDeleteItem = (index) => {
+		const rowCopy = [...inventoryRows];
+		rowCopy[index].id = index;
+		http.delete(process.env.REACT_APP_IP + "inventory/deleteitemfromuser", {
+			data: {
+				item_uid: rowCopy[index].item_uid.substring(0, 36),
+			},
+			headers: {
+				Authorization: "Bearer " + token,
+			},
+		});
+		rowCopy[index] = {};
+		updateInventoryRows(rowCopy);
+	};
+	const handleClick = (index) => {
+		const rowCopy = [...inventoryRows];
+		rowCopy[index].id = index;
+		const wasUpdated = updateTransferItems([
+			rowCopy[index],
+			...transferItems,
+		]);
+		if (wasUpdated) {
+			rowCopy[index] = {};
+			updateInventoryRows(rowCopy);
+		}
 	};
 	return (
-		<InventoryItems
-			updateInventoryRows={updateInventoryRows}
-			inventoryRows={inventoryRows}
-			updateTransferItems={updateTransferItems}
-			transferItems={transferItems}
-			inventory={inventory}
-			inventorySize={24}
-			token={token}
-		/>
+		<React.Fragment>
+			<WeaponInventory
+				weaponsDetails={weaponsDetails}
+				updateWeaponsDetails={updateWeaponsDetails}
+				handleDeleteItem={handleDeleteItem}
+				setSelectedWeapon={setSelectedWeapon}
+				inventorySize={4}
+				token={token}
+			/>
+			<div className="inventory">
+				<hr />
+				<ul>
+					{inventoryRows.map((row, index) => {
+						return (
+							<InventoryItem
+								key={index}
+								name={row.name}
+								imgurl={row.imgurl}
+								item_uid={row.item_uid}
+								index={index}
+								handleDeleteItem={handleDeleteItem}
+								handleClick={handleClick}
+							/>
+						);
+					})}
+				</ul>
+			</div>
+		</React.Fragment>
 	);
 };
 

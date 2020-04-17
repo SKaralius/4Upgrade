@@ -90,19 +90,19 @@ nav {
     color: #a5a3a3;
     height: 298px;
     width: 252px;
-    padding: 2rem 2rem;
     background: url("../img/statsTable.png");
     background-repeat: no-repeat;
     background-position: center center;
     background-size: contain;
-    text-align: center;
     overflow-wrap: break-word;
     overflow: hidden;
+    text-align: center;
     display: flex;
     flex-flow: column;
-    justify-content: space-around; }
+    justify-content: space-around;
+    align-items: center; }
     .item-container > .item-text > h1 {
-      margin: 0;
+      width: 10rem;
       color: gold;
       background-color: transparent; }
     .item-container > .item-text > ul {
@@ -111,9 +111,10 @@ nav {
       list-style-type: none;
       text-align: left; }
       .item-container > .item-text > ul > li {
+        font-size: 0.9rem;
         text-align: center; }
     .item-container > .item-text > h4 {
-      font-size: larger;
+      font-size: large;
       color: white;
       -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: black; }
@@ -139,42 +140,40 @@ nav {
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  padding: 0;
-  padding-top: 1rem;
+  padding: 0.3rem 0;
   margin: 0; }
-
-.inventory > ul > li {
-  width: 80px;
-  height: 80px;
-  list-style-type: none;
-  margin: 0.5rem;
-  background-color: black;
-  background: url("../img/inventorySlot.png") no-repeat center;
-  border: black 3px solid; }
-  .inventory > ul > li:hover {
-    border: yellow 3px solid; }
-  .inventory > ul > li > span > button {
-    background: url("../img/inventorySlot.png") no-repeat center;
-    border: none;
-    padding: 0;
+  .inventory > ul > .itemEntry {
     width: 80px;
-    height: 80px; }
-    .inventory > ul > li > span > button > img {
+    height: 80px;
+    list-style-type: none;
+    margin: 0.1rem;
+    background-color: black;
+    background: url("../img/inventorySlot.png") no-repeat center;
+    border: black 3px solid; }
+    .inventory > ul > .itemEntry:hover {
+      border: yellow 3px solid; }
+    .inventory > ul > .itemEntry > span > button {
+      background: url("../img/inventorySlot.png") no-repeat center;
+      border: none;
+      padding: 0;
       width: 80px;
       height: 80px; }
-      .inventory > ul > li > span > button > img:hover {
-        opacity: 50%; }
-  .inventory > ul > li > span > .delete {
-    display: flex;
-    justify-content: flex-end; }
-    .inventory > ul > li > span > .delete > button {
-      height: 1.5rem;
-      width: 1.5rem;
-      border-radius: 50%;
-      position: absolute;
-      background-color: black;
-      color: red;
-      z-index: 5; }
+      .inventory > ul > .itemEntry > span > button > img {
+        width: 80px;
+        height: 80px; }
+        .inventory > ul > .itemEntry > span > button > img:hover {
+          opacity: 50%; }
+    .inventory > ul > .itemEntry > span > .delete {
+      display: flex;
+      justify-content: flex-end; }
+      .inventory > ul > .itemEntry > span > .delete > button {
+        height: 1.5rem;
+        width: 1.5rem;
+        border-radius: 50%;
+        position: absolute;
+        background-color: black;
+        color: red;
+        z-index: 5; }
 
 .transfer-container {
   display: flex;

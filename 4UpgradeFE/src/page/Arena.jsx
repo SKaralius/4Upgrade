@@ -4,20 +4,25 @@ import attack from "../img/attack.png";
 
 const animations = ["hitLeft", "hitRight", "hitUp"];
 
-const Arena = ({ weaponInventory, token }) => {
+const Arena = ({
+	selectedWeapon,
+	weaponsDetails,
+	updateWeaponsDetails,
+	token,
+}) => {
 	const [monster, setMonster] = useState([]);
 	const [encounter, setEncounter] = useState(true);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
 	useEffect(() => {
 		const fetchData = async () => {
-			if (weaponInventory.length > 0) {
+			if (selectedWeapon.weapon_entry_uid) {
 				const { data } = await http.get(
 					process.env.REACT_APP_IP +
 						"combat/getenemy/" +
-						weaponInventory[0].weapon_entry_uid,
+						selectedWeapon.weapon_entry_uid,
 					{
 						headers: {
-							Authorization: "Bearer " + token, //the token is a variable which holds the token
+							Authorization: "Bearer " + token,
 						},
 					}
 				);
@@ -26,7 +31,7 @@ const Arena = ({ weaponInventory, token }) => {
 			}
 		};
 		fetchData();
-	}, [token, weaponInventory]);
+	}, [token, selectedWeapon]);
 	const handleDealDamage = async () => {
 		setButtonDisabled(true);
 		setTimeout(() => setButtonDisabled(false), 1000);
@@ -35,7 +40,7 @@ const Arena = ({ weaponInventory, token }) => {
 			{},
 			{
 				headers: {
-					Authorization: "Bearer " + token, //the token is a variable which holds the token
+					Authorization: "Bearer " + token,
 				},
 			}
 		);
@@ -44,11 +49,11 @@ const Arena = ({ weaponInventory, token }) => {
 			setEncounter(false);
 			http.delete(process.env.REACT_APP_IP + "combat/endencounter", {
 				data: {
-					weapon_uid: weaponInventory[0].weapon_entry_uid,
+					weapon_uid: selectedWeapon.weapon_entry_uid,
 				},
 
 				headers: {
-					Authorization: "Bearer " + token, //the token is a variable which holds the token
+					Authorization: "Bearer " + token,
 				},
 			});
 		}
@@ -61,25 +66,44 @@ const Arena = ({ weaponInventory, token }) => {
 			{},
 			{
 				headers: {
-					Authorization: "Bearer " + token, //the token is a variable which holds the token
+					Authorization: "Bearer " + token,
 				},
 			}
 		);
 		if (!response.data) {
 			return alert("Your inventory is full");
-		} else {
+		} else if (response.data.item_uid) {
 			const { data } = await http.get(
 				process.env.REACT_APP_IP +
 					"inventory/getresource/" +
-					response.data,
+					response.data.item_uid,
 				{
 					headers: {
-						Authorization: "Bearer " + token, //the token is a variable which holds the token
+						Authorization: "Bearer " + token,
 					},
 				}
 			);
-
-			console.log(`Congragulations, you got ${data.name}`);
+			console.log(`Congragulations, you got ${data.tier}`);
+		} else if (response.data.weapon_entry_uid) {
+			// Get weapon information
+			const weaponDataResult = await http.get(
+				process.env.REACT_APP_IP +
+					"weapons/getWeapon/" +
+					response.data.weapon_entry_uid,
+				{
+					headers: {
+						Authorization: "Bearer " + token,
+					},
+				}
+			);
+			weaponDataResult.data.weapon_entry_uid =
+				response.data.weapon_entry_uid;
+			// Pass the new weapon to weapon Details
+			console.log(
+				{ weaponsDetails },
+				{ weapondata: weaponDataResult.data }
+			);
+			updateWeaponsDetails([...weaponsDetails, weaponDataResult.data]);
 		}
 	};
 	return (

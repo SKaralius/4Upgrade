@@ -11,4 +11,10 @@ router.post("/addweaponstat", isAuth, weaponController.addWeaponStat);
 
 router.delete("/removeweaponstat", isAuth, weaponController.removeWeaponStat);
 
+router.delete(
+	"/deleteweaponfromuser",
+	isAuth,
+	weaponController.deleteWeaponFromUser
+);
+
 module.exports = router;

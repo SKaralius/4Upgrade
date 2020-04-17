@@ -17,19 +17,20 @@
 		color: rgb(165, 163, 163);
 		height: 298px;
 		width: 252px;
-		padding: 2rem 2rem;
+
 		background: url("../img/statsTable.png");
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: contain;
-		text-align: center;
 		overflow-wrap: break-word;
 		overflow: hidden;
+		text-align: center;
 		display: flex;
 		flex-flow: column;
 		justify-content: space-around;
+		align-items: center;
 		& > h1 {
-			margin: 0;
+			width: 10rem;
 			color: gold;
 			background-color: transparent;
 		}
@@ -39,11 +40,12 @@
 			list-style-type: none;
 			text-align: left;
 			& > li {
+				font-size: 0.9rem;
 				text-align: center;
 			}
 		}
 		& > h4 {
-			font-size: larger;
+			font-size: large;
 			color: white;
 			-webkit-text-stroke-width: 1px;
 			-webkit-text-stroke-color: black;

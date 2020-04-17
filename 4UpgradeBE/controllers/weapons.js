@@ -5,13 +5,13 @@ const {
 	getWeaponStats,
 	getWeaponInfo,
 	removeStat,
+	deleteWeaponFromUser,
 } = require("../util/projectUtil/helperFunctions");
 const { deleteSession } = require("../util/projectUtil/combatSession");
 
 exports.getWeapon = async (req, res, next) => {
 	const username = req.username;
 	const weapon_entry_uid = req.params.id;
-	deleteSession(username);
 	try {
 		const weaponInfo = await getWeaponInfo(username, weapon_entry_uid);
 		res.status(200).send(weaponInfo);
@@ -22,6 +22,7 @@ exports.getWeapon = async (req, res, next) => {
 
 exports.getWeaponStats = async (req, res, next) => {
 	const username = req.username;
+	deleteSession(username);
 	const weapon_entry_uid = req.params.id;
 	const weaponStats = await getWeaponStats(username, weapon_entry_uid, next);
 	res.status(200).send({
@@ -53,6 +54,13 @@ exports.removeWeaponStat = async (req, res, next) => {
 	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
 	const statRemoveResult = await removeStat(result.rows);
 	res.status(200).send(statRemoveResult);
+};
+
+exports.deleteWeaponFromUser = async (req, res, next) => {
+	const weapon_entry_uid = req.body.weapon_entry_uid;
+	const username = req.username;
+	deleteWeaponFromUser(username, weapon_entry_uid);
+	res.status(200).send("deleted");
 };
 
 function tierRoll() {

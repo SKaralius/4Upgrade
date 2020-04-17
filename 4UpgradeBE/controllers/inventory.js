@@ -3,7 +3,7 @@ const { itemTierRoll } = require("../util/projectUtil/rolls");
 const { v4: uuidv4 } = require("uuid");
 const {
 	deleteItem,
-	giveItem,
+	giveReward,
 	item_uidToResource,
 } = require("../util/projectUtil/helperFunctions");
 
@@ -42,7 +42,7 @@ exports.getWeaponInventory = async (req, res, next) => {
 
 exports.addItemToUser = async (req, res, next) => {
 	const username = req.username;
-	const itemIdToAdd = await giveItem(username);
+	const itemIdToAdd = await giveReward(username);
 	return res.status(200).send(itemIdToAdd);
 };
 

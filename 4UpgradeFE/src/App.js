@@ -10,8 +10,9 @@ import Arena from "./page/Arena";
 import axios from "axios";
 
 function App() {
-	const [weaponInventory, setWeaponInventory] = useState([]);
+	const [selectedWeapon, setSelectedWeapon] = useState({});
 	const [weaponStats, setWeaponStats] = useState([]);
+	const [weaponsDetails, setWeaponsDetails] = useState([]);
 	const [isAuth, setIsAuth] = useState(false);
 	const [token, setToken] = useState("");
 	axios.interceptors.request.use(async (request) => {
@@ -41,35 +42,71 @@ function App() {
 					process.env.REACT_APP_IP + "inventory/getweaponInventory/",
 					{
 						headers: {
-							Authorization: "Bearer " + token, //the token is a variable which holds the token
+							Authorization: "Bearer " + token,
 						},
 					}
 				);
 				if (weaponInventoryResult.data.length === 0) return;
-				const weaponStatsResult = await http.get(
-					process.env.REACT_APP_IP +
-						"weapons/getWeaponStats/" +
-						weaponInventoryResult.data[0].weapon_entry_uid,
-					{
-						headers: {
-							Authorization: "Bearer " + token, //the token is a variable which holds the token
-						},
-					}
-				);
-				setWeaponInventory(weaponInventoryResult.data);
-				setWeaponStats(weaponStatsResult.data);
+				else {
+					const unresolvedPromises = await weaponInventoryResult.data.map(
+						async (weapon) => {
+							const weaponDataResult = await http.get(
+								process.env.REACT_APP_IP +
+									"weapons/getWeapon/" +
+									weapon.weapon_entry_uid,
+								{
+									headers: {
+										Authorization: "Bearer " + token,
+									},
+								}
+							);
+							weaponDataResult.data.weapon_entry_uid =
+								weapon.weapon_entry_uid;
+							return weaponDataResult.data;
+						}
+					);
+					const resolvedPromises = await Promise.all(
+						unresolvedPromises
+					);
+					setWeaponsDetails(resolvedPromises);
+					setSelectedWeapon(resolvedPromises[0]);
+				}
 			} else {
 				updateAuth(false);
 			}
 		}
 		fetchData();
-		return setWeaponInventory([]);
 	}, [token, isAuth]);
+	useEffect(() => {
+		async function fetchData() {
+			const weaponStatsResult = await http.get(
+				process.env.REACT_APP_IP +
+					"weapons/getWeaponStats/" +
+					selectedWeapon.weapon_entry_uid,
+				{
+					headers: {
+						Authorization: "Bearer " + token,
+					},
+				}
+			);
+			setWeaponStats(weaponStatsResult.data);
+		}
+		fetchData();
+	}, [selectedWeapon]);
 	const updateWeaponStats = (newStats) => {
 		setWeaponStats(newStats);
 	};
 	const updateAuth = (newAuth) => {
 		setIsAuth(newAuth);
+	};
+	const updateWeaponsDetails = (newDetails) => {
+		console.log(newDetails);
+		if (newDetails.length > 4 || newDetails.length < 1) {
+			return false;
+		} else {
+			setWeaponsDetails(newDetails);
+			return true;
+		}
 	};
 	return (
 		<React.Fragment>
@@ -80,7 +117,9 @@ function App() {
 					render={(props) => (
 						<Arena
 							{...props}
-							weaponInventory={weaponInventory}
+							selectedWeapon={selectedWeapon}
+							weaponsDetails={weaponsDetails}
+							updateWeaponsDetails={updateWeaponsDetails}
 							token={token}
 						/>
 					)}
@@ -90,7 +129,10 @@ function App() {
 					render={(props) => (
 						<Items
 							{...props}
-							weaponInventory={weaponInventory}
+							selectedWeapon={selectedWeapon}
+							setSelectedWeapon={setSelectedWeapon}
+							weaponsDetails={weaponsDetails}
+							updateWeaponsDetails={updateWeaponsDetails}
 							updateWeaponStats={updateWeaponStats}
 							weaponStats={weaponStats}
 							token={token}

@@ -1,22 +1,19 @@
-.inventory {
-	& > ul {
-		background-color: black;
-		background: url("../img/inventoryBackground.png");
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: center center;
-		display: flex;
-		flex-flow: wrap;
-		justify-content: center;
-		padding: 0;
-		padding-top: 1rem;
-		margin: 0;
-	}
-	& > ul > li {
+.inventory > ul {
+	background-color: black;
+	background: url("../img/inventoryBackground.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
+	padding: 0.3rem 0;
+	margin: 0;
+	& > .itemEntry {
 		width: 80px;
 		height: 80px;
 		list-style-type: none;
-		margin: 0.5rem;
+		margin: 0.1rem;
 		background-color: black;
 		background: url("../img/inventorySlot.png") no-repeat center;
 		border: black 3px solid;

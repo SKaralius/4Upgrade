@@ -11,22 +11,45 @@ async function setUpUser(username) {
 	}
 }
 
+function giveReward(username) {
+	if (tierRoll() > 7) {
+		return giveWeapon(username);
+	} else {
+		return giveItem(username);
+	}
+}
+
 async function giveWeapon(username, upToTier) {
+	//Check if there's space for weapon in weapon inventory
+	if (!(await isFreeWeaponInventorySpace(username))) {
+		return;
+	}
+	//Roll a weapon tier and select a weapon_id from DB based on it.
 	const weaponTier = [tierRoll(upToTier)];
-	const weaponToInsertQuery = "SELECT * FROM weapons WHERE tier = $1;";
-	const weaponToInsert = await db.query(weaponToInsertQuery, weaponTier);
-	const sameTierItemSelect = Math.floor(
-		Math.random() * weaponToInsert.rowCount
+	const weaponToInsertQuery =
+		"SELECT weapon_uid FROM weapons WHERE tier = $1;";
+	const weaponToInsertResult = await db.query(
+		weaponToInsertQuery,
+		weaponTier
 	);
+	// If multiple items of the same tier are returned, one will be selected at random.
+	const sameTierItemSelect = Math.floor(
+		Math.random() * weaponToInsertResult.rowCount
+	);
+	weapon_entry_uid = uuidv4();
 	const giveWeaponValues = [
-		uuidv4(),
+		weapon_entry_uid,
 		username,
-		weaponToInsert.rows[sameTierItemSelect].weapon_uid,
+		weaponToInsertResult.rows[sameTierItemSelect].weapon_uid,
 	];
 	const giveWeaponQuery =
 		"INSERT INTO weapon_inventory(weapon_entry_uid, username, weapon_uid)\
 	 VALUES($1, $2, $3)";
 	db.query(giveWeaponQuery, giveWeaponValues);
+
+	return {
+		weapon_entry_uid,
+	};
 }
 
 async function giveItem(username, upToTier) {
@@ -41,10 +64,6 @@ async function giveItem(username, upToTier) {
 	);
 	const sameTierItemSelect = Math.floor(
 		Math.random() * itemToAddResult.rowCount
-	);
-	console.log(
-		{ sameTierItemSelect },
-		{ itemresult: itemToAddResult.rowCount }
 	);
 	const itemIdToAdd = itemToAddResult.rows[sameTierItemSelect].item_uid;
 	const result = await db.query(
@@ -65,7 +84,14 @@ async function giveItem(username, upToTier) {
 			[result.rows[0].quantity + 1, result.rows[0].entry_uid]
 		);
 	}
-	return itemIdToAdd;
+	return { item_uid: itemIdToAdd };
+}
+async function deleteWeaponFromUser(username, weapon_entry_uid) {
+	//DELETE ROW BASED ON ENTRY ID
+	return await db.query(
+		"DELETE FROM weapon_inventory WHERE username = $1 AND weapon_entry_uid = $2;",
+		[username, weapon_entry_uid]
+	);
 }
 
 async function deleteItem(username, item_uid) {
@@ -89,6 +115,20 @@ async function deleteItem(username, item_uid) {
 			"UPDATE resource_inventory SET quantity = $1 WHERE entry_uid = $2;",
 			[rows[0].quantity, rows[0].entry_uid]
 		);
+	}
+}
+
+async function isFreeWeaponInventorySpace(username) {
+	const allUserWeaponsResult = await db.query(
+		"SELECT * FROM weapon_inventory \
+	WHERE username = $1",
+		[username]
+	);
+
+	if (allUserWeaponsResult.rowCount < 4) {
+		return true;
+	} else {
+		return false;
 	}
 }
 
@@ -231,9 +271,11 @@ function tierToDamage(tier) {
 
 module.exports = {
 	setUpUser,
+	giveReward,
 	giveWeapon,
 	giveItem,
 	deleteItem,
+	deleteWeaponFromUser,
 	isFreeInventorySpace,
 	item_uidToResource,
 	getWeaponStats,
