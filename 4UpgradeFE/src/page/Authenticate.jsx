@@ -49,7 +49,6 @@ const Authenticate = ({ updateAuth, history }) => {
 			}
 		}
 	};
-	console.log("leak?");
 	return (
 		<div className="login-wrap">
 			<div className="login-form">

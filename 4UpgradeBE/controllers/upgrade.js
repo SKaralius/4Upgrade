@@ -100,12 +100,21 @@ async function addWeaponStat(stat_uid, username, weapon_entry_uid) {
 
 // Selects a stat at weighted random from the DB. Calls another func to add the
 // stat to the weapon.
-async function weaponElixirEffect(weapon_entry_uid, fullItems, username) {
-	let rolledValue = tierRoll();
+async function addStatEffect(weapon_entry_uid, fullItems, username) {
+	// Rolling up to first items tier
+	let rolledValue = tierRoll(fullItems[0].tier);
+	// If there's a second item, value can't be lower than it's tier.
 	if (fullItems[1]) {
-		rolledValue = badRollShield(rolledValue, fullItems[1].tier);
+		if (fullItems[1].tier <= fullItems[0].tier)
+			rolledValue = badRollShield(rolledValue, fullItems[1].tier);
+		else {
+			rolledValue = fullItems[0].tier;
+		}
 	}
-	const statRetrieveQueryValues = [rolledValue, typeRoll()];
+	const statRetrieveQueryValues = [
+		rolledValue,
+		fullItems[0].type ? fullItems[0].type : typeRoll(),
+	];
 	const statRetrieveQuery =
 		"SELECT * FROM stats WHERE tier = $1 AND type = $2";
 	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
@@ -113,7 +122,7 @@ async function weaponElixirEffect(weapon_entry_uid, fullItems, username) {
 	await addWeaponStat(stat_uid, username, weapon_entry_uid);
 }
 // Picks a weapon stat at complete random and removes it.
-async function astralStoneEffect(currentWeaponStats, fullItems) {
+async function removeStatEffect(currentWeaponStats, fullItems) {
 	let randomNumber = 0;
 	if (fullItems[1]) {
 		const filteredStats = currentWeaponStats.filter(
@@ -139,8 +148,8 @@ async function astralStoneEffect(currentWeaponStats, fullItems) {
 // an object which contains values if effect is possible,
 // a message and the effect's function.
 function effectSort(fullItems, weapon_entry_uid, currentWeaponStats, username) {
-	switch (fullItems[0].item_uid) {
-		case "a5b5bff3-1ec1-4a94-b998-5394772158ba":
+	switch (fullItems[0].effect) {
+		case "add":
 			if (currentWeaponStats.length > 5) {
 				return {
 					effectPossible: false,
@@ -151,9 +160,9 @@ function effectSort(fullItems, weapon_entry_uid, currentWeaponStats, username) {
 				effectPossible: true,
 				message: "Weapon upgraded",
 				executeEffect: () =>
-					weaponElixirEffect(weapon_entry_uid, fullItems, username),
+					addStatEffect(weapon_entry_uid, fullItems, username),
 			};
-		case "3f7d57cd-27b2-4759-9b57-bf56f30ce9d0":
+		case "remove":
 			if (currentWeaponStats.length === 0) {
 				return {
 					effectPossible: false,
@@ -164,7 +173,7 @@ function effectSort(fullItems, weapon_entry_uid, currentWeaponStats, username) {
 				effectPossible: true,
 				message: "Weapon upgraded",
 				executeEffect: () =>
-					astralStoneEffect(currentWeaponStats, fullItems),
+					removeStatEffect(currentWeaponStats, fullItems),
 			};
 		default:
 			return {

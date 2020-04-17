@@ -39,7 +39,6 @@ const InventoryItems = ({
 	useEffect(() => {
 		let placeholder = [];
 		inventory.forEach((itemBundle) => {
-			console.log(itemBundle);
 			const { item_uid, tier, imgurl, quantity } = itemBundle;
 			for (let index = 0; index < quantity; index++) {
 				placeholder.push({
