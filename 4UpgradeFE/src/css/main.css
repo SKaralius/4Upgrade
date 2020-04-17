@@ -225,6 +225,10 @@ hr {
   border: 1rem double #111010; }
 
 .monster {
+  background: url("../img/arenaBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
   display: flex;
   flex-flow: column;
   align-items: center; }
@@ -323,6 +327,42 @@ hr {
     transform: translateY(0px); }
   to {
     transform: translateY(-3rem); } }
+
+.infoBox {
+  position: absolute;
+  margin-top: 10rem;
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  max-width: 70vw;
+  background-color: black;
+  background: url("../img/infoBoxBackground.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+  color: #64500a;
+  text-align: center;
+  border-radius: 16px;
+  border: 3px gold ridge;
+  padding: 1rem;
+  box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); }
+  .infoBox > h1 {
+    margin: 0; }
+  .infoBox > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; }
+    .infoBox > div > img {
+      margin-left: 4rem;
+      width: 80px;
+      height: 80px; }
+    .infoBox > div > button {
+      color: white;
+      background-color: #5a0000;
+      border-radius: 16px;
+      border: 3px gold ridge;
+      padding: 0.5rem; }
 
 body {
   box-sizing: border-box;

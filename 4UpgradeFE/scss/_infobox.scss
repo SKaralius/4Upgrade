@@ -1,0 +1,46 @@
+.infoBox {
+	position: absolute;
+	margin-top: 10rem;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+
+	max-width: 70vw;
+
+	background-color: black;
+	background: url("../img/infoBoxBackground.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
+
+	color: rgb(100, 80, 10);
+	text-align: center;
+
+	border-radius: 16px;
+	border: 3px gold ridge;
+
+	padding: 1rem;
+
+	box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+	& > h1 {
+		margin: 0;
+	}
+	& > div {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		& > img {
+			margin-left: 4rem;
+			width: 80px;
+			height: 80px;
+		}
+		& > button {
+			color: white;
+			background-color: rgb(90, 0, 0);
+			border-radius: 16px;
+			border: 3px gold ridge;
+			padding: 0.5rem;
+		}
+	}
+}

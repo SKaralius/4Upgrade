@@ -8,6 +8,7 @@ const Arena = ({
 	selectedWeapon,
 	weaponsDetails,
 	updateWeaponsDetails,
+	updateMessageInfo,
 	token,
 }) => {
 	const [monster, setMonster] = useState([]);
@@ -71,7 +72,10 @@ const Arena = ({
 			}
 		);
 		if (!response.data) {
-			return alert("Your inventory is full");
+			updateMessageInfo({
+				message: `Your weapon or resource inventory is full.`,
+				success: false,
+			});
 		} else if (response.data.item_uid) {
 			const { data } = await http.get(
 				process.env.REACT_APP_IP +
@@ -83,7 +87,11 @@ const Arena = ({
 					},
 				}
 			);
-			console.log(`Congragulations, you got ${data.tier}`);
+			updateMessageInfo({
+				message: `You got ${data.name}`,
+				imgurl: data.imgurl,
+				success: true,
+			});
 		} else if (response.data.weapon_entry_uid) {
 			// Get weapon information
 			const weaponDataResult = await http.get(
@@ -99,11 +107,12 @@ const Arena = ({
 			weaponDataResult.data.weapon_entry_uid =
 				response.data.weapon_entry_uid;
 			// Pass the new weapon to weapon Details
-			console.log(
-				{ weaponsDetails },
-				{ weapondata: weaponDataResult.data }
-			);
 			updateWeaponsDetails([...weaponsDetails, weaponDataResult.data]);
+			updateMessageInfo({
+				message: `You got ${weaponDataResult.data.name}`,
+				imgurl: weaponDataResult.data.imgurl,
+				success: true,
+			});
 		}
 	};
 	return (

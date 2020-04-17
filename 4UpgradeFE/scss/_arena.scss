@@ -1,4 +1,8 @@
 .monster {
+	background: url("../img/arenaBackground.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center center;
 	display: flex;
 	flex-flow: column;
 	align-items: center;

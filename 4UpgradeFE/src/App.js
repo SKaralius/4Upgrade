@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
 import http from "./services/httpService";
+import axios from "axios";
 import tokens from "./services/tokens";
 
 import Navbar from "./common/Navbar";
 import Items from "./page/Items";
 import Authenticate from "./page/Authenticate";
 import Arena from "./page/Arena";
-import axios from "axios";
+import InfoBox from "./components/InfoBox";
 
 function App() {
 	const [selectedWeapon, setSelectedWeapon] = useState({});
@@ -15,6 +16,7 @@ function App() {
 	const [weaponsDetails, setWeaponsDetails] = useState([]);
 	const [isAuth, setIsAuth] = useState(false);
 	const [token, setToken] = useState("");
+	const [messageInfo, setMessageInfo] = useState({});
 	axios.interceptors.request.use(async (request) => {
 		const currentExpiryDate = localStorage.getItem("expiryDate");
 		if (new Date(currentExpiryDate) <= new Date()) {
@@ -100,7 +102,6 @@ function App() {
 		setIsAuth(newAuth);
 	};
 	const updateWeaponsDetails = (newDetails) => {
-		console.log(newDetails);
 		if (newDetails.length > 4 || newDetails.length < 1) {
 			return false;
 		} else {
@@ -108,9 +109,20 @@ function App() {
 			return true;
 		}
 	};
+	const updateMessageInfo = (newInfo) => {
+		setMessageInfo(newInfo);
+	};
 	return (
 		<React.Fragment>
 			<Navbar isAuth={isAuth} updateAuth={updateAuth} />
+			{messageInfo.message ? (
+				<InfoBox
+					message={messageInfo.message}
+					imgurl={messageInfo.imgurl}
+					success={messageInfo.success}
+					updateMessageInfo={updateMessageInfo}
+				/>
+			) : null}
 			<Switch>
 				<Route
 					path="/arena"
@@ -120,6 +132,7 @@ function App() {
 							selectedWeapon={selectedWeapon}
 							weaponsDetails={weaponsDetails}
 							updateWeaponsDetails={updateWeaponsDetails}
+							updateMessageInfo={updateMessageInfo}
 							token={token}
 						/>
 					)}
