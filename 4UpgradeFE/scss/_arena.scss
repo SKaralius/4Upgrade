@@ -1,8 +1,7 @@
+$monsterSize: 50vw;
+
 .monster {
-	background: url("../img/arenaBackground.png");
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-position: center center;
+	user-select: none;
 	display: flex;
 	flex-flow: column;
 	align-items: center;
@@ -12,14 +11,17 @@
 	}
 
 	& > .hitRight {
+		opacity: 0.5;
 		animation: hitRight 1s infinite alternate;
 		-webkit-animation: hitRight 1s infinite alternate;
 	}
 	& > .hitLeft {
+		opacity: 0.5;
 		animation: hitLeft 1s infinite alternate;
 		-webkit-animation: hitLeft 1s infinite alternate;
 	}
 	& > .hitUp {
+		opacity: 0.5;
 		animation: hitUp 1s infinite alternate;
 		-webkit-animation: hitUp 1s infinite alternate;
 	}
@@ -27,10 +29,10 @@
 		margin-top: 50px;
 		display: flex;
 		justify-content: center;
-		width: 50vw;
+		width: $monsterSize;
 		& > .maxHealth {
 			width: 100%;
-			height: 50vw;
+			height: $monsterSize;
 			background-color: #8b0000;
 			border: 5px inset #8b0000;
 			border-radius: 50%;
@@ -39,7 +41,7 @@
 			align-items: center;
 			// Dynamic style is in component.
 			& > .currentHealth {
-				height: 50vw;
+				height: $monsterSize;
 				width: 100%;
 				background-color: red;
 				border-radius: 50%;
@@ -50,14 +52,20 @@
 
 //Attack button
 .attackButton {
-	& > img {
-		width: 40vw;
-	}
-	margin-top: 5rem;
-	border: 1rem white groove;
-	background-color: rgb(27, 18, 18);
-	padding: 1.5rem;
+	position: absolute;
+	height: $monsterSize;
+	width: $monsterSize;
 	border-radius: 50%;
+	background-color: transparent;
+	border: none;
+}
+
+.encounterContainer {
+	display: flex;
+	justify-content: center;
+	.restart {
+		@include button(2rem, 5rem);
+	}
 }
 
 //Damage Splat

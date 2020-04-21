@@ -30,6 +30,7 @@ const Items = ({
 		<React.Fragment>
 			{selectedWeapon.weapon_entry_uid ? (
 				<div>
+					<hr />
 					<Item
 						weaponStats={weaponStats}
 						selectedWeapon={selectedWeapon}

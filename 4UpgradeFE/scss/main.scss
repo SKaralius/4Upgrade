@@ -5,8 +5,10 @@
 @import "transfer";
 @import "arena";
 @import "infobox";
+@import "footer";
 
 body {
+	margin: 0;
 	box-sizing: border-box;
 	color: rgb(18, 18, 24);
 	background-color: black;
@@ -20,4 +22,12 @@ body {
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
 		monospace;
+}
+
+.page {
+	overflow: hidden;
+	min-height: 100vh;
+	display: flex;
+	flex-flow: column;
+	justify-content: space-between;
 }

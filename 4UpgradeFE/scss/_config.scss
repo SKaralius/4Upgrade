@@ -1,2 +1,12 @@
 $idleBounciness: 3rem;
 $bounciness: 300px;
+$footerHeight: 100px;
+
+@mixin button($padding, $fontSize) {
+	color: white;
+	background-color: rgb(90, 0, 0);
+	border-radius: 16px;
+	border: 3px gold ridge;
+	padding: $padding;
+	font-size: $fontSize;
+}

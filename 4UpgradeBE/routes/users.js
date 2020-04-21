@@ -7,7 +7,7 @@ router.post(
 	"/addUser",
 	[
 		check("username")
-			.isLength({ min: 2, max: 26 })
+			.isLength({ min: 2, max: 36 })
 			.isAlphanumeric()
 			.trim()
 			.escape(),
@@ -16,6 +16,7 @@ router.post(
 	],
 	userController.addUser
 );
+router.post("/demoUser", userController.addDemoUser);
 router.post("/logIn", userController.logIn);
 router.post("/token", userController.token);
 router.delete("/logout", userController.logOut);

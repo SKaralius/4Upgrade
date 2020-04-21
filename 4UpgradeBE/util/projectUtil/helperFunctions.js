@@ -1,37 +1,49 @@
 const db = require("../dbConnect");
 const { throwError } = require("../errors");
 const { v4: uuidv4 } = require("uuid");
-const { tierRoll, itemTierRoll } = require("./rolls");
+const { tierRoll } = require("./rolls");
 
 async function setUpUser(username) {
-	giveWeapon(username, 2);
+	for (let i = 0; i < 2; i++) {
+		await giveWeaponOfTier(username, i + 1);
+	}
 	// TODO: Limit mat tiers
 	for (let i = 0; i < 5; i++) {
-		giveItem(username, 2);
+		await giveItemOfTier(username, 3);
 	}
 }
 
-function giveReward(username) {
-	if (tierRoll() > 7) {
-		return giveWeapon(username);
+function giveReward(username, upToTier) {
+	if (tierRoll() >= 6) {
+		return giveWeapon(username, upToTier);
 	} else {
-		return giveItem(username);
+		return giveItem(username, upToTier);
 	}
 }
 
 async function giveWeapon(username, upToTier) {
 	//Check if there's space for weapon in weapon inventory
 	if (!(await isFreeWeaponInventorySpace(username))) {
-		return;
+		return { error: "Inventory is full." };
 	}
-	//Roll a weapon tier and select a weapon_id from DB based on it.
-	const weaponTier = [tierRoll(upToTier)];
+	//Roll a weapon tier
+	const tier = tierRoll(upToTier);
+	const weapon_entry_uid = await giveWeaponOfTier(username, tier);
+	return {
+		weapon_entry_uid,
+	};
+}
+
+async function giveWeaponOfTier(username, tier) {
+	// Select a weapon_id from DB based on the tier.
+	const weaponTier = [tier];
 	const weaponToInsertQuery =
 		"SELECT weapon_uid FROM weapons WHERE tier = $1;";
 	const weaponToInsertResult = await db.query(
 		weaponToInsertQuery,
 		weaponTier
 	);
+
 	// If multiple items of the same tier are returned, one will be selected at random.
 	const sameTierItemSelect = Math.floor(
 		Math.random() * weaponToInsertResult.rowCount
@@ -46,21 +58,30 @@ async function giveWeapon(username, upToTier) {
 		"INSERT INTO weapon_inventory(weapon_entry_uid, username, weapon_uid)\
 	 VALUES($1, $2, $3)";
 	db.query(giveWeaponQuery, giveWeaponValues);
-
-	return {
-		weapon_entry_uid,
-	};
+	return weapon_entry_uid;
 }
 
 async function giveItem(username, upToTier) {
 	if (!(await isFreeInventorySpace(username))) {
-		return;
+		return { error: "Weapon or resource inventory is full." };
 	}
-	const itemTier = itemTierRoll(upToTier);
+	let itemTier = tierRoll(upToTier);
+	// TODO: Items of tiers 1,4 and 6 are missing, when they are added
+	// below check should be removed.
+	if (itemTier === 1) {
+		itemTier += 2;
+	} else if (itemTier === 4 || itemTier === 6) {
+		itemTier += 1;
+	}
+
+	return await giveItemOfTier(username, itemTier);
+}
+
+async function giveItemOfTier(username, tier) {
 	const itemToAddResult = await db.query(
 		"SELECT item_uid FROM items \
 			WHERE tier = $1;",
-		[itemTier]
+		[tier]
 	);
 	const sameTierItemSelect = Math.floor(
 		Math.random() * itemToAddResult.rowCount
@@ -72,13 +93,13 @@ async function giveItem(username, upToTier) {
 		[username, itemIdToAdd]
 	);
 	if (result.rowCount === 0) {
-		db.query(
+		await db.query(
 			"INSERT INTO resource_inventory(entry_uid, username, item_uid, quantity)\
 		VALUES($1, $2, $3, $4);",
 			[uuidv4(), username, itemIdToAdd, 1]
 		);
 	} else {
-		db.query(
+		await db.query(
 			"UPDATE resource_inventory SET quantity = $1\
 		WHERE entry_uid = $2",
 			[result.rows[0].quantity + 1, result.rows[0].entry_uid]
@@ -86,6 +107,7 @@ async function giveItem(username, upToTier) {
 	}
 	return { item_uid: itemIdToAdd };
 }
+
 async function deleteWeaponFromUser(username, weapon_entry_uid) {
 	//DELETE ROW BASED ON ENTRY ID
 	return await db.query(

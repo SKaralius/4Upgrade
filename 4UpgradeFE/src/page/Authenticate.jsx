@@ -6,7 +6,7 @@ import http from "../services/httpService";
 import LogIn from "../components/LogIn";
 import Register from "../components/Register";
 
-const Authenticate = ({ updateAuth, history }) => {
+const Authenticate = ({ updateAuth, history, updateMessageInfo }) => {
 	const [selectedForm, setSelectedForm] = useState("Log In");
 	const { register, handleSubmit, errors } = useForm();
 	const handleLoginSubmit = async (userInfo) => {
@@ -29,7 +29,10 @@ const Authenticate = ({ updateAuth, history }) => {
 			history.push("/items");
 		} catch (err) {
 			if (err.response && err.response.status === 401) {
-				alert(err.response.data.message);
+				updateMessageInfo({
+					message: err.response.data.message,
+					success: false,
+				});
 			}
 		}
 	};
@@ -45,7 +48,35 @@ const Authenticate = ({ updateAuth, history }) => {
 			handleLoginSubmit(userInfo);
 		} catch (err) {
 			if (err.response && err.response.status === 403) {
-				alert(err.response.data.message);
+				updateMessageInfo({
+					message: err.response.data.message,
+					success: false,
+				});
+			}
+		}
+	};
+	const handleDemoSubmit = async (userInfo) => {
+		try {
+			const { data } = await http.post(
+				process.env.REACT_APP_IP + "users/demoUser"
+			);
+			userInfo.username = userInfo.usernameRegister;
+			userInfo.password = userInfo.passwordRegister;
+			const remainingMilliseconds = 60 * 60 * 1000;
+			const expiryDate = new Date(
+				new Date().getTime() + remainingMilliseconds
+			);
+			localStorage.setItem("expiryDate", expiryDate.toISOString());
+			updateAuth(true);
+			localStorage.setItem("token", data.accessToken);
+			localStorage.setItem("refreshToken", data.refreshToken);
+			history.push("/items");
+		} catch (err) {
+			if (err.response && err.response.status === 403) {
+				updateMessageInfo({
+					message: err.response.data.message,
+					success: false,
+				});
 			}
 		}
 	};
@@ -99,6 +130,10 @@ const Authenticate = ({ updateAuth, history }) => {
 					/>
 				)}
 			</div>
+			<h1 className="or">Or</h1>
+			<button className="demoButton" onClick={handleDemoSubmit}>
+				Try a demo
+			</button>
 		</div>
 	);
 };

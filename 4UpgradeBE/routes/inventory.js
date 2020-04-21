@@ -16,8 +16,6 @@ router.get(
 	inventoryController.getWeaponInventory
 );
 
-router.post("/addItemToUser", isAuth, inventoryController.addItemToUser);
-
 router.delete(
 	"/deleteitemfromuser",
 	isAuth,

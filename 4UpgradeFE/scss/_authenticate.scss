@@ -1,52 +1,60 @@
-$loginColor: black;
+@import "config";
+$titleColor: white;
+$shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+
+@mixin stroke {
+	-webkit-text-stroke-width: 3px;
+	-webkit-text-stroke-color: black;
+	font-size: 3.5rem;
+	font-weight: 900;
+}
+
+@mixin buttonStyle {
+	padding: 1rem;
+	color: black;
+	font-weight: 700;
+	font-size: large;
+	border: none;
+}
+
 .login-wrap {
-	height: 100vh;
+	min-height: calc(100vh - #{$footerHeight});
 	display: flex;
 	flex-flow: column;
 	justify-content: center;
-	background: rgb(204, 203, 8);
+	align-items: center;
+	background: rgb(0, 0, 0);
 	background: radial-gradient(
 		circle,
-		rgba(204, 203, 8, 1) 0%,
-		rgba(50, 28, 0, 0.9225806451612903) 65%,
-		rgba(0, 0, 0, 0.9204301075268817) 100%
+		rgba(0, 0, 0, 1) 0%,
+		rgba(187, 12, 12, 0.8279569892473118) 62%,
+		rgba(0, 0, 0, 1) 100%
 	);
 	& > .login-form {
-		background: url("../img/login.jpg") no-repeat center;
-		-webkit-background-size: cover;
-		background-size: cover;
-		& > form > .login-title {
-			-webkit-text-stroke-width: 3px;
-			-webkit-text-stroke-color: black;
-			font-size: 3.5rem;
+		height: 60vh;
+		width: 90vw;
+		& > form > h1 {
+			@include stroke();
+
 			margin: 2rem;
 		}
 		text-align: center;
 		margin: 0 2rem;
-		color: white;
-		background-color: $loginColor;
-		box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-		& > form > .forgot {
-			color: rgba(255, 255, 255, 0.3);
-			text-decoration: none;
-		}
+		color: $titleColor;
+		box-shadow: $shadow;
 		& > form > input {
-			padding: 1rem;
-			color: $loginColor;
-			font-weight: 700;
-			font-size: large;
+			@include buttonStyle();
 			background-color: rgba(255, 255, 255, 0.75);
-			border: none;
+		}
+		& > form > .submit {
+			background-color: rgba(255, 255, 255, 1) !important;
 		}
 	}
 }
 
-.submit {
-	margin: 1rem 2rem 1rem 0rem;
-	background-color: white;
-	font-weight: bold;
-	border: none;
-	background-color: rgba(255, 255, 255, 1) !important;
+::placeholder {
+	color: rgb(10, 10, 48);
+	opacity: 0.7;
 }
 
 .form-select {
@@ -54,21 +62,36 @@ $loginColor: black;
 	justify-content: space-around;
 	& > label {
 		text-transform: uppercase;
-		color: white;
+		color: $titleColor;
 		padding: 1rem 1rem 0.2rem 1rem;
 		font-size: 1rem;
 		font-weight: bold;
 		opacity: 0.5;
 	}
+	& > .selected {
+		opacity: 1 !important;
+		border-bottom: 10px solid rgb(201, 201, 201);
+		border-bottom-right-radius: 2rem;
+	}
 }
 
-.selected {
-	opacity: 1 !important;
-	border-bottom: 10px solid rgb(201, 201, 201);
-	border-bottom-right-radius: 2rem;
+.formErrorContainer {
+	justify-content: center;
+	display: flex;
+	flex-flow: column;
+	min-height: 5rem;
 }
 
-::placeholder {
-	color: rgb(10, 10, 48);
-	opacity: 0.7; /* Firefox */
+.or {
+	@include stroke();
+	text-align: center;
+	color: $titleColor;
+}
+
+.demoButton {
+	width: 70vw;
+
+	@include buttonStyle();
+	background-color: rgba(255, 255, 255, 1) !important;
+	box-shadow: $shadow;
 }

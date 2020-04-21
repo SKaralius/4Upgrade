@@ -1,9 +1,6 @@
 const db = require("../util/dbConnect");
-const { itemTierRoll } = require("../util/projectUtil/rolls");
-const { v4: uuidv4 } = require("uuid");
 const {
 	deleteItem,
-	giveReward,
 	item_uidToResource,
 } = require("../util/projectUtil/helperFunctions");
 
@@ -38,12 +35,6 @@ exports.getWeaponInventory = async (req, res, next) => {
 	} catch (err) {
 		next(err);
 	}
-};
-
-exports.addItemToUser = async (req, res, next) => {
-	const username = req.username;
-	const itemIdToAdd = await giveReward(username);
-	return res.status(200).send(itemIdToAdd);
 };
 
 exports.deleteItemFromUser = async (req, res, next) => {

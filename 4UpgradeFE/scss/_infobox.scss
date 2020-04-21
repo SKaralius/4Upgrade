@@ -1,3 +1,5 @@
+@import "config";
+
 .infoBox {
 	position: absolute;
 	margin-top: 10rem;
@@ -5,6 +7,7 @@
 	margin-right: auto;
 	left: 0;
 	right: 0;
+	z-index: 2;
 
 	max-width: 70vw;
 
@@ -36,11 +39,7 @@
 			height: 80px;
 		}
 		& > button {
-			color: white;
-			background-color: rgb(90, 0, 0);
-			border-radius: 16px;
-			border: 3px gold ridge;
-			padding: 0.5rem;
+			@include button(0.5rem, 1rem);
 		}
 	}
 }

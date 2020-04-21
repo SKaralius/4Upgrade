@@ -12,15 +12,15 @@ function tierRoll(upToTier = 9) {
 		tiers.push(i);
 	}
 	const options = {
-		"9": 0.01,
-		"8": 0.02,
-		"7": 0.04,
-		"6": 0.07,
-		"5": 0.09,
-		"4": 0.11,
-		"3": 0.15,
-		"2": 0.21,
-		"1": 0.3,
+		9: 0.01,
+		8: 0.02,
+		7: 0.04,
+		6: 0.07,
+		5: 0.09,
+		4: 0.11,
+		3: 0.15,
+		2: 0.21,
+		1: 0.3,
 	};
 	// Maps to an array of values
 	let includedTiers = {};
@@ -29,7 +29,7 @@ function tierRoll(upToTier = 9) {
 		includedTiers = { ...includedTiers, [tier]: value };
 	});
 
-	return weighted.select(includedTiers);
+	return Number(weighted.select(includedTiers));
 }
 
 function typeRoll() {
@@ -41,23 +41,9 @@ function typeRoll() {
 	};
 	return weighted.select(options);
 }
-// TODO: When there are more items in the DB, the roll
-// doesn't have to be limited to 2 tiers, and rollTier can be used.
-function itemTierRoll() {
-	const options = {
-		"9": 0.01,
-		"8": 0.02,
-		"7": 0.04,
-		"5": 0.09,
-		"3": 0.15,
-		"2": 0.21,
-	};
-	return weighted.select(options);
-}
 
 module.exports = {
 	typeRoll,
 	tierRoll,
-	itemTierRoll,
 	badRollShield,
 };

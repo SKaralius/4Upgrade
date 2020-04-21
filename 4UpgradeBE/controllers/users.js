@@ -9,8 +9,7 @@ const { setUpUser } = require("../util/projectUtil/helperFunctions");
 exports.addUser = async (req, res, next) => {
 	const username = req.body.username.toLowerCase();
 	const email = req.body.email.toLowerCase();
-	const password = req.body.password;
-	const hashedPassword = await bcrypt.hash(password, 12);
+	const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -52,12 +51,26 @@ exports.addUser = async (req, res, next) => {
 			const createUserValues = [username, email, hashedPassword];
 			await db.query(createUserQuery, createUserValues);
 			// Setup new character
-			setUpUser(username);
+			await setUpUser(username);
 			res.status(200).send({ message: `User ${username} Created` });
 		} catch (err) {
 			next(err);
 		}
 	}
+};
+
+exports.addDemoUser = async (req, res, next) => {
+	const username = uuidv4();
+	const createUserQuery =
+		"INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
+	const createUserValues = [username, uuidv4(), uuidv4()];
+	await db.query(createUserQuery, createUserValues);
+	// Setup new character
+	await setUpUser(username);
+	const accessToken = generateAccessToken(username);
+	const link_uid = uuidv4();
+	const refreshToken = generateRefreshToken(link_uid, username);
+	res.status(200).json({ accessToken, refreshToken, username });
 };
 
 exports.logIn = async (req, res, next) => {

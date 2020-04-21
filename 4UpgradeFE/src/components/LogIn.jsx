@@ -1,5 +1,7 @@
 import React from "react";
 
+import FormError from "../components/FormError";
+
 const LogIn = ({
 	handleLoginSubmit,
 	// React Hook Form
@@ -12,7 +14,10 @@ const LogIn = ({
 			<h1 className="login-title">4Upgrade</h1>
 			<input
 				ref={register({
-					required: true,
+					required: {
+						value: true,
+						message: "Username is required.",
+					},
 					minLength: {
 						value: 2,
 						message:
@@ -29,7 +34,7 @@ const LogIn = ({
 				autoComplete="username"
 			/>
 			<br />
-			{errors.username && <span>{errors.username.message}</span>}
+
 			<input
 				ref={register({
 					required: {
@@ -42,8 +47,10 @@ const LogIn = ({
 				name="password"
 				autoComplete="current-password"
 			/>
-			<br />
-			{errors.password && <span>{errors.password.message}</span>}
+			<div className="formErrorContainer">
+				<FormError error={errors.username} />
+				<FormError error={errors.password} />
+			</div>
 			<input type="submit" value="Log In" className="submit" />
 		</form>
 	);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import http from "./services/httpService";
 import axios from "axios";
 import tokens from "./services/tokens";
@@ -9,6 +9,7 @@ import Items from "./page/Items";
 import Authenticate from "./page/Authenticate";
 import Arena from "./page/Arena";
 import InfoBox from "./components/InfoBox";
+import Footer from "./common/Footer";
 
 function App() {
 	const [selectedWeapon, setSelectedWeapon] = useState({});
@@ -113,7 +114,7 @@ function App() {
 		setMessageInfo(newInfo);
 	};
 	return (
-		<React.Fragment>
+		<div className="page">
 			<Navbar isAuth={isAuth} updateAuth={updateAuth} />
 			{messageInfo.message ? (
 				<InfoBox
@@ -124,6 +125,13 @@ function App() {
 				/>
 			) : null}
 			<Switch>
+				<Route exact path="/">
+					{isAuth ? (
+						<Redirect to="/items" />
+					) : (
+						<Redirect to="/authenticate" />
+					)}
+				</Route>
 				<Route
 					path="/arena"
 					render={(props) => (
@@ -155,11 +163,16 @@ function App() {
 				<Route
 					path="/Authenticate"
 					render={(props) => (
-						<Authenticate {...props} updateAuth={updateAuth} />
+						<Authenticate
+							{...props}
+							updateAuth={updateAuth}
+							updateMessageInfo={updateMessageInfo}
+						/>
 					)}
 				/>
 			</Switch>
-		</React.Fragment>
+			<Footer isAuth={isAuth} updateAuth={updateAuth} />
+		</div>
 	);
 }
 

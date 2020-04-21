@@ -1,5 +1,7 @@
 import React from "react";
 
+import FormError from "../components/FormError";
+
 const Register = ({
 	handleRegisterSubmit,
 	// React Hook Form
@@ -12,7 +14,10 @@ const Register = ({
 			<h1>Register</h1>
 			<input
 				ref={register({
-					required: true,
+					required: {
+						value: true,
+						message: "Username is required.",
+					},
 					minLength: {
 						value: 2,
 						message:
@@ -28,10 +33,6 @@ const Register = ({
 				placeholder="Username"
 				autoComplete="username"
 			/>
-			<br />
-			{errors.usernameRegister && (
-				<span>{errors.usernameRegister.message}</span>
-			)}
 			<input
 				ref={register({
 					required: { value: true, message: "Email is required." },
@@ -44,10 +45,6 @@ const Register = ({
 				placeholder="username@email.xyz"
 				autoComplete="email"
 			/>
-			<br />
-			{errors.emailRegister && (
-				<span>{errors.emailRegister.message}</span>
-			)}
 			<input
 				ref={register({
 					required: {
@@ -65,10 +62,11 @@ const Register = ({
 				autoComplete="current-password"
 				placeholder="Password!987"
 			/>
-			<br />
-			{errors.passwordRegister && (
-				<span>{errors.passwordRegister.message}</span>
-			)}
+			<div className="formErrorContainer">
+				<FormError error={errors.usernameRegister} />
+				<FormError error={errors.emailRegister} />
+				<FormError error={errors.passwordRegister} />
+			</div>
 			<input type="submit" value="Register" className="submit"></input>
 		</form>
 	);
