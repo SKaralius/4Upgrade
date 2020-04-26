@@ -13,6 +13,7 @@ const Arena = ({
 	const [encounter, setEncounter] = useState(true);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
 	useEffect(() => {
+		let isMounted = true;
 		const fetchData = async () => {
 			if (selectedWeapon.weapon_entry_uid) {
 				const { data } = await http.get(
@@ -25,11 +26,14 @@ const Arena = ({
 						},
 					}
 				);
-				setEncounter(true);
-				setMonster(data);
+				if (isMounted) {
+					setEncounter(true);
+					setMonster(data);
+				}
 			}
 		};
 		fetchData();
+		return () => (isMounted = false);
 	}, [token, selectedWeapon]);
 	const handleDealDamage = async () => {
 		setButtonDisabled(true);
@@ -90,6 +94,9 @@ const Arena = ({
 				);
 				weaponDataResult.data.weapon_entry_uid =
 					monster.weapon_entry_uid;
+				let monsterCopy = monster;
+				delete monsterCopy.weapon_entry_uid;
+				setMonster(monsterCopy);
 				// Pass the new weapon to weapon Details
 				updateWeaponsDetails([
 					...weaponsDetails,
@@ -107,9 +114,14 @@ const Arena = ({
 				});
 			}
 		}
-
 		fetchData();
-	}, [monster]);
+	}, [
+		monster,
+		token,
+		weaponsDetails,
+		updateWeaponsDetails,
+		updateMessageInfo,
+	]);
 	return (
 		<div className="encounterContainer">
 			{encounter ? (

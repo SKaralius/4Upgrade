@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import http from "./services/httpService";
 import axios from "axios";
@@ -12,6 +12,7 @@ import InfoBox from "./components/InfoBox";
 import Footer from "./common/Footer";
 
 function App() {
+	const [weaponStatsLoading, setWeaponStatsLoading] = useState(false);
 	const [selectedWeapon, setSelectedWeapon] = useState({});
 	const [weaponStats, setWeaponStats] = useState([]);
 	const [weaponsDetails, setWeaponsDetails] = useState([]);
@@ -82,6 +83,7 @@ function App() {
 	}, [token, isAuth]);
 	useEffect(() => {
 		async function fetchData() {
+			setWeaponStatsLoading(true);
 			const weaponStatsResult = await http.get(
 				process.env.REACT_APP_IP +
 					"weapons/getWeaponStats/" +
@@ -93,25 +95,40 @@ function App() {
 				}
 			);
 			setWeaponStats(weaponStatsResult.data);
+			setWeaponStatsLoading(false);
 		}
-		fetchData();
-	}, [selectedWeapon]);
+		if (selectedWeapon.weapon_entry_uid) {
+			fetchData();
+		}
+	}, [selectedWeapon, token]);
 	const updateWeaponStats = (newStats) => {
 		setWeaponStats(newStats);
 	};
 	const updateAuth = (newAuth) => {
 		setIsAuth(newAuth);
 	};
-	const updateWeaponsDetails = (newDetails) => {
-		if (newDetails.length > 4 || newDetails.length < 1) {
-			return false;
-		} else {
-			setWeaponsDetails(newDetails);
-			return true;
-		}
+	const updateWeaponsDetails = useCallback(
+		(newDetails) => {
+			if (newDetails.length > 4 || newDetails.length < 1) {
+				return false;
+			} else {
+				setWeaponsDetails(newDetails);
+				return true;
+			}
+		},
+		[setWeaponsDetails]
+	);
+	const updateMessageInfo = useCallback(
+		(newInfo) => {
+			setMessageInfo(newInfo);
+		},
+		[setMessageInfo]
+	);
+	const updateWeaponStatsLoading = (value) => {
+		setWeaponStatsLoading(value);
 	};
-	const updateMessageInfo = (newInfo) => {
-		setMessageInfo(newInfo);
+	const updateSelectedWeapon = (value) => {
+		setSelectedWeapon(value);
 	};
 	return (
 		<div className="page">
@@ -144,14 +161,16 @@ function App() {
 							token={token}
 						/>
 					)}
-				></Route>
+				/>
 				<Route
 					path="/items"
 					render={(props) => (
 						<Items
 							{...props}
+							weaponStatsLoading={weaponStatsLoading}
 							selectedWeapon={selectedWeapon}
-							setSelectedWeapon={setSelectedWeapon}
+							updateSelectedWeapon={updateSelectedWeapon}
+							updateWeaponStatsLoading={updateWeaponStatsLoading}
 							weaponsDetails={weaponsDetails}
 							updateWeaponsDetails={updateWeaponsDetails}
 							updateWeaponStats={updateWeaponStats}
@@ -159,12 +178,13 @@ function App() {
 							token={token}
 						/>
 					)}
-				></Route>
+				/>
 				<Route
 					path="/Authenticate"
 					render={(props) => (
 						<Authenticate
 							{...props}
+							updateSelectedWeapon={updateSelectedWeapon}
 							updateAuth={updateAuth}
 							updateMessageInfo={updateMessageInfo}
 						/>

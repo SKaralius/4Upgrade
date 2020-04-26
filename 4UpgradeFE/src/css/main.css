@@ -1,14 +1,21 @@
 nav,
 footer {
-  border: thick double gold; }
+  border: thick double gold;
+  height: 80px;
+  box-sizing: border-box; }
   nav > ul,
   footer > ul {
+    padding: 0;
     margin: 0;
     background-color: gold;
-    padding: 1.5rem;
+    height: 100%;
     display: flex;
     justify-content: space-around;
     list-style-type: none; }
+    nav > ul > li,
+    footer > ul > li {
+      display: flex;
+      align-items: center; }
     nav > ul > li > a,
     footer > ul > li > a {
       text-decoration: none;
@@ -19,7 +26,7 @@ footer {
         border-bottom: solid; }
 
 .login-wrap {
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 80px);
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -31,8 +38,7 @@ footer {
     width: 90vw;
     text-align: center;
     margin: 0 2rem;
-    color: white;
-    box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75); }
+    color: white; }
     .login-wrap > .login-form > form > h1 {
       -webkit-text-stroke-width: 3px;
       -webkit-text-stroke-color: black;
@@ -120,7 +126,8 @@ footer {
     justify-content: space-around;
     align-items: center; }
     .item-container > .item-text > h1 {
-      width: 10rem;
+      max-width: 13rem;
+      line-height: 2rem;
       color: gold;
       background-color: transparent; }
     .item-container > .item-text > ul {
@@ -129,6 +136,7 @@ footer {
       list-style-type: none;
       text-align: left; }
       .item-container > .item-text > ul > li {
+        line-height: 1.2rem;
         font-size: 0.9rem;
         text-align: center; }
     .item-container > .item-text > h4 {
@@ -356,6 +364,20 @@ hr {
   to {
     transform: translateY(-3rem); } }
 
+@keyframes grow {
+  0% {
+    width: 7rem;
+    height: 7rem;
+    transform: rotate(30deg); }
+  50% {
+    width: 3.5rem;
+    height: 3.5rem;
+    transform: rotate(70deg); }
+  100% {
+    width: 7rem;
+    height: 7rem;
+    transform: rotate(30deg); } }
+
 .infoBox {
   position: absolute;
   margin-top: 10rem;
@@ -366,7 +388,7 @@ hr {
   z-index: 2;
   max-width: 70vw;
   background-color: black;
-  background: url("../img/infoBoxBackground.png");
+  background: url("../img/infoBoxBackground.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
@@ -393,6 +415,75 @@ hr {
       border: 3px gold ridge;
       padding: 0.5rem;
       font-size: 1rem; }
+
+@keyframes hitLeft {
+  0% {
+    transform: translate3d(0px, 0px, 0px); }
+  10% {
+    transform: translate3d(300px, -300px, 0px);
+    transform: skewY(35deg); }
+  30% {
+    transform: translate3d(-300px, 300px, 0px); }
+  100% {
+    transform: translate3d(0px, 0px, 0px); } }
+
+@keyframes hitRight {
+  0% {
+    transform: translate3d(0px, 0px, 0px); }
+  10% {
+    transform: translate3d(-300px, -300px, 0px);
+    transform: skewY(200deg); }
+  30% {
+    transform: translate3d(300px, 300px, 0px); }
+  100% {
+    transform: translate3d(0px, 0px, 0px); } }
+
+@keyframes hitUp {
+  0% {
+    transform: translate3d(0px, 0px, 0px); }
+  10% {
+    transform: skewX(60deg); }
+  30% {
+    transform: translate3d(0px, -300px, 0px); }
+  100% {
+    transform: translate3d(0px, 0px, 0px); } }
+
+@keyframes bounce {
+  from {
+    transform: translateY(0px); }
+  to {
+    transform: translateY(-3rem); } }
+
+@keyframes grow {
+  0% {
+    width: 7rem;
+    height: 7rem;
+    transform: rotate(30deg); }
+  50% {
+    width: 3.5rem;
+    height: 3.5rem;
+    transform: rotate(70deg); }
+  100% {
+    width: 7rem;
+    height: 7rem;
+    transform: rotate(30deg); } }
+
+.spinnerContainer {
+  min-width: 12rem;
+  min-height: 12rem;
+  align-self: center;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
+  .spinnerContainer .spinner {
+    background-color: red;
+    border: 16px solid red;
+    border: 5px inset #8b0000;
+    border-radius: 50%;
+    width: 7rem;
+    height: 7rem;
+    animation: grow 2s ease-in infinite; }
 
 body {
   margin: 0;

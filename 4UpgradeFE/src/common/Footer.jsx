@@ -16,10 +16,13 @@ const Footer = ({ isAuth, updateAuth }) => {
 		<footer>
 			<ul>
 				<li>
-					<Link to="/">Credits</Link>
-				</li>
-				<li>
-					<Link to="/">Github</Link>
+					<a
+						href="https://github.com/SKaralius/4Upgrade"
+						target="_blank"
+						rel="noopener noreferrer"
+					>
+						Github
+					</a>
 				</li>
 				{isAuth ? (
 					<li>

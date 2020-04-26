@@ -54,3 +54,21 @@
 		transform: translateY(-$idleBounciness);
 	}
 }
+
+@keyframes grow {
+	0% {
+		width: $spinnerSize;
+		height: $spinnerSize;
+		transform: rotate(30deg);
+	}
+	50% {
+		width: $spinnerSize/100 * 50;
+		height: $spinnerSize/100 * 50;
+		transform: rotate(70deg);
+	}
+	100% {
+		width: $spinnerSize;
+		height: $spinnerSize;
+		transform: rotate(30deg);
+	}
+}

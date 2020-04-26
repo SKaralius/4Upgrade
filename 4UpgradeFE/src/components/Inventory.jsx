@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import http from "../services/httpService";
 
 import InventoryItem from "./InventoryItem";
 import WeaponInventory from "../components/WeaponInventory";
+import Spinner from "../common/Spinner";
 
 const Inventory = ({
 	inventoryRows,
@@ -13,10 +14,13 @@ const Inventory = ({
 	token,
 	weaponsDetails,
 	updateWeaponsDetails,
-	setSelectedWeapon,
+	updateSelectedWeapon,
 }) => {
+	const [isLoading, setLoading] = useState(false);
 	useEffect(() => {
+		let isMounted = true;
 		const fetchData = async () => {
+			setLoading(true);
 			let placeholder = [];
 			const resourceInventory = await http.get(
 				process.env.REACT_APP_IP + "inventory/getresourceinventory",
@@ -62,11 +66,15 @@ const Inventory = ({
 					imgurl: null,
 				});
 			}
-			updateInventoryRows(placeholder);
+			if (isMounted) {
+				updateInventoryRows(placeholder);
+				setLoading(false);
+			}
 		};
 		if (token) {
 			fetchData();
 		}
+		return () => (isMounted = false);
 	}, [token, inventorySize, updateInventoryRows]);
 	const handleDeleteItem = (index) => {
 		const rowCopy = [...inventoryRows];
@@ -100,28 +108,32 @@ const Inventory = ({
 				weaponsDetails={weaponsDetails}
 				updateWeaponsDetails={updateWeaponsDetails}
 				handleDeleteItem={handleDeleteItem}
-				setSelectedWeapon={setSelectedWeapon}
+				updateSelectedWeapon={updateSelectedWeapon}
 				inventorySize={4}
 				token={token}
 			/>
-			<div className="inventory">
-				<hr />
-				<ul>
-					{inventoryRows.map((row, index) => {
-						return (
-							<InventoryItem
-								key={index}
-								name={row.name}
-								imgurl={row.imgurl}
-								item_uid={row.item_uid}
-								index={index}
-								handleDeleteItem={handleDeleteItem}
-								handleClick={handleClick}
-							/>
-						);
-					})}
-				</ul>
-			</div>
+			{isLoading ? (
+				<Spinner />
+			) : (
+				<div className="inventory">
+					<hr />
+					<ul>
+						{inventoryRows.map((row, index) => {
+							return (
+								<InventoryItem
+									key={index}
+									name={row.name}
+									imgurl={row.imgurl}
+									item_uid={row.item_uid}
+									index={index}
+									handleDeleteItem={handleDeleteItem}
+									handleClick={handleClick}
+								/>
+							);
+						})}
+					</ul>
+				</div>
+			)}
 		</React.Fragment>
 	);
 };

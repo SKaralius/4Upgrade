@@ -1,13 +1,22 @@
+@import "config";
+
 nav,
 footer {
-	border: thick double gold;
+	border: thick double $primaryColor;
+	height: $footerHeight;
+	box-sizing: border-box;
 	& > ul {
+		padding: 0;
 		margin: 0;
-		background-color: gold;
-		padding: 1.5rem;
+		background-color: $primaryColor;
+		height: 100%;
 		display: flex;
 		justify-content: space-around;
 		list-style-type: none;
+		& > li {
+			display: flex;
+			align-items: center;
+		}
 		& > li > a {
 			text-decoration: none;
 			color: black;

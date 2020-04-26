@@ -1,12 +1,16 @@
 $idleBounciness: 3rem;
 $bounciness: 300px;
-$footerHeight: 100px;
+$footerHeight: 80px;
+$primaryColor: gold;
+$monsterSecondaryColor: #8b0000;
+$monsterPrimaryColor: red;
+$spinnerSize: 7rem;
 
 @mixin button($padding, $fontSize) {
 	color: white;
 	background-color: rgb(90, 0, 0);
 	border-radius: 16px;
-	border: 3px gold ridge;
+	border: 3px $primaryColor ridge;
 	padding: $padding;
 	font-size: $fontSize;
 }

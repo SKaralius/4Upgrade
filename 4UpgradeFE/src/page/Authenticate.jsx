@@ -6,7 +6,12 @@ import http from "../services/httpService";
 import LogIn from "../components/LogIn";
 import Register from "../components/Register";
 
-const Authenticate = ({ updateAuth, history, updateMessageInfo }) => {
+const Authenticate = ({
+	updateAuth,
+	history,
+	updateMessageInfo,
+	updateSelectedWeapon,
+}) => {
 	const [selectedForm, setSelectedForm] = useState("Log In");
 	const { register, handleSubmit, errors } = useForm();
 	const handleLoginSubmit = async (userInfo) => {
@@ -68,6 +73,7 @@ const Authenticate = ({ updateAuth, history, updateMessageInfo }) => {
 			);
 			localStorage.setItem("expiryDate", expiryDate.toISOString());
 			updateAuth(true);
+			updateSelectedWeapon({});
 			localStorage.setItem("token", data.accessToken);
 			localStorage.setItem("refreshToken", data.refreshToken);
 			history.push("/items");

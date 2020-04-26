@@ -2,11 +2,12 @@ import React from "react";
 import http from "../services/httpService";
 
 import InventoryItem from "./InventoryItem";
+import Spinner from "../common/Spinner";
 
 const WeaponInventory = ({
 	weaponsDetails,
 	updateWeaponsDetails,
-	setSelectedWeapon,
+	updateSelectedWeapon,
 	inventorySize,
 	token,
 }) => {
@@ -27,16 +28,16 @@ const WeaponInventory = ({
 				}
 			);
 			const newWeaponDetails = weaponsDetailsCopy.filter(
-				(detail, i) => i != index
+				(detail, i) => i !== index
 			);
-			setSelectedWeapon(newWeaponDetails[0]);
+			updateSelectedWeapon(newWeaponDetails[0]);
 			updateWeaponsDetails(newWeaponDetails);
 		} else {
 			alert("You cannnot delete your last weapon.");
 		}
 	};
 	const handleClick = (index) => {
-		setSelectedWeapon(weaponsDetails[index]);
+		updateSelectedWeapon(weaponsDetails[index]);
 	};
 	const createSlots = () => {
 		const difference = inventorySize - weaponsDetails.length;
@@ -73,7 +74,7 @@ const WeaponInventory = ({
 			</div>
 		);
 	} else {
-		return <h1>Loading...</h1>;
+		return <Spinner />;
 	}
 };
 

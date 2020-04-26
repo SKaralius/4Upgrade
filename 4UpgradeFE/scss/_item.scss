@@ -1,4 +1,4 @@
-//Item
+@import "config";
 
 .item-container {
 	display: flex;
@@ -30,8 +30,9 @@
 		justify-content: space-around;
 		align-items: center;
 		& > h1 {
-			width: 10rem;
-			color: gold;
+			max-width: 13rem;
+			line-height: 2rem;
+			color: $primaryColor;
 			background-color: transparent;
 		}
 		& > ul {
@@ -40,6 +41,7 @@
 			list-style-type: none;
 			text-align: left;
 			& > li {
+				line-height: 1.2rem;
 				font-size: 0.9rem;
 				text-align: center;
 			}

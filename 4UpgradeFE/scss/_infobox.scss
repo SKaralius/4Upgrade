@@ -12,7 +12,7 @@
 	max-width: 70vw;
 
 	background-color: black;
-	background: url("../img/infoBoxBackground.png");
+	background: url("../img/infoBoxBackground.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
@@ -21,7 +21,7 @@
 	text-align: center;
 
 	border-radius: 16px;
-	border: 3px gold ridge;
+	border: 3px $primaryColor ridge;
 
 	padding: 1rem;
 

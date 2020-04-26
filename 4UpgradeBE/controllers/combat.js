@@ -25,7 +25,7 @@ exports.getEnemy = (req, res, next) => {
 exports.dealDamage = async (req, res, next) => {
 	const username = req.username;
 	const monster = dealDamage(username);
-	if (monster.currentHealth <= 0) {
+	if (monster.currentHealth < 1) {
 		const upToTier = upToTierItems(monster.maxHealth);
 		monster.currentHealth = 0;
 		const result = await giveReward(username, upToTier);
@@ -47,15 +47,15 @@ function upToTierItems(maxHealth) {
 			return 3;
 		case maxHealth > 100 && maxHealth < 200:
 			return 4;
-		case maxHealth > 200 && maxHealth < 600:
+		case maxHealth > 200 && maxHealth < 250:
 			return 5;
-		case maxHealth > 600 && maxHealth < 800:
+		case maxHealth > 250 && maxHealth < 350:
 			return 6;
-		case maxHealth > 800 && maxHealth < 1000:
+		case maxHealth > 350 && maxHealth < 560:
 			return 7;
-		case maxHealth > 1000 && maxHealth < 1300:
+		case maxHealth > 560 && maxHealth < 1100:
 			return 8;
-		case maxHealth > 1300:
+		case maxHealth > 1100:
 			return 9;
 		default:
 			return 1;

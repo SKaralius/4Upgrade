@@ -1,14 +1,17 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 
 import Inventory from "../components/Inventory";
 import Item from "../components/Item";
 import Transfer from "../components/Transfer";
+import Spinner from "../common/Spinner";
 
 const Items = ({
+	weaponStatsLoading,
 	weaponsDetails,
 	updateWeaponsDetails,
 	selectedWeapon,
-	setSelectedWeapon,
+	updateSelectedWeapon,
+
 	weaponStats,
 	updateWeaponStats,
 	token,
@@ -32,6 +35,7 @@ const Items = ({
 				<div>
 					<hr />
 					<Item
+						weaponStatsLoading={weaponStatsLoading}
 						weaponStats={weaponStats}
 						selectedWeapon={selectedWeapon}
 					/>
@@ -46,7 +50,7 @@ const Items = ({
 					/>
 				</div>
 			) : (
-				<h1>You don't have a weapon</h1>
+				<Spinner />
 			)}
 			<Inventory
 				inventoryRows={inventoryRows}
@@ -58,7 +62,7 @@ const Items = ({
 				// WeaponInventory
 				weaponsDetails={weaponsDetails}
 				updateWeaponsDetails={updateWeaponsDetails}
-				setSelectedWeapon={setSelectedWeapon}
+				updateSelectedWeapon={updateSelectedWeapon}
 			/>
 		</React.Fragment>
 	);

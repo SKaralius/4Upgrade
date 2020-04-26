@@ -1,0 +1,21 @@
+@import "keyframes";
+@import "config";
+
+.spinnerContainer {
+	min-width: 12rem;
+	min-height: 12rem;
+	align-self: center;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	.spinner {
+		background-color: $monsterPrimaryColor;
+		border: 16px solid $monsterPrimaryColor;
+		border: 5px inset $monsterSecondaryColor;
+		border-radius: 50%;
+		width: $spinnerSize;
+		height: $spinnerSize;
+		animation: grow 2s ease-in infinite;
+	}
+}

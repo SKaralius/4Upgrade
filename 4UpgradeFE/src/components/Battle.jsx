@@ -14,7 +14,7 @@ const Battle = ({ buttonDisabled, handleDealDamage, monster }) => {
 						Math.ceil(Math.random() * 90) - 45
 					}deg)`,
 				}}
-			>{`${monster.lastDamageDealt}`}</div>
+			>{`${monster.lastDamageDealt || "???"}`}</div>
 			<div
 				className={`healthContainer ${
 					buttonDisabled
