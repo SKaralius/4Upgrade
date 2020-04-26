@@ -104,6 +104,7 @@ const Inventory = ({
 	};
 	return (
 		<React.Fragment>
+			<hr />
 			<WeaponInventory
 				weaponsDetails={weaponsDetails}
 				updateWeaponsDetails={updateWeaponsDetails}
@@ -112,11 +113,11 @@ const Inventory = ({
 				inventorySize={4}
 				token={token}
 			/>
+			<hr />
 			{isLoading ? (
 				<Spinner />
 			) : (
 				<div className="inventory">
-					<hr />
 					<ul>
 						{inventoryRows.map((row, index) => {
 							return (

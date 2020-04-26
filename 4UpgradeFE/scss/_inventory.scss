@@ -1,52 +1,54 @@
-.inventory > ul {
+.inventory {
 	background-color: black;
 	background: url("../img/inventoryBackground.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
-	display: flex;
-	flex-flow: wrap;
-	justify-content: center;
-	padding: 0.3rem 0;
-	margin: 0;
-	& > .itemEntry {
-		width: 80px;
-		height: 80px;
-		list-style-type: none;
-		margin: 0.1rem;
-		background-color: black;
-		background: url("../img/inventorySlot.png") no-repeat center;
-		border: black 3px solid;
-		&:hover {
-			border: yellow 3px solid;
-		}
-		& > span {
-			& > button {
-				background: url("../img/inventorySlot.png") no-repeat center;
-				border: none;
-				padding: 0;
-				width: 80px;
-				height: 80px;
-				& > img {
+	& > ul {
+		display: flex;
+		flex-flow: wrap;
+		justify-content: center;
+		padding: 0.3rem 0;
+		margin: 0;
+		& > .itemEntry {
+			width: 80px;
+			height: 80px;
+			list-style-type: none;
+			margin: 0.1rem;
+			background-color: black;
+			background: url("../img/inventorySlot.png") no-repeat center;
+			border: black 3px solid;
+			&:hover {
+				border: yellow 3px solid;
+			}
+			& > span {
+				& > button {
+					background: url("../img/inventorySlot.png") no-repeat center;
+					border: none;
+					padding: 0;
 					width: 80px;
 					height: 80px;
+					& > img {
+						width: 80px;
+						height: 80px;
 
-					&:hover {
-						opacity: 50%;
+						&:hover {
+							opacity: 50%;
+						}
 					}
 				}
-			}
-			& > .delete {
-				display: flex;
-				justify-content: flex-end;
-				& > button {
-					height: 1.5rem;
-					width: 1.5rem;
-					border-radius: 50%;
-					position: absolute;
-					background-color: black;
-					color: $monsterPrimaryColor;
-					z-index: 1;
+				& > .delete {
+					display: flex;
+					justify-content: flex-end;
+					& > button {
+						height: 1.5rem;
+						width: 1.5rem;
+						border-radius: 50%;
+						position: absolute;
+						background-color: black;
+						color: $monsterPrimaryColor;
+						z-index: 1;
+					}
 				}
 			}
 		}

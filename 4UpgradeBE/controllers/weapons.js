@@ -22,7 +22,6 @@ exports.getWeapon = async (req, res, next) => {
 
 exports.getWeaponStats = async (req, res, next) => {
 	const username = req.username;
-	console.log({ username }, "From request");
 	deleteSession(username);
 	const weapon_entry_uid = req.params.id;
 	const weaponStats = await getWeaponStats(username, weapon_entry_uid, next);

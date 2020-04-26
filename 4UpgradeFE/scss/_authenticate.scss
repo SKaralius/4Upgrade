@@ -31,13 +31,13 @@ $shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 		rgba(0, 0, 0, 1) 100%
 	);
 	& > .login-form {
-		height: 60vh;
-		width: 90vw;
-		& > form > h1 {
+		& > .login-title {
 			@include stroke();
 
 			margin: 2rem;
 		}
+		height: 60vh;
+		width: 90vw;
 		text-align: center;
 		margin: 0 2rem;
 		color: $titleColor;

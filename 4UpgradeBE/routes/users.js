@@ -11,7 +11,6 @@ router.post(
 			.isAlphanumeric()
 			.trim()
 			.escape(),
-		check("email").notEmpty().isEmail(),
 		check("password").isLength({ min: 6, max: 255 }),
 	],
 	userController.addUser

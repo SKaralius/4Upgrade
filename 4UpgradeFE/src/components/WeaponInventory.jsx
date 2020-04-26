@@ -69,7 +69,6 @@ const WeaponInventory = ({
 	if (weaponsDetails.length > 0) {
 		return (
 			<div className="inventory">
-				<hr />
 				<ul>{createSlots()}</ul>
 			</div>
 		);

@@ -8,47 +8,31 @@ const { setUpUser } = require("../util/projectUtil/helperFunctions");
 
 exports.addUser = async (req, res, next) => {
 	const username = req.body.username.toLowerCase();
-	const email = req.body.email.toLowerCase();
 	const hashedPassword = await bcrypt.hash(req.body.password, 12);
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(422).json({ errors: errors.array() });
 	}
-	// Check if username or email already exists
-	const lookup =
-		"SELECT username, email FROM users WHERE username = $1 OR email = $2;";
-	const lookupValues = [username, email];
+	// Check if username already exists
+	const lookup = "SELECT username FROM users WHERE username = $1";
+	const lookupValues = [username];
 	const lookupResult = await db.query(lookup, lookupValues);
-	// Returns a single row if email OR username exists, returns 2 rows if both used
-	// by different users
-	if (lookupResult.rows.length > 0 && lookupResult.rows.length < 2) {
+	// Returns a single row if username exists
+	if (lookupResult.rows.length > 0) {
 		try {
-			if (
-				lookupResult.rows[0].username === username &&
-				lookupResult.rows[0].email === email
-			) {
-				throwError(403, "Username and email are already in use.");
-			} else if (lookupResult.rows[0].username === username) {
+			if (lookupResult.rows[0].username === username) {
 				throwError(403, "Username is already in use.");
-			} else if (lookupResult.rows[0].email === email) {
-				throwError(403, "Email is already in use.");
 			}
 		} catch (err) {
 			next(err);
 		}
-	} else if (lookupResult.rows.length > 1) {
-		try {
-			throwError(403, "Username and email are already in use.");
-		} catch (err) {
-			next(err);
-		}
-		// If lookup doesn't return any values, that means email and username are unique.
+		// If lookup doesn't return any values, that means the username is unique
 	} else {
 		try {
 			const createUserQuery =
-				"INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
-			const createUserValues = [username, email, hashedPassword];
+				"INSERT INTO users(username, password) VALUES ($1, $2);";
+			const createUserValues = [username, hashedPassword];
 			await db.query(createUserQuery, createUserValues);
 			// Setup new character
 			await setUpUser(username);
@@ -62,8 +46,8 @@ exports.addUser = async (req, res, next) => {
 exports.addDemoUser = async (req, res, next) => {
 	const username = uuidv4();
 	const createUserQuery =
-		"INSERT INTO users(username, email, password) VALUES ($1, $2, $3);";
-	const createUserValues = [username, uuidv4(), uuidv4()];
+		"INSERT INTO users(username, password) VALUES ($1, $2);";
+	const createUserValues = [username, uuidv4()];
 	await db.query(createUserQuery, createUserValues);
 	// Setup new character
 	await setUpUser(username);

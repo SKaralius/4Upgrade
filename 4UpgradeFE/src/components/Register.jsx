@@ -8,10 +8,10 @@ const Register = ({
 	register,
 	handleSubmit,
 	errors,
+	watch,
 }) => {
 	return (
 		<form onSubmit={handleSubmit(handleRegisterSubmit)}>
-			<h1>Register</h1>
 			<input
 				ref={register({
 					required: {
@@ -33,18 +33,7 @@ const Register = ({
 				placeholder="Username"
 				autoComplete="username"
 			/>
-			<input
-				ref={register({
-					required: { value: true, message: "Email is required." },
-					pattern: {
-						value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-						message: "Invalid email address",
-					},
-				})}
-				name="emailRegister"
-				placeholder="username@email.xyz"
-				autoComplete="email"
-			/>
+			<br />
 			<input
 				ref={register({
 					required: {
@@ -62,10 +51,33 @@ const Register = ({
 				autoComplete="current-password"
 				placeholder="Password!987"
 			/>
+			<br />
+			<input
+				ref={register({
+					required: {
+						value: true,
+						message: "Repeat the password.",
+					},
+					minLength: {
+						value: 6,
+						message:
+							"Passwords have to have at least 6 characters.",
+					},
+					validate: (value) => {
+						return (
+							value === watch("passwordRegister") ||
+							"Passwords don't match."
+						);
+					},
+				})}
+				type="password"
+				name="passwordRegister2"
+				placeholder="Repeat password"
+			/>
 			<div className="formErrorContainer">
 				<FormError error={errors.usernameRegister} />
-				<FormError error={errors.emailRegister} />
 				<FormError error={errors.passwordRegister} />
+				<FormError error={errors.passwordRegister2} />
 			</div>
 			<input type="submit" value="Register" className="submit"></input>
 		</form>

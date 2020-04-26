@@ -14,3 +14,99 @@ $spinnerSize: 7rem;
 	padding: $padding;
 	font-size: $fontSize;
 }
+
+// Responsive
+
+// Small screens
+@mixin mediaSm {
+	@media screen and (max-width: 374px) {
+		@content;
+	}
+}
+
+@mixin mediaMd {
+	@media screen and (max-width: 929px) {
+		@content;
+	}
+}
+
+@mixin mediaLg {
+	@media screen and (min-width: 930px) and (max-width: 1170px) {
+		@content;
+	}
+}
+@mixin mediaXl {
+	@media screen and (min-width: 1171px) {
+		@content;
+	}
+}
+
+@include mediaMd {
+	.infoBox {
+		width: 30rem;
+		font-size: 2rem;
+	}
+	.inventory {
+		display: flex;
+		justify-content: center;
+		& > ul {
+			width: 35rem;
+		}
+	}
+	.item-container {
+		justify-content: center !important;
+		& > .item-img {
+			margin: 0rem 5rem;
+		}
+	}
+}
+@include mediaLg {
+	.infoBox {
+		width: 30rem;
+		font-size: 2rem;
+	}
+	.inventory {
+		display: flex;
+		justify-content: center;
+		& > ul {
+			width: 35rem;
+		}
+	}
+	.item-container {
+		justify-content: center !important;
+		& > .item-img {
+			margin: 0rem 5rem;
+		}
+	}
+}
+@include mediaXl {
+	.infoBox {
+		width: 30rem;
+		font-size: 2rem;
+	}
+	.inventory {
+		display: flex;
+		justify-content: center;
+		& > ul {
+			width: 35rem;
+		}
+	}
+	.item-container {
+		justify-content: center !important;
+		& > .item-img {
+			margin: 0rem 5rem;
+		}
+	}
+}
+
+@media screen and (max-height: 700px) {
+	.login-form {
+		height: unset !important;
+	}
+	.or {
+		margin: 0;
+	}
+	.login-title {
+		margin: 0 !important;
+	}
+}

@@ -12,6 +12,11 @@ const Arena = ({
 	const [monster, setMonster] = useState([]);
 	const [encounter, setEncounter] = useState(true);
 	const [buttonDisabled, setButtonDisabled] = useState(false);
+	const [activeAnimation, setActiveAnimation] = useState("idle");
+	const animations = ["hitLeft", "hitRight", "hitUp"];
+	let buttonTimeout;
+	let damageTimeout;
+	let animationTimeout;
 	useEffect(() => {
 		let isMounted = true;
 		const fetchData = async () => {
@@ -37,7 +42,7 @@ const Arena = ({
 	}, [token, selectedWeapon]);
 	const handleDealDamage = async () => {
 		setButtonDisabled(true);
-		setTimeout(() => setButtonDisabled(false), 1000);
+		buttonTimeout = setTimeout(() => setButtonDisabled(false), 1000);
 		const { data } = await http.patch(
 			process.env.REACT_APP_IP + "combat/dealdamage",
 			{},
@@ -59,9 +64,29 @@ const Arena = ({
 					Authorization: "Bearer " + token,
 				},
 			});
+			setMonster(data);
+		} else {
+			setMonster(data);
+			setActiveAnimation(animations[Math.floor(Math.random() * 3)]);
+			animationTimeout = setTimeout(
+				() => setActiveAnimation("idle"),
+				1000
+			);
+			const damageElement = document.getElementsByClassName("damage")[0];
+			damageElement.className += " damageAnimation";
+			damageTimeout = setTimeout(
+				() => (damageElement.className = "damage damageHidden"),
+				1000
+			);
 		}
-		setMonster(data);
 	};
+	useEffect(() => {
+		return () => {
+			clearInterval(buttonTimeout);
+			clearInterval(damageTimeout);
+			clearInterval(animationTimeout);
+		};
+	}, [damageTimeout, buttonTimeout, animationTimeout]);
 	useEffect(() => {
 		async function fetchData() {
 			if (monster.item_uid) {
@@ -129,6 +154,7 @@ const Arena = ({
 					buttonDisabled={buttonDisabled}
 					monster={monster}
 					handleDealDamage={handleDealDamage}
+					activeAnimation={activeAnimation}
 				/>
 			) : (
 				<button className="restart" onClick={() => setEncounter(true)}>

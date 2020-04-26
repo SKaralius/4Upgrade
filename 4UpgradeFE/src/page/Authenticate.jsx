@@ -13,7 +13,7 @@ const Authenticate = ({
 	updateSelectedWeapon,
 }) => {
 	const [selectedForm, setSelectedForm] = useState("Log In");
-	const { register, handleSubmit, errors } = useForm();
+	const { register, handleSubmit, errors, watch } = useForm();
 	const handleLoginSubmit = async (userInfo) => {
 		try {
 			const { data } = await http.post(
@@ -45,7 +45,6 @@ const Authenticate = ({
 		try {
 			await http.post(process.env.REACT_APP_IP + "users/adduser", {
 				username: userInfo.usernameRegister,
-				email: userInfo.emailRegister,
 				password: userInfo.passwordRegister,
 			});
 			userInfo.username = userInfo.usernameRegister;
@@ -118,6 +117,7 @@ const Authenticate = ({
 						Register
 					</label>
 				</div>
+				<h1 className="login-title">4Upgrade</h1>
 				{selectedForm === "Log In" ? (
 					<LogIn
 						handleLoginSubmit={handleLoginSubmit}
@@ -133,6 +133,7 @@ const Authenticate = ({
 						register={register}
 						handleSubmit={handleSubmit}
 						errors={errors}
+						watch={watch}
 					/>
 				)}
 			</div>

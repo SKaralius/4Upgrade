@@ -1,4 +1,4 @@
-$monsterSize: 50vw;
+$monsterSize: 50vmin;
 
 .monster {
 	user-select: none;
@@ -12,18 +12,18 @@ $monsterSize: 50vw;
 
 	& > .hitRight {
 		opacity: 0.5;
-		animation: hitRight 1s infinite alternate;
-		-webkit-animation: hitRight 1s infinite alternate;
+		animation: hitRight 1s alternate;
+		-webkit-animation: hitRight 1s alternate;
 	}
 	& > .hitLeft {
 		opacity: 0.5;
-		animation: hitLeft 1s infinite alternate;
-		-webkit-animation: hitLeft 1s infinite alternate;
+		animation: hitLeft 1s alternate;
+		-webkit-animation: hitLeft 1s alternate;
 	}
 	& > .hitUp {
 		opacity: 0.5;
-		animation: hitUp 1s infinite alternate;
-		-webkit-animation: hitUp 1s infinite alternate;
+		animation: hitUp 1s alternate;
+		-webkit-animation: hitUp 1s alternate;
 	}
 	& > .healthContainer {
 		margin-top: 50px;
@@ -52,6 +52,7 @@ $monsterSize: 50vw;
 
 //Attack button
 .attackButton {
+	cursor: pointer;
 	position: absolute;
 	height: $monsterSize;
 	width: $monsterSize;
@@ -70,10 +71,10 @@ $monsterSize: 50vw;
 
 //Damage Splat
 .damage {
-	padding: 2rem;
+	pointer-events: none;
 	font-size: xx-large;
-	position: absolute;
-	margin-top: 10rem;
+	position: relative;
+	top: 15rem;
 	font-weight: 900;
 	z-index: 1;
 	color: $monsterPrimaryColor;

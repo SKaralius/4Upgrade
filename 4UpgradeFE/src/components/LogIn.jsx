@@ -11,7 +11,6 @@ const LogIn = ({
 }) => {
 	return (
 		<form onSubmit={handleSubmit(handleLoginSubmit)}>
-			<h1 className="login-title">4Upgrade</h1>
 			<input
 				ref={register({
 					required: {
