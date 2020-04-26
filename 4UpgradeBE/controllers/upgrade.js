@@ -56,12 +56,12 @@ exports.postUpgrade = async (req, res, next) => {
 			// Combination is checked if valid in effectSort.
 			await confirmItemValidity(username, item_uids[i]);
 			await deleteItem(username, item_uids[i]);
+			await effectSortResultArray.executeEffect();
+			return res.status(200).send(true);
 		}
 	} catch (err) {
 		next(err);
 	}
-	await effectSortResultArray.executeEffect();
-	return res.status(200).send(true);
 };
 
 // Roll the stat

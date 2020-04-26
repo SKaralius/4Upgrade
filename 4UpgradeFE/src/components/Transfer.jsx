@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import http from "../services/httpService";
 
 const Transfer = ({
@@ -10,6 +10,7 @@ const Transfer = ({
 	updateInventoryRows,
 	token,
 }) => {
+	const [buttonDisabled, setButtonDisabled] = useState(false);
 	const createSlots = () => {
 		const difference = 2 - transferItems.length;
 		let rows = [];
@@ -46,6 +47,7 @@ const Transfer = ({
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+		setButtonDisabled(true);
 		const upgradeItems = [];
 
 		transferItems.forEach((item) => {
@@ -79,6 +81,7 @@ const Transfer = ({
 		} else {
 			alert(response.data);
 		}
+		setButtonDisabled(false);
 	};
 	return (
 		<React.Fragment>
@@ -93,7 +96,9 @@ const Transfer = ({
 					</form>
 				) : (
 					<form onSubmit={handleSubmit}>
-						<button type="submit">UPGRADE!</button>
+						<button type="submit" disabled={buttonDisabled}>
+							UPGRADE!
+						</button>
 					</form>
 				)}
 			</div>
