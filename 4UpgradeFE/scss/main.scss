@@ -31,3 +31,35 @@ code {
 	flex-flow: column;
 	justify-content: space-between;
 }
+
+.notFoundContainer {
+	display: flex;
+	justify-content: center;
+	flex-flow: column;
+	width: 100%;
+	min-height: calc(100vh - #{$footerHeight});
+	color: white;
+	align-self: center;
+	& > .notFound {
+		align-self: center;
+	}
+	& > span {
+		align-self: center;
+		background-color: white;
+		height: 3rem;
+		width: 10rem;
+		& > .startLink {
+			color: black;
+			font-weight: 700;
+			font-size: large;
+			text-decoration: none;
+			& > div {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100%;
+				width: 100%;
+			}
+		}
+	}
+}

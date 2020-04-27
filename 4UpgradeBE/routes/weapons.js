@@ -7,8 +7,6 @@ router.get("/getWeapon/:id", isAuth, weaponController.getWeapon);
 
 router.get("/getweaponstats/:id", isAuth, weaponController.getWeaponStats);
 
-router.post("/addweaponstat", isAuth, weaponController.addWeaponStat);
-
 router.delete("/removeweaponstat", isAuth, weaponController.removeWeaponStat);
 
 router.delete(

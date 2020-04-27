@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import http from "../services/httpService";
 
 const Transfer = ({
+	updateMessageInfo,
 	updateWeaponStats,
 	transferItems,
 	selectedWeapon,
@@ -65,7 +66,7 @@ const Transfer = ({
 				},
 			}
 		);
-		if (response.data === true) {
+		if (response.data.success === true) {
 			const weaponStatsResult = await http.get(
 				process.env.REACT_APP_IP +
 					"weapons/getWeaponStats/" +
@@ -77,9 +78,16 @@ const Transfer = ({
 				}
 			);
 			updateWeaponStats(weaponStatsResult.data);
+			updateMessageInfo({
+				message: response.data.message,
+				success: true,
+			});
 			updateTransferItems([]);
 		} else {
-			alert(response.data);
+			updateMessageInfo({
+				message: response.data.message,
+				success: false,
+			});
 		}
 		setButtonDisabled(false);
 	};

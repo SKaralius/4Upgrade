@@ -52,6 +52,9 @@ $monsterSize: 50vmin;
 
 //Attack button
 .attackButton {
+	-webkit-tap-highlight-color: transparent;
+	outline: 0;
+
 	cursor: pointer;
 	position: absolute;
 	height: $monsterSize;

@@ -10,6 +10,7 @@ import Authenticate from "./page/Authenticate";
 import Arena from "./page/Arena";
 import InfoBox from "./components/InfoBox";
 import Footer from "./common/Footer";
+import NotFound from "./page/NotFound";
 
 function App() {
 	const [weaponStatsLoading, setWeaponStatsLoading] = useState(false);
@@ -143,7 +144,7 @@ function App() {
 			) : null}
 			<Switch>
 				<Route exact path="/">
-					{isAuth ? (
+					{localStorage.getItem("token") ? (
 						<Redirect to="/items" />
 					) : (
 						<Redirect to="/authenticate" />
@@ -168,6 +169,7 @@ function App() {
 						<Items
 							{...props}
 							weaponStatsLoading={weaponStatsLoading}
+							updateMessageInfo={updateMessageInfo}
 							selectedWeapon={selectedWeapon}
 							updateSelectedWeapon={updateSelectedWeapon}
 							updateWeaponStatsLoading={updateWeaponStatsLoading}
@@ -190,6 +192,7 @@ function App() {
 						/>
 					)}
 				/>
+				<Route path="*" component={NotFound} />
 			</Switch>
 			<Footer isAuth={isAuth} updateAuth={updateAuth} />
 		</div>

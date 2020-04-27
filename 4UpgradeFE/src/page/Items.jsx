@@ -11,7 +11,7 @@ const Items = ({
 	updateWeaponsDetails,
 	selectedWeapon,
 	updateSelectedWeapon,
-
+	updateMessageInfo,
 	weaponStats,
 	updateWeaponStats,
 	token,
@@ -40,6 +40,7 @@ const Items = ({
 						selectedWeapon={selectedWeapon}
 					/>
 					<Transfer
+						updateMessageInfo={updateMessageInfo}
 						updateInventoryRows={updateInventoryRows}
 						inventoryRows={inventoryRows}
 						transferItems={transferItems}

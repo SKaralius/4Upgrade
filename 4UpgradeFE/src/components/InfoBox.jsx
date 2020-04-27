@@ -11,7 +11,11 @@ const InfoBox = ({ message, imgurl, success, updateMessageInfo }) => {
 			<h3>{message}</h3>
 			<div>
 				<div></div>
-				{success ? <img src={imgurl} alt="item" /> : <div></div>}
+				{success && imgurl ? (
+					<img src={imgurl} alt="item" />
+				) : (
+					<div></div>
+				)}
 				<button onClick={handleClick}>Confirm</button>
 			</div>
 		</div>

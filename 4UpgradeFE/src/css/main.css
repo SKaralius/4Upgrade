@@ -7,10 +7,8 @@
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -24,7 +22,9 @@
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -38,7 +38,9 @@
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -84,10 +86,8 @@ footer {
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -101,7 +101,9 @@ footer {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -115,7 +117,9 @@ footer {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -207,10 +211,8 @@ footer {
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -224,7 +226,9 @@ footer {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -238,7 +242,9 @@ footer {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -251,7 +257,7 @@ footer {
 .item-container {
   display: flex;
   flex-flow: wrap;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   background: url("../img/inventoryBackground.png");
   background-repeat: no-repeat;
@@ -361,10 +367,8 @@ footer {
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -378,7 +382,9 @@ footer {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -392,7 +398,9 @@ footer {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -492,6 +500,8 @@ hr {
         border-radius: 50%; }
 
 .attackButton {
+  -webkit-tap-highlight-color: transparent;
+  outline: 0;
   cursor: pointer;
   position: absolute;
   height: 50vmin;
@@ -537,10 +547,8 @@ hr {
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -554,7 +562,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -568,7 +578,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -639,10 +651,8 @@ hr {
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -656,7 +666,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -670,7 +682,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -682,7 +696,7 @@ hr {
 
 .infoBox {
   position: absolute;
-  margin-top: 10rem;
+  top: 10rem;
   margin-left: auto;
   margin-right: auto;
   left: 0;
@@ -727,10 +741,8 @@ hr {
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -744,7 +756,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -758,7 +772,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -829,10 +845,8 @@ hr {
     justify-content: center; }
     .inventory > ul {
       width: 35rem; }
-  .item-container {
-    justify-content: center !important; }
-    .item-container > .item-img {
-      margin: 0rem 5rem; } }
+  .form-select > label {
+    font-size: 2rem; } }
 
 @media screen and (min-width: 930px) and (max-width: 1170px) {
   .infoBox {
@@ -846,7 +860,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (min-width: 1171px) {
   .infoBox {
@@ -860,7 +876,9 @@ hr {
   .item-container {
     justify-content: center !important; }
     .item-container > .item-img {
-      margin: 0rem 5rem; } }
+      margin: 0rem 5rem; }
+  .form-select > label {
+    font-size: 3rem; } }
 
 @media screen and (max-height: 700px) {
   .login-form {
@@ -905,3 +923,30 @@ code {
   display: flex;
   flex-flow: column;
   justify-content: space-between; }
+
+.notFoundContainer {
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+  width: 100%;
+  min-height: calc(100vh - 80px);
+  color: white;
+  align-self: center; }
+  .notFoundContainer > .notFound {
+    align-self: center; }
+  .notFoundContainer > span {
+    align-self: center;
+    background-color: white;
+    height: 3rem;
+    width: 10rem; }
+    .notFoundContainer > span > .startLink {
+      color: black;
+      font-weight: 700;
+      font-size: large;
+      text-decoration: none; }
+      .notFoundContainer > span > .startLink > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%; }

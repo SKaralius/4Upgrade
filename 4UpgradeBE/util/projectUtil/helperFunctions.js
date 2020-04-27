@@ -7,7 +7,6 @@ async function setUpUser(username) {
 	for (let i = 0; i < 2; i++) {
 		await giveWeaponOfTier(username, i + 1);
 	}
-	// TODO: Limit mat tiers
 	for (let i = 0; i < 5; i++) {
 		await giveItemOfTier(username, 3);
 	}

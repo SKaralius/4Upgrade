@@ -31,21 +31,6 @@ exports.getWeaponStats = async (req, res, next) => {
 		weaponInfo: weaponStats.weaponInfo,
 	});
 };
-// TODO: Add limitations, validation
-exports.addWeaponStat = async (req, res, next) => {
-	const weapon_stat_uid = uuidv4();
-	const weapon_id = req.body.id;
-	const statRetrieveQuery =
-		"SELECT * FROM stats WHERE tier = $1 AND type = $2";
-	const statRetrieveQueryValues = [tierRoll(), typeRoll()];
-	const result = await db.query(statRetrieveQuery, statRetrieveQueryValues);
-	const stat_uid = result.rows[0].stat_uid; //has to be a query into stats table, the stat_uid has to be retrieved from type and tier;
-	const weaponStatInsertQuery =
-		"INSERT INTO weapon_stats(weapon_stat_uid, weapon_entry_uid, stat_uid) VALUES($1,$2,$3)";
-	const weaponStatInsertQueryValues = [weapon_stat_uid, weapon_id, stat_uid];
-	await db.query(weaponStatInsertQuery, weaponStatInsertQueryValues);
-	res.status(200).send(result.rows[0]);
-};
 
 exports.removeWeaponStat = async (req, res, next) => {
 	const statRetrieveQueryValues = [req.body.id];

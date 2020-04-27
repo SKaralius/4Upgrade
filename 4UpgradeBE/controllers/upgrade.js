@@ -45,19 +45,19 @@ exports.postUpgrade = async (req, res, next) => {
 		username
 	);
 	if (!effectSortResultArray.effectPossible) {
-		return res.status(200).send(effectSortResultArray.message);
+		return res
+			.status(200)
+			.send({ success: false, message: effectSortResultArray.message });
 	}
 	try {
 		for (let i = 0; i < item_uids.length; i++) {
-			// TODO: Should error be returned out of the for() to be caught?
-			// Can't do consume items here, because if a combination is invalid
-			// the user loses items and no effect is added.
-			// Validity is not checked correctly if items are not consumed.
-			// Combination is checked if valid in effectSort.
 			await confirmItemValidity(username, item_uids[i]);
 			await deleteItem(username, item_uids[i]);
 			await effectSortResultArray.executeEffect();
-			return res.status(200).send(true);
+			return res.status(200).send({
+				success: true,
+				message: effectSortResultArray.message,
+			});
 		}
 	} catch (err) {
 		next(err);
@@ -153,12 +153,14 @@ function effectSort(fullItems, weapon_entry_uid, currentWeaponStats, username) {
 			if (currentWeaponStats.length > 5) {
 				return {
 					effectPossible: false,
-					message: "Weapon stats are full",
+					message: "Weapon stats are full.",
 				};
 			}
 			return {
 				effectPossible: true,
-				message: "Weapon upgraded",
+				message: fullItems[1]
+					? "The second item improved your chances."
+					: "Weapon upgraded.",
 				executeEffect: () =>
 					addStatEffect(weapon_entry_uid, fullItems, username),
 			};
@@ -166,19 +168,21 @@ function effectSort(fullItems, weapon_entry_uid, currentWeaponStats, username) {
 			if (currentWeaponStats.length === 0) {
 				return {
 					effectPossible: false,
-					message: "No stats to delete",
+					message: "No stats to delete.",
 				};
 			}
 			return {
 				effectPossible: true,
-				message: "Weapon upgraded",
+				message: fullItems[1]
+					? "The second item improved your chances."
+					: "Weapon upgraded.",
 				executeEffect: () =>
 					removeStatEffect(currentWeaponStats, fullItems),
 			};
 		default:
 			return {
 				effectPossible: false,
-				message: "No such combination",
+				message: "No such combination.",
 			};
 	}
 }

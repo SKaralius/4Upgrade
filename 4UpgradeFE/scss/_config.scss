@@ -53,10 +53,9 @@ $spinnerSize: 7rem;
 			width: 35rem;
 		}
 	}
-	.item-container {
-		justify-content: center !important;
-		& > .item-img {
-			margin: 0rem 5rem;
+	.form-select {
+		& > label {
+			font-size: 2rem;
 		}
 	}
 }
@@ -78,6 +77,11 @@ $spinnerSize: 7rem;
 			margin: 0rem 5rem;
 		}
 	}
+	.form-select {
+		& > label {
+			font-size: 3rem;
+		}
+	}
 }
 @include mediaXl {
 	.infoBox {
@@ -95,6 +99,11 @@ $spinnerSize: 7rem;
 		justify-content: center !important;
 		& > .item-img {
 			margin: 0rem 5rem;
+		}
+	}
+	.form-select {
+		& > label {
+			font-size: 3rem;
 		}
 	}
 }
