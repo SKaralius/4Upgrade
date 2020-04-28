@@ -160,8 +160,8 @@ b59e7f14-2f6a-4cff-9a50-7ffa9bae05ce	Wind	9	img/9W.png	add	Wind Jewel
 5e707b78-23bd-4a84-8012-a75bd7fb1203	Earth	8	img/8E.png	add	Earth Gem
 a57c66df-0fe2-492c-8984-e2d3e3f3d855	Wind	8	img/8W.png	add	Wind Gem
 b785cdf2-f115-4e00-8c71-2589173059f8	Lightning	8	img/8L.png	add	Lightning Gem
-a5b5bff3-1ec1-4a94-b998-5394772158ba	any	9	img/9a.png	add	All Jewel
-3f7d57cd-27b2-4759-9b57-bf56f30ce9d0	\N	2	img/c.png	remove	Clear Stone
+a5b5bff3-1ec1-4a94-b998-5394772158ba	any	9	img/9A.png	add	All Jewel
+3f7d57cd-27b2-4759-9b57-bf56f30ce9d0	\N	2	img/C.PNG	remove	Clear Stone
 e23aa2fd-380d-40e0-b116-1934b22050f8	Fire	3	img/3F.png	add	Fire Shard
 bc0ece96-c4eb-4e96-a82d-6bd4c27f3641	Earth	3	img/3E.png	add	Earth Shard
 b96251bb-db35-4f18-b3b3-72e740d7bf8f	Wind	3	img/3W.png	add	Wind Shard
@@ -262,15 +262,15 @@ COPY public.weapon_stats (weapon_stat_uid, weapon_entry_uid, stat_uid) FROM stdi
 --
 
 COPY public.weapons (weapon_uid, name, tier, imgurl) FROM stdin;
-9604ec51-29f5-4b32-95a7-d9b8a84b6c97	Training Sword	1	img/1tsword.svg
-1e97734d-64d2-477c-9948-b9f1daa5d5b2	Iron Sword	2	img/2tsword.svg
-6fbc3359-5bae-47fa-8158-a30d8aa45596	Malachite Sword	4	img/4tsword.svg
-6824d885-acb7-4ed7-aba9-04aa32e4c100	Pervenche Sword	5	img/5tsword.svg
-6f5bb37f-7fb2-403a-b3cf-9f767c4726a7	Pitch Sword	3	img/3tsword.svg
-be6517f9-8d6c-4424-92f6-5061150dcb3c	Amaranthine Sword	6	img/6tsword.svg
-8465ab35-b85a-4490-80b2-d76e4cf6fafc	Incarnadine Sword	7	img/7tsword.svg
-9ade2198-231f-4cb7-923c-829b51784af9	Radiant Sword	8	img/8tsword.svg
-e64dc879-338c-4e71-9b82-581640667af0	Blank Sword	9	img/9tsword.svg
+9604ec51-29f5-4b32-95a7-d9b8a84b6c97	Training Sword	1	img/1TSword.svg
+1e97734d-64d2-477c-9948-b9f1daa5d5b2	Iron Sword	2	img/2TSword.svg
+6fbc3359-5bae-47fa-8158-a30d8aa45596	Malachite Sword	4	img/4TSword.svg
+6824d885-acb7-4ed7-aba9-04aa32e4c100	Pervenche Sword	5	img/5TSword.svg
+6f5bb37f-7fb2-403a-b3cf-9f767c4726a7	Pitch Sword	3	img/3TSword.svg
+be6517f9-8d6c-4424-92f6-5061150dcb3c	Amaranthine Sword	6	img/6TSword.svg
+8465ab35-b85a-4490-80b2-d76e4cf6fafc	Incarnadine Sword	7	img/7TSword.svg
+9ade2198-231f-4cb7-923c-829b51784af9	Radiant Sword	8	img/8TSword.svg
+e64dc879-338c-4e71-9b82-581640667af0	Blank Sword	9	img/9TSword.svg
 \.
 
 
