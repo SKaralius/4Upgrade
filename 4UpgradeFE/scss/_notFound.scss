@@ -5,7 +5,7 @@
 	justify-content: center;
 	flex-flow: column;
 	width: 100%;
-	min-height: calc(100vh - #{$footerHeight});
+	min-height: 100%;
 	color: $lightTextColor;
 	align-self: center;
 	& > .notFound {

@@ -130,7 +130,8 @@ footer {
     margin: 0 !important; } }
 
 .login-wrap {
-  min-height: calc(100vh - 80px);
+  flex-grow: 1;
+  min-height: 100%;
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -1012,7 +1013,7 @@ hr {
   justify-content: center;
   flex-flow: column;
   width: 100%;
-  min-height: calc(100vh - 80px);
+  min-height: 100%;
   color: white;
   align-self: center; }
   .notFoundContainer > .notFound {
@@ -1034,6 +1035,11 @@ hr {
         height: 100%;
         width: 100%; }
 
+html,
+body,
+#root {
+  height: 100%; }
+
 body {
   color: white;
   background-color: black;
@@ -1047,8 +1053,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace; }
 
 .page {
+  min-height: 100%;
   overflow: hidden;
-  min-height: 100vh;
   display: flex;
   flex-flow: column;
   justify-content: space-between; }
