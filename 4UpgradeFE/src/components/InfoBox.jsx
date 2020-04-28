@@ -4,7 +4,6 @@ const InfoBox = ({ message, imgurl, success, updateMessageInfo }) => {
 	const handleClick = () => {
 		updateMessageInfo({});
 	};
-
 	return (
 		<div className="infoBox">
 			<h1>{success ? "Success!" : "Oops!"}</h1>
@@ -16,7 +15,13 @@ const InfoBox = ({ message, imgurl, success, updateMessageInfo }) => {
 				) : (
 					<div></div>
 				)}
-				<button onClick={handleClick}>Confirm</button>
+				<button
+					type="submit"
+					className="infoBoxSubmit"
+					onClick={handleClick}
+				>
+					Confirm
+				</button>
 			</div>
 		</div>
 	);

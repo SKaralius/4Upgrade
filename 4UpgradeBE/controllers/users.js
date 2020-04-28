@@ -8,7 +8,12 @@ const { setUpUser } = require("../util/projectUtil/helperFunctions");
 
 exports.addUser = async (req, res, next) => {
 	const username = req.body.username.toLowerCase();
-	const hashedPassword = await bcrypt.hash(req.body.password, 12);
+	let hashedPassword;
+	try {
+		hashedPassword = await bcrypt.hash(req.body.password, 12);
+	} catch (err) {
+		next(err);
+	}
 
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
@@ -69,10 +74,10 @@ exports.logIn = async (req, res, next) => {
 			throwError(401, "Wrong password or username.");
 		}
 	} catch (err) {
-		next(err);
+		return next(err);
 	}
-	const isEqual = await bcrypt.compare(password, result.rows[0].password);
 	try {
+		const isEqual = await bcrypt.compare(password, result.rows[0].password);
 		if (!isEqual) {
 			throwError(401, "Wrong password or username.");
 		}
@@ -126,11 +131,17 @@ exports.token = async (req, res, next) => {
 		refreshTokenValidationQuery,
 		refreshTokenValidationValue
 	);
-	if (refreshTokenValidationResult.rowCount > 0) {
-		const accessToken = generateAccessToken(decodedRefreshToken.username);
-		res.json({ accessToken });
-	} else {
-		throwError(400, "Not Authorized.");
+	try {
+		if (refreshTokenValidationResult.rowCount > 0) {
+			const accessToken = generateAccessToken(
+				decodedRefreshToken.username
+			);
+			res.json({ accessToken });
+		} else {
+			throwError(400, "Not Authorized.");
+		}
+	} catch (err) {
+		next(err);
 	}
 };
 

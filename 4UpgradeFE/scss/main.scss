@@ -6,12 +6,14 @@
 @import "arena";
 @import "infobox";
 @import "spinner";
+@import "notFound";
 
 body {
+	color: $lightTextColor;
+	background-color: $backgroundColor;
+
 	margin: 0;
 	box-sizing: border-box;
-	color: rgb(18, 18, 24);
-	background-color: black;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto",
 		"Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
 		"Helvetica Neue", sans-serif;
@@ -30,36 +32,4 @@ code {
 	display: flex;
 	flex-flow: column;
 	justify-content: space-between;
-}
-
-.notFoundContainer {
-	display: flex;
-	justify-content: center;
-	flex-flow: column;
-	width: 100%;
-	min-height: calc(100vh - #{$footerHeight});
-	color: white;
-	align-self: center;
-	& > .notFound {
-		align-self: center;
-	}
-	& > span {
-		align-self: center;
-		background-color: white;
-		height: 3rem;
-		width: 10rem;
-		& > .startLink {
-			color: black;
-			font-weight: 700;
-			font-size: large;
-			text-decoration: none;
-			& > div {
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				height: 100%;
-				width: 100%;
-			}
-		}
-	}
 }

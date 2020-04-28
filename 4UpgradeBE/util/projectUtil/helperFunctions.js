@@ -191,7 +191,7 @@ async function getWeaponStats(username, weapon_entry_uid, next) {
 				rows[0].weapon_entry_uid
 			);
 			const statsResult = await db.query(statQuery, [weapon_entry_uid]);
-			const stats = statsResult.rows;
+			const stats = statsResult.rows || [];
 			const totalDamage = {
 				minTotalDamage: weaponInfo.damage.minDamage,
 				maxTotalDamage: weaponInfo.damage.maxDamage,

@@ -1,0 +1,33 @@
+@import "config";
+
+.notFoundContainer {
+	display: flex;
+	justify-content: center;
+	flex-flow: column;
+	width: 100%;
+	min-height: calc(100vh - #{$footerHeight});
+	color: $lightTextColor;
+	align-self: center;
+	& > .notFound {
+		align-self: center;
+	}
+	& > span {
+		align-self: center;
+		background-color: $lightTextColor;
+		height: 3rem;
+		width: 10rem;
+		& > .startLink {
+			color: $backgroundColor;
+			font-weight: 700;
+			font-size: large;
+			text-decoration: none;
+			& > div {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				height: 100%;
+				width: 100%;
+			}
+		}
+	}
+}

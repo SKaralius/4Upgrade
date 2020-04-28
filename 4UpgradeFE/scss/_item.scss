@@ -1,39 +1,41 @@
 @import "config";
 
 .item-container {
-	display: flex;
-	flex-flow: wrap;
-	justify-content: center;
-	align-items: center;
 	background: url("../img/inventoryBackground.png");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
+
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
+	align-items: center;
 	& > .item-img > img {
 		width: 5rem;
 		max-height: 20rem;
 	}
 	& > .item-text {
-		color: rgb(165, 163, 163);
-		height: 298px;
-		width: 252px;
-
 		background: url("../img/statsTable.png");
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: contain;
-		overflow-wrap: break-word;
-		overflow: hidden;
-		text-align: center;
+		color: $baseDamageColor;
+
+		height: 298px;
+		width: 252px;
+
 		display: flex;
 		flex-flow: column;
 		justify-content: space-around;
+
 		align-items: center;
+		overflow-wrap: break-word;
+		overflow: hidden;
+		text-align: center;
 		& > h1 {
 			max-width: 13rem;
 			line-height: 2rem;
-			color: $primaryColor;
-			background-color: transparent;
+			color: $accentColor;
 		}
 		& > ul {
 			padding: 0;
@@ -48,9 +50,9 @@
 		}
 		& > h4 {
 			font-size: large;
-			color: white;
+			color: $lightTextColor;
 			-webkit-text-stroke-width: 1px;
-			-webkit-text-stroke-color: black;
+			-webkit-text-stroke-color: $accentColor;
 		}
 	}
 }

@@ -1,31 +1,28 @@
 @import "config";
 
 .infoBox {
-	position: absolute;
-	top: 10rem;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 0;
-	z-index: 2;
-
-	max-width: 70vw;
-
-	background-color: black;
+	background-color: $backgroundColor;
 	background: url("../img/infoBoxBackground.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: center center;
-
-	color: rgb(100, 80, 10);
+	color: darken($accentColor, 25);
 	text-align: center;
-
 	border-radius: 16px;
-	border: 3px $primaryColor ridge;
+	border: 3px $accentColor ridge;
+
+	box-shadow: $shadow;
 
 	padding: 1rem;
+	margin-left: auto;
+	margin-right: auto;
+	position: absolute;
+	top: 10rem;
+	left: 0;
+	right: 0;
+	z-index: 2;
+	max-width: 70vw;
 
-	box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 	& > h1 {
 		margin: 0;
 	}

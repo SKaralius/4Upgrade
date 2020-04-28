@@ -1,30 +1,30 @@
 @import "config";
 
 .transfer-container {
-	display: flex;
-	flex-flow: wrap;
-	justify-content: center;
 	background: rgb(255, 255, 255);
 	background: radial-gradient(
 		circle,
-		rgba(255, 255, 255, 1) 0%,
-		rgba(204, 203, 8, 0.7995226730310263) 37%,
-		rgba(0, 0, 0, 0.7374701670644391) 90%,
-		rgba(0, 0, 0, 1) 100%
+		$lightTextColor 0%,
+		$accentColor 35%,
+		$backgroundColor 90%
 	);
+
+	display: flex;
+	flex-flow: wrap;
+	justify-content: center;
 	.transfer {
-		background-color: transparent;
 		display: flex;
 		flex-flow: wrap;
 		justify-content: center;
 		& > span {
+			background-color: $backgroundColor;
+			border: $backgroundColor 3px solid;
+
 			margin: 0.5rem;
-			width: 100px;
-			height: 100px;
-			background-color: rgb(54, 53, 53);
-			border: black 3px solid;
+			width: calc(#{$itemBoxSize} / 100 * 28 + #{$itemBoxSize});
+			height: calc(#{$itemBoxSize} / 100 * 28 + #{$itemBoxSize});
 			&:hover {
-				border: yellow 3px solid;
+				border: $accentColor 3px solid;
 			}
 			& > button {
 				padding: 0;
@@ -32,35 +32,32 @@
 				background-position: center;
 				background-size: cover;
 				border: none;
-				width: 100px;
-				height: 100px;
+
+				width: calc(#{$itemBoxSize} / 100 * 28 + #{$itemBoxSize});
+				height: calc(#{$itemBoxSize} / 100 * 28 + #{$itemBoxSize});
 			}
 			& > button > img {
-				width: 100px;
-				height: 100px;
+				width: calc(#{$itemBoxSize} / 100 * 28 + #{$itemBoxSize});
+				height: calc(#{$itemBoxSize} / 100 * 28 + #{$itemBoxSize});
+
 				&:hover {
-					opacity: 50%;
+					filter: $onHoverSaturate;
 				}
 			}
 		}
 	}
 	& > form > button {
-		font-weight: bold;
-		font-size: 3rem;
-		border: 3px $primaryColor solid;
-		border-radius: 16px;
-		padding: 1rem;
+		@include button(1rem, 3rem);
 		margin: 1rem;
 	}
 }
 
 .disabled {
 	text-decoration: line-through;
-	background-color: grey;
-	opacity: 50%;
+	opacity: 70%;
 }
 
 hr {
 	margin: 0;
-	border: 1rem double rgb(17, 16, 16);
+	border: 1rem double lighten($backgroundColor, 7);
 }

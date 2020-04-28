@@ -19,7 +19,7 @@ exports.postUpgrade = async (req, res, next) => {
 	const weapon_entry_uid = req.body.id;
 	const username = req.username;
 	try {
-		if (item_uids.length > 2) {
+		if (item_uids.length > 2 || item_uids.length < 1) {
 			throwError(400, "Please reload the browser");
 		}
 	} catch (err) {
@@ -51,14 +51,15 @@ exports.postUpgrade = async (req, res, next) => {
 	}
 	try {
 		for (let i = 0; i < item_uids.length; i++) {
+			// Confirm item validity throws an error, if user does not have items that were sent in the request.
 			await confirmItemValidity(username, item_uids[i]);
 			await deleteItem(username, item_uids[i]);
-			await effectSortResultArray.executeEffect();
-			return res.status(200).send({
-				success: true,
-				message: effectSortResultArray.message,
-			});
 		}
+		await effectSortResultArray.executeEffect();
+		return res.status(200).send({
+			success: true,
+			message: effectSortResultArray.message,
+		});
 	} catch (err) {
 		next(err);
 	}

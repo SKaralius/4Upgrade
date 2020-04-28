@@ -1,23 +1,48 @@
+// Colors
+$backgroundColor: black;
+$lightTextColor: white;
+$accentColor: gold;
+$baseDamageColor: rgb(165, 163, 163);
+
+$monsterPrimaryColor: red;
+$monsterSecondaryColor: #8b0000;
+
+// Sizes
+$itemBoxSize: 80px;
+$spinnerSize: 7rem;
+
+// Misc
+$footerHeight: 80px;
+$shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+$onHoverSaturate: saturate(3);
 $idleBounciness: 3rem;
 $bounciness: 300px;
-$footerHeight: 80px;
-$primaryColor: gold;
-$monsterSecondaryColor: #8b0000;
-$monsterPrimaryColor: red;
-$spinnerSize: 7rem;
+
+@mixin stroke {
+	-webkit-text-stroke-width: 3px;
+	-webkit-text-stroke-color: $backgroundColor;
+	font-size: 3.5rem;
+	font-weight: 900;
+}
+
+@mixin buttonStyle {
+	padding: 1rem;
+	color: black;
+	font-weight: 700;
+	font-size: large;
+	border: none;
+}
 
 @mixin button($padding, $fontSize) {
 	color: white;
 	background-color: rgb(90, 0, 0);
 	border-radius: 16px;
-	border: 3px $primaryColor ridge;
+	border: 3px $accentColor ridge;
 	padding: $padding;
 	font-size: $fontSize;
 }
 
-// Responsive
-
-// Small screens
+// Media Mixins
 @mixin mediaSm {
 	@media screen and (max-width: 374px) {
 		@content;
@@ -41,6 +66,7 @@ $spinnerSize: 7rem;
 	}
 }
 
+// Responsive
 @include mediaMd {
 	.infoBox {
 		width: 30rem;

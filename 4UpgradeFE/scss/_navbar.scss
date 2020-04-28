@@ -2,24 +2,27 @@
 
 nav,
 footer {
-	border: thick double $primaryColor;
+	border: thick double $accentColor;
+
 	height: $footerHeight;
 	box-sizing: border-box;
 	& > ul {
+		background-color: $accentColor;
+		list-style-type: none;
+
 		padding: 0;
 		margin: 0;
-		background-color: $primaryColor;
 		height: 100%;
+
 		display: flex;
 		justify-content: space-around;
-		list-style-type: none;
 		& > li {
 			display: flex;
 			align-items: center;
 		}
 		& > li > a {
 			text-decoration: none;
-			color: black;
+			color: $backgroundColor;
 			font-size: x-large;
 			&:hover {
 				border-bottom: solid;

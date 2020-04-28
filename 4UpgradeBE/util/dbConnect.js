@@ -3,8 +3,8 @@ const pool = new Pool({
 	host: "localhost", // server name or IP address;
 	application_name: "Project-04-03",
 	port: 5432,
-	database: "forupgrade",
-	user: "postgres",
+	database: process.env.DB_NAME,
+	user: process.env.DB_USER,
 	password: process.env.DB_PASS,
 	max: 20,
 	idleTimeoutMillis: 30000,
@@ -13,9 +13,9 @@ const pool = new Pool({
 
 module.exports = {
 	query: async (text, params) => {
-		const start = Date.now();
+		//const start = Date.now();
 		const result = await pool.query(text, params);
-		const duration = Date.now() - start;
+		//const duration = Date.now() - start;
 		// console.log("executed query", {
 		// 	text,
 		// 	duration,

@@ -1,21 +1,4 @@
 @import "config";
-$titleColor: white;
-$shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
-
-@mixin stroke {
-	-webkit-text-stroke-width: 3px;
-	-webkit-text-stroke-color: black;
-	font-size: 3.5rem;
-	font-weight: 900;
-}
-
-@mixin buttonStyle {
-	padding: 1rem;
-	color: black;
-	font-weight: 700;
-	font-size: large;
-	border: none;
-}
 
 .login-wrap {
 	min-height: calc(100vh - #{$footerHeight});
@@ -26,9 +9,9 @@ $shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 	background: rgb(0, 0, 0);
 	background: radial-gradient(
 		circle,
-		rgba(0, 0, 0, 1) 0%,
-		rgba(187, 12, 12, 0.8279569892473118) 62%,
-		rgba(0, 0, 0, 1) 100%
+		$backgroundColor 0%,
+		$monsterSecondaryColor 50%,
+		$backgroundColor 100%
 	);
 	& > .login-form {
 		& > .login-title {
@@ -40,19 +23,19 @@ $shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 		width: 90vw;
 		text-align: center;
 		margin: 0 2rem;
-		color: $titleColor;
+		color: $lightTextColor;
 		& > form > input {
 			@include buttonStyle();
-			background-color: rgba(255, 255, 255, 0.75);
+			background-color: rgba($lightTextColor, 0.75);
 		}
 		& > form > .submit {
-			background-color: rgba(255, 255, 255, 1) !important;
+			background-color: rgba($lightTextColor, 1) !important;
 		}
 	}
 }
 
 ::placeholder {
-	color: rgb(10, 10, 48);
+	color: lighten($backgroundColor, $amount: 10);
 	opacity: 0.7;
 }
 
@@ -61,7 +44,7 @@ $shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 	justify-content: space-around;
 	& > label {
 		text-transform: uppercase;
-		color: $titleColor;
+		color: $lightTextColor;
 		padding: 1rem 1rem 0.2rem 1rem;
 		font-size: 1rem;
 		font-weight: bold;
@@ -69,7 +52,7 @@ $shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 	}
 	& > .selected {
 		opacity: 1 !important;
-		border-bottom: 10px solid rgb(201, 201, 201);
+		border-bottom: 10px ridge $baseDamageColor;
 		border-bottom-right-radius: 2rem;
 	}
 }
@@ -84,7 +67,7 @@ $shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
 .or {
 	@include stroke();
 	text-align: center;
-	color: $titleColor;
+	color: $lightTextColor;
 }
 
 .demoButton {
