@@ -9,6 +9,7 @@ const WeaponInventory = ({
 	updateWeaponsDetails,
 	updateSelectedWeapon,
 	inventorySize,
+	updateMessageInfo,
 	token,
 }) => {
 	const handleDeleteItem = (index) => {
@@ -33,7 +34,9 @@ const WeaponInventory = ({
 			updateSelectedWeapon(newWeaponDetails[0]);
 			updateWeaponsDetails(newWeaponDetails);
 		} else {
-			alert("You cannnot delete your last weapon.");
+			updateMessageInfo({
+				message: "You cannnot delete your last weapon.",
+			});
 		}
 	};
 	const handleClick = (index) => {

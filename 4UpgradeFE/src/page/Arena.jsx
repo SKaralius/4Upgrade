@@ -43,42 +43,46 @@ const Arena = ({
 	const handleDealDamage = async () => {
 		setButtonDisabled(true);
 		buttonTimeout = setTimeout(() => setButtonDisabled(false), 1000);
-		const { data } = await http.patch(
-			process.env.REACT_APP_IP + "combat/dealdamage",
-			{},
-			{
-				headers: {
-					Authorization: "Bearer " + token,
-				},
-			}
-		);
-		if (data.currentHealth < 1) {
-			setMonster(data);
-			setEncounter(false);
-			http.delete(process.env.REACT_APP_IP + "combat/endencounter", {
-				data: {
-					weapon_uid: selectedWeapon.weapon_entry_uid,
-				},
+		try {
+			const { data } = await http.patch(
+				process.env.REACT_APP_IP + "combat/dealdamage",
+				{},
+				{
+					headers: {
+						Authorization: "Bearer " + token,
+					},
+				}
+			);
+			if (data.currentHealth < 1) {
+				setMonster(data);
+				setEncounter(false);
+				http.delete(process.env.REACT_APP_IP + "combat/endencounter", {
+					data: {
+						weapon_uid: selectedWeapon.weapon_entry_uid,
+					},
 
-				headers: {
-					Authorization: "Bearer " + token,
-				},
-			});
-			setMonster(data);
-		} else {
-			setMonster(data);
-			setActiveAnimation(animations[Math.floor(Math.random() * 3)]);
-			animationTimeout = setTimeout(
-				() => setActiveAnimation("idle"),
-				1000
-			);
-			const damageElement = document.getElementsByClassName("damage")[0];
-			damageElement.className += " damageAnimation";
-			damageTimeout = setTimeout(
-				() => (damageElement.className = "damage damageHidden"),
-				1000
-			);
-		}
+					headers: {
+						Authorization: "Bearer " + token,
+					},
+				});
+				setMonster(data);
+			} else {
+				setMonster(data);
+				setActiveAnimation(animations[Math.floor(Math.random() * 3)]);
+				animationTimeout = setTimeout(
+					() => setActiveAnimation("idle"),
+					1000
+				);
+				const damageElement = document.getElementsByClassName(
+					"damage"
+				)[0];
+				damageElement.className += " damageAnimation";
+				damageTimeout = setTimeout(
+					() => (damageElement.className = "damage damageHidden"),
+					1000
+				);
+			}
+		} catch (err) {}
 	};
 	useEffect(() => {
 		return () => {

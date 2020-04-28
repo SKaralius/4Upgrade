@@ -21,6 +21,9 @@ async function getSession(username, weapon_entry_uid, next) {
 }
 
 function dealDamage(username) {
+	if (!session[username]) {
+		return { message: "No such session, reload the page." };
+	}
 	const variance =
 		session[username].weaponStats.totalDamage.maxTotalDamage -
 		session[username].weaponStats.totalDamage.minTotalDamage;

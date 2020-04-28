@@ -64,6 +64,7 @@ const Items = ({
 				weaponsDetails={weaponsDetails}
 				updateWeaponsDetails={updateWeaponsDetails}
 				updateSelectedWeapon={updateSelectedWeapon}
+				updateMessageInfo={updateMessageInfo}
 			/>
 		</React.Fragment>
 	);

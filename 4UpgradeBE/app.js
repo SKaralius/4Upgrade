@@ -1,7 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const fs = require("fs");
 const path = require("path");
 const app = express();
+const helmet = require("helmet");
+const morgan = require("morgan");
+const compression = require("compression");
 const bodyParser = require("body-parser");
 const inventoryRoutes = require("./routes/inventory");
 const weaponRoutes = require("./routes/weapons");
@@ -25,6 +29,13 @@ app.use((req, res, next) => {
 	next();
 });
 
+const accessLogStream = fs.createWriteStream(
+	path.join(__dirname, "access.log"),
+	{
+		flags: "a",
+	}
+);
+app.use(morgan("combined", { stream: accessLogStream }));
 // app.use("/resources", resourceRoutes);
 app.use("/weapons", weaponRoutes);
 app.use("/users", userRoutes);
@@ -32,13 +43,16 @@ app.use("/inventory", inventoryRoutes);
 app.use("/upgrade", upgradeRoutes);
 app.use("/combat", combatRoutes);
 
+app.use(helmet());
+app.use(compression());
+
 app.use((error, req, res, next) => {
 	const { message } = error;
 	const statusCode = error.statusCode || 500;
 	res.status(statusCode).json({ status: "Error", statusCode, message });
 });
 
-const port = 8080;
+const port = process.env.PORT || 8080;
 try {
 	app.listen(port);
 	console.log(`listening on port ${port}`);

@@ -15,6 +15,7 @@ const Inventory = ({
 	weaponsDetails,
 	updateWeaponsDetails,
 	updateSelectedWeapon,
+	updateMessageInfo,
 }) => {
 	const [isLoading, setLoading] = useState(false);
 	useEffect(() => {
@@ -110,6 +111,7 @@ const Inventory = ({
 				updateWeaponsDetails={updateWeaponsDetails}
 				handleDeleteItem={handleDeleteItem}
 				updateSelectedWeapon={updateSelectedWeapon}
+				updateMessageInfo={updateMessageInfo}
 				inventorySize={4}
 				token={token}
 			/>

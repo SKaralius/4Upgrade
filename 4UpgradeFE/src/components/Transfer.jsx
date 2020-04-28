@@ -54,42 +54,44 @@ const Transfer = ({
 		transferItems.forEach((item) => {
 			upgradeItems.unshift(item.item_uid.substring(0, 36));
 		});
-		const response = await http.post(
-			process.env.REACT_APP_IP + "upgrade/postUpgrade",
-			{
-				id: selectedWeapon.weapon_entry_uid,
-				items: upgradeItems,
-			},
-			{
-				headers: {
-					Authorization: "Bearer " + token,
+		try {
+			const response = await http.post(
+				process.env.REACT_APP_IP + "upgrade/postUpgrade",
+				{
+					id: selectedWeapon.weapon_entry_uid,
+					items: upgradeItems,
 				},
-			}
-		);
-		if (response.data.success === true) {
-			const weaponStatsResult = await http.get(
-				process.env.REACT_APP_IP +
-					"weapons/getWeaponStats/" +
-					selectedWeapon.weapon_entry_uid,
 				{
 					headers: {
 						Authorization: "Bearer " + token,
 					},
 				}
 			);
-			updateWeaponStats(weaponStatsResult.data);
-			updateMessageInfo({
-				message: response.data.message,
-				success: true,
-			});
-			updateTransferItems([]);
-		} else {
-			updateMessageInfo({
-				message: response.data.message,
-				success: false,
-			});
-		}
-		setButtonDisabled(false);
+			if (response.data.success === true) {
+				const weaponStatsResult = await http.get(
+					process.env.REACT_APP_IP +
+						"weapons/getWeaponStats/" +
+						selectedWeapon.weapon_entry_uid,
+					{
+						headers: {
+							Authorization: "Bearer " + token,
+						},
+					}
+				);
+				updateWeaponStats(weaponStatsResult.data);
+				updateMessageInfo({
+					message: response.data.message,
+					success: true,
+				});
+				updateTransferItems([]);
+			} else {
+				updateMessageInfo({
+					message: response.data.message,
+					success: false,
+				});
+			}
+			setButtonDisabled(false);
+		} catch (err) {}
 	};
 	return (
 		<React.Fragment>
