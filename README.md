@@ -1,14 +1,60 @@
+<h1 align="center"><a href="https://4upgrade.now.sh">Live Website.<a/></h1>
+
 # 4Upgrade
+
 A javascript game where you gather resources and upgrade items.
 
 ## Brief overview of the project and its feautures.
-This is a very simple RPG style browser game. 
+
+This is a very simple, online, RPG style browser game. 
 A player creates an account or tries out a demo, gets a few low tier items to start out with,
 then uses them to overcome an enemy and randomly receive resources or items.
 
 The upgrade system is random, but can be influenced to the benefit of the player with various resource combinations.
 The ultimate goal of the game is to have the best item with the highest possible stats. The progression in the game is quick
 and should not take more than a few hours to complete.
+
+## Quick Start
+**Instructions with PostgresSQL.**
+
+To have a look at this project on your own machine:
+1. Run `npm install` on 4UpgradeFE
+2. Run `npm install` on 4UpgradeBE
+3. Create a new database in PostgresSQL
+4. Go to 4UpgradeBE and create a new file called .env, enter your enviroment variables as such:
+
+```
+DATABASE_URL=<your_postgres_connection_url> 
+
+In this format `postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]`
+
+ACCESS_TOKEN_SECRET=<your_secret>
+REFRESH_TOKEN_SECRET=<your_secret2>
+IP=<your_backend_ip>
+```
+
+If you enter your actual IP, then you can connect from any device on your local network. format is: http://0.0.0.0:8080/
+if you get the IP wrong here, you just won't be able to see any images, because their paths will be constructed incorrectly.
+
+5. Go to 4UpgradeFE and create a new file called .env, enter your enviroment variables as such:
+
+```
+REACT_APP_IP=<your_backend_adress_default_is_http://localhost:8080/>
+```
+
+Again, if you enter your actual IP, you can see the project on any device on your local network. Same format: http://0.0.0.0:8080/
+
+6. Run `psql <your_db_name> < 4upgrade.sql`
+
+4upgrade.sql is included in this repository.
+It will have some items, stats and resources initialized.
+
+If psql does nothing or returns an error use the connection string in place of <your_db_name>. 
+
+`postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]`
+
+7. Run `npm start` on 4UpgradeBE and 4UpgradeFE and localhost:3000 will have the project.
+8. (optional) If you want to make changes to the css, run `npm run sass` on 4UpgradeFE and then make changes to the .scss files. Don't change the automatically generated main.css
 
 ## Technologies used
 * ### Front End
@@ -44,37 +90,3 @@ Items have a separate inventory with 4 slots. When an item is clicked it is sele
 
 * ### Arena
 A request is sent to the server to create an enemy based on the total damage of the selected item. The higher the damage, the higher tier items the user can receive. Upon clicking the enemy, a request is sent to the server, to deal damage, a random value between the items min and max damage is chosen and returned to the client, which shows the changes to the health bar/circle accordingly. A date + 700ms is set on the server, which acts as a cooldown. The button on the front end is disabled so no requests can be sent during that time. When the enemy's health reaches 0, an end encounter request is sent to the server, the server confirms, that the enemies health is 0 or less and then chooses a reward based on the enemies maximum health, which is then added to the users inventory if there is enough space and sent to the front end. In the front end, the new item or resource is rendered in /items. 
-
-## Quick Start
-**Instructions with PostgresSQL.**
-
-To have a look at this project on your own machine:
-1. Run `npm install` on 4UpgradeFE
-2. Run `npm install` on 4UpgradeBE
-3. Run `npm run sass` on 4UpgradeFE
-4. Save a scss file so that css can be generated.
-5. Create a new database in PostgresSQL
-6. Go to 4UpgradeBE and create a new file called .env, enter your enviroment variables as such:
-
-```
-DATABASE_URL=<your_postgres_db_url>
-ACCESS_TOKEN_SECRET=<your_secret>
-REFRESH_TOKEN_SECRET=<your_secret2>
-IP=<your_ip>
-```
-7. Go to 4UpgradeFE and create a new file called .env, enter your enviroment variables as such:
-
-```
-REACT_APP_IP=<your_backend_adress_default_is_http://localhost:8080>
-```
-
-8. Run `psql <your_db_name> < 4upgrade.sql`
-
-4upgrade.sql is included in this repository.
-It will have some items, stats and resources initialized.
-
-If psql does nothing check your enviroment variables or use the connection string. 
-
-`postgresql://[user[:password]@][netloc][:port][/dbname][?param1=value1&...]`
-
-9. Run `npm start` on 4UpgradeBE and 4UpgradeFE and localhost:3000 will have the project.
