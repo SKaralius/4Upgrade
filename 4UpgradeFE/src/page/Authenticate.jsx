@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { handleChange } from "../util/handleChange";
 import { useForm } from "react-hook-form";
 
@@ -13,8 +13,10 @@ const Authenticate = ({
 	updateSelectedWeapon,
 }) => {
 	const [selectedForm, setSelectedForm] = useState("Log In");
+	const [isLoading, setIsLoading] = useState(false);
 	const { register, handleSubmit, errors, watch } = useForm();
 	const handleLoginSubmit = async (userInfo) => {
+		setIsLoading(true);
 		try {
 			const { data } = await http.post(
 				process.env.REACT_APP_IP + "users/login",
@@ -40,8 +42,10 @@ const Authenticate = ({
 				});
 			}
 		}
+		setIsLoading(false);
 	};
 	const handleRegisterSubmit = async (userInfo) => {
+		setIsLoading(true);
 		try {
 			await http.post(process.env.REACT_APP_IP + "users/adduser", {
 				username: userInfo.usernameRegister,
@@ -58,8 +62,10 @@ const Authenticate = ({
 				});
 			}
 		}
+		setIsLoading(false);
 	};
 	const handleDemoSubmit = async (userInfo) => {
+		setIsLoading(true);
 		try {
 			const { data } = await http.post(
 				process.env.REACT_APP_IP + "users/demoUser"
@@ -84,7 +90,12 @@ const Authenticate = ({
 				});
 			}
 		}
+		setIsLoading(false);
 	};
+	useEffect(()=>{
+		document.getElementsByClassName('demoButton')[0].innerText = isLoading?`Loading...`:"Try a demo";
+		document.getElementsByClassName('submit')[0].value = isLoading?`Loading...`:"Log In";
+	}, [isLoading])
 	return (
 		<div className="login-wrap">
 			<div className="login-form">
@@ -137,7 +148,9 @@ const Authenticate = ({
 					/>
 				)}
 			</div>
-			<h1 className="or">Or</h1>
+			<div className="button-overlay">
+				<h1 className="or">Or</h1>
+			</div>
 			<button className="demoButton" onClick={handleDemoSubmit}>
 				Try a demo
 			</button>
