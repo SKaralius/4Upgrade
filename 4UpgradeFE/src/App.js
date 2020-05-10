@@ -12,6 +12,8 @@ import InfoBox from "./components/InfoBox";
 import Footer from "./common/Footer";
 import NotFound from "./page/NotFound";
 
+const tokenTime = 60 * 60 * 1000;
+
 function App() {
 	const [weaponStatsLoading, setWeaponStatsLoading] = useState(false);
 	const [selectedWeapon, setSelectedWeapon] = useState({});
@@ -22,8 +24,8 @@ function App() {
 	const [messageInfo, setMessageInfo] = useState({});
 	axios.interceptors.request.use(async (request) => {
 		const currentExpiryDate = localStorage.getItem("expiryDate");
-		if (new Date(currentExpiryDate) <= new Date()) {
-			const expiryDate = new Date(new Date().getTime() + 60 * 60 * 1000);
+		if (currentExpiryDate && new Date(currentExpiryDate) <= new Date()) {
+			const expiryDate = new Date(new Date().getTime() + tokenTime);
 			localStorage.setItem("expiryDate", expiryDate.toISOString());
 			const newToken = await tokens.getAccessToken();
 			request.Authorization = `Bearer ${newToken}`;

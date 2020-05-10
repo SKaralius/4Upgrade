@@ -6,6 +6,8 @@ import http from "../services/httpService";
 import LogIn from "../components/LogIn";
 import Register from "../components/Register";
 
+const tokenTime = 60 * 60 * 1000;
+
 const Authenticate = ({
 	updateAuth,
 	history,
@@ -25,7 +27,7 @@ const Authenticate = ({
 					password: userInfo.password,
 				}
 			);
-			const remainingMilliseconds = 60 * 60 * 1000;
+			const remainingMilliseconds = tokenTime;
 			const expiryDate = new Date(
 				new Date().getTime() + remainingMilliseconds
 			);
@@ -72,7 +74,7 @@ const Authenticate = ({
 			);
 			userInfo.username = userInfo.usernameRegister;
 			userInfo.password = userInfo.passwordRegister;
-			const remainingMilliseconds = 60 * 60 * 1000;
+			const remainingMilliseconds = tokenTime;
 			const expiryDate = new Date(
 				new Date().getTime() + remainingMilliseconds
 			);

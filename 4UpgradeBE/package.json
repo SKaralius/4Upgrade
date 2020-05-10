@@ -7,8 +7,7 @@
 		"node": "12.13.1"
 	},
 	"scripts": {
-		"start": "node app.js",
-		"start:dev": "nodemon app.js"
+		"start": "nodemon app.js"
 	},
 	"author": "Simonas Karalius",
 	"license": "MIT",
